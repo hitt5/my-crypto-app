@@ -1,0 +1,60 @@
+{
+  "schema": "scaffold-template.v1",
+  "template_id": "python-api-legacy-module",
+  "language": "python",
+  "description": "Compatibility verifier for established Python modules whose interfaces layer is named api.",
+  "compatible_base_dirs": [
+    "dodo_core/module"
+  ],
+  "layer_roles": {
+    "domain": "domain",
+    "application": "application",
+    "infrastructure": "infrastructure",
+    "interfaces": "api"
+  },
+  "placements": {
+    "repository_port": "application",
+    "repository_adapter": "infrastructure",
+    "entry": "api"
+  },
+  "default_variables": {},
+  "directories": [
+    {
+      "path": "domain"
+    },
+    {
+      "path": "application"
+    },
+    {
+      "path": "infrastructure"
+    },
+    {
+      "path": "api"
+    }
+  ],
+  "forbidden_paths": [
+    "repository"
+  ],
+  "files": [
+    {
+      "path": "__init__.py",
+      "template": "files/init.py.tmpl"
+    },
+    {
+      "path": "domain/__init__.py",
+      "template": "files/init.py.tmpl"
+    },
+    {
+      "path": "application/__init__.py",
+      "template": "files/init.py.tmpl"
+    },
+    {
+      "path": "infrastructure/__init__.py",
+      "template": "files/init.py.tmpl"
+    },
+    {
+      "path": "api/__init__.py",
+      "template": "files/init.py.tmpl"
+    }
+  ]
+}

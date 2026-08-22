@@ -1,0 +1,51 @@
+{
+  "schema": "scaffold-template.v1",
+  "template_id": "frontend-react-module",
+  "language": "typescript-react",
+  "description": "ADF v2 Clean Architecture React module scaffold for DD01.",
+  "compatible_base_dirs": [
+    "frontend/src/modules"
+  ],
+  "layer_roles": {
+    "domain": "domain",
+    "application": "application",
+    "infrastructure": "infrastructure",
+    "interfaces": "presentation"
+  },
+  "placements": {
+    "repository_port": "application",
+    "repository_adapter": "infrastructure",
+    "entry": "presentation"
+  },
+  "default_variables": {},
+  "directories": [
+    { "path": "domain" },
+    { "path": "application" },
+    { "path": "infrastructure" },
+    { "path": "presentation" },
+    { "path": "presentation/pages" },
+    { "path": "presentation/components/organisms" }
+  ],
+  "forbidden_paths": [
+    "api",
+    "repository"
+  ],
+  "files": [
+    {
+      "path": "domain/{{module_slug}}.ts",
+      "template": "files/domain.ts.tmpl"
+    },
+    {
+      "path": "application/{{module_slug}}-service.ts",
+      "template": "files/application-service.ts.tmpl"
+    },
+    {
+      "path": "infrastructure/{{module_slug}}-api.ts",
+      "template": "files/infrastructure-api.ts.tmpl"
+    },
+    {
+      "path": "presentation/index.ts",
+      "template": "files/presentation-index.ts.tmpl"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "id": "defense_mvp_demo",
+  "version": "0.1.0",
+  "name": "Defense MVP Demo",
+  "author": "dodoai",
+  "license": "MIT",
+  "description": "Project plugin that exposes the dodoai-defense MVP demo as tenant-scoped Core Actions.",
+  "dodoai_version": ">=0.3.0",
+  "dependencies": [],
+  "capabilities_required": [
+    "action.register",
+    "process.spawn",
+    "network.outbound",
+    "fs.write"
+  ],
+  "provides": {
+    "actions": [
+      {
+        "key": "defense.mvp.status",
+        "entry": "actions/mvp_status.py",
+        "version": "1.0.0"
+      },
+      {
+        "key": "defense.mvp.control",
+        "entry": "actions/mvp_control.py",
+        "version": "1.0.0"
+      }
+    ],
+    "runtime_adapters": [],
+    "ingestion": [],
+    "verification": [],
+    "event_hooks": [],
+    "providers": [],
+    "ui_extensions": [
+      {
+        "slot": "cockpit.mission.command_center",
+        "component": "external:http://localhost:3000"
+      }
+    ]
+  },
+  "tenant": {
+    "id": "dodoai-defense",
+    "name": "Defense — Sovereign Drone Swarm",
+    "sovereign_mode": "isolated",
+    "data_isolation": "db-per-tenant",
+    "ui_views": [
+      {
+        "id": "defense-command-center",
+        "label": "Command Center",
+        "entry": "external:http://localhost:3000",
+        "icon": "shield"
+      }
+    ]
+  },
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "defense_repo": {
+        "type": "string",
+        "default": "/Users/hitoshimurakami/dodoai-defense"
+      }
+    }
+  },
+  "federation": {
+    "shareable": false,
+    "share_scope": "none",
+    "trust_required": "none"
+  },
+  "risk_level": "high",
+  "tags": [
+    "defense",
+    "mvp",
+    "demo",
+    "tenant-scoped",
+    "mission"
+  ]
+}

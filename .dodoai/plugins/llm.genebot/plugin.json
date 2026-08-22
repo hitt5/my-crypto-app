@@ -1,0 +1,80 @@
+{
+  "id": "llm.genebot",
+  "version": "1.0.0",
+  "name": "Genebot Custom LLM Provider",
+  "author": "dodoai",
+  "license": "MIT",
+  "description": "Custom LLM provider for the Genebot API v2. Uses cookie-based sessions and the shared dodoAI LLM gateway.",
+  "dodoai_version": ">=0.3.0",
+  "sdk_version": ">=1.0,<2.0",
+  "dependencies": [],
+  "capabilities_required": [
+    "adapter.register",
+    "network.outbound",
+    "llm.invoke",
+    "secret.access"
+  ],
+  "risk_level": "critical",
+  "tags": [
+    "custom-llm-provider",
+    "llm",
+    "genebot",
+    "api-v2"
+  ],
+  "provides": {
+    "providers": [
+      {
+        "type": "llm",
+        "id": "genebot",
+        "entry": "provider.py"
+      }
+    ]
+  },
+  "config_schema": {
+    "type": "object",
+    "title": "Genebot Custom LLM Provider",
+    "description": "Genebot credentials are resolved from the desktop vault, secret store, or environment. Secret values are never stored in plugin.json.",
+    "required": ["provider_name", "signin_endpoint", "completion_endpoint", "email_ref", "password_ref"],
+    "properties": {
+      "provider_name": {
+        "type": "string",
+        "title": "Provider name",
+        "default": "Genebot"
+      },
+      "signin_endpoint": {
+        "type": "string",
+        "title": "Signin Endpoint",
+        "format": "uri"
+      },
+      "completion_endpoint": {
+        "type": "string",
+        "title": "Completion Endpoint",
+        "description": "If {model_version} is present it is replaced with the selected model.",
+        "format": "uri"
+      },
+      "email_ref": {
+        "type": "string",
+        "title": "User email credential reference",
+        "default": "keychain://GENEBOT_EMAIL",
+        "pattern": "^keychain://GENEBOT_EMAIL$"
+      },
+      "password_ref": {
+        "type": "string",
+        "title": "Password credential reference",
+        "default": "keychain://GENEBOT_PASSWORD",
+        "pattern": "^keychain://GENEBOT_PASSWORD$"
+      }
+    },
+    "additionalProperties": false
+  },
+  "connection_policy": {
+    "timeout_seconds": 60,
+    "max_retries": 1,
+    "backoff": 0
+  },
+  "federation": {
+    "shareable": false,
+    "share_scope": "none",
+    "trust_required": "none"
+  }
+}

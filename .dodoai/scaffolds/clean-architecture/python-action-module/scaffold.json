@@ -1,0 +1,51 @@
+{
+  "schema": "scaffold-template.v1",
+  "template_id": "python-action-module",
+  "language": "python",
+  "description": "ADF v2 Clean Architecture Python Core Action module scaffold for DD01.",
+  "compatible_base_dirs": [
+    "dodo_core/module",
+    "dodo_core/module/router/actions"
+  ],
+  "layer_roles": {
+    "domain": "domain",
+    "application": "application",
+    "infrastructure": "infrastructure",
+    "interfaces": "interfaces"
+  },
+  "placements": {
+    "repository_port": "application/ports",
+    "repository_adapter": "infrastructure/repositories",
+    "entry": "interfaces"
+  },
+  "default_variables": {
+    "domain_models_block": "class PlaceholderEntity(BaseModel):\n    \"\"\"DD02: replace with the declared domain model.\"\"\"\n\n    pass",
+    "repository_protocols_block": "class PlaceholderRepositoryPort(Protocol):\n    \"\"\"DD02: replace with the declared application port.\"\"\"\n\n    ..."
+  },
+  "directories": [
+    {"path": "domain"},
+    {"path": "application"},
+    {"path": "application/ports"},
+    {"path": "infrastructure"},
+    {"path": "infrastructure/repositories"},
+    {"path": "interfaces"},
+    {"path": "decision", "required": false, "group": "decision"}
+  ],
+  "forbidden_paths": [
+    "api",
+    "repository",
+    "domain/repositories.py"
+  ],
+  "files": [
+    {"path": "__init__.py", "template": "files/root_init.py.tmpl"},
+    {"path": "domain/__init__.py", "template": "files/package_init.py.tmpl", "variables": {"package_doc": "Pure Domain layer."}},
+    {"path": "domain/models.py", "template": "files/domain_models.py.tmpl"},
+    {"path": "application/__init__.py", "template": "files/package_init.py.tmpl", "variables": {"package_doc": "Application use cases and orchestration."}},
+    {"path": "application/ports/__init__.py", "template": "files/application_ports.py.tmpl"},
+    {"path": "infrastructure/__init__.py", "template": "files/package_init.py.tmpl", "variables": {"package_doc": "Infrastructure adapters."}},
+    {"path": "infrastructure/repositories/__init__.py", "template": "files/package_init.py.tmpl", "variables": {"package_doc": "Repository adapters implementing Application ports."}},
+    {"path": "interfaces/__init__.py", "template": "files/package_init.py.tmpl", "variables": {"package_doc": "Core Action interface adapters."}},
+    {"path": "interfaces/actions.py", "template": "files/actions.py.tmpl"},
+    {"path": "decision/__init__.py", "template": "files/package_init.py.tmpl", "required": false, "group": "decision", "variables": {"package_doc": "Agent decision policies; no external adapters."}}
+  ]
+}

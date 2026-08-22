@@ -1,0 +1,31 @@
+{
+  "$schema": "repo-context-v1",
+  "$comment": "dodo Core が読む my-crypto-app の per-repo コンテキスト定義。",
+  "repo_id": "my-crypto-app",
+  "workspace_aliases": [
+    "my-crypto-app"
+  ],
+  "arch_generation": "v0.3",
+  "automation_level": "harness",
+  "dev_mandatory_docs": [
+    {
+      "id": "charter",
+      "path": "docs/0.charter/01-development-charter.md",
+      "summary": "my-crypto-app development charter",
+      "trigger": "before any code change"
+    }
+  ],
+  "clinerules_path": ".clinerules/",
+  "charter_path": "docs/0.charter/",
+  "agents_md_path": "AGENTS.md",
+  "issue_path": ".dodoai/issue/",
+  "sdt_path": "docs/99.sdt",
+  "agn_path": "docs/99.sdt/agn/",
+  "art_path": "docs/99.sdt/art/",
+  "description": "my-crypto-app personal project workspace",
+  "key_paths": {
+    "docs": "docs/",
+    "specs": "docs/"
+  },
+  "active_services": []
+}

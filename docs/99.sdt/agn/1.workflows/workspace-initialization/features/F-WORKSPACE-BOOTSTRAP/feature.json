@@ -1,0 +1,27 @@
+{
+  "node_id": "F-WORKSPACE-BOOTSTRAP",
+  "type": "feature",
+  "name": "Workspace bootstrap",
+  "description": "Initialize my-crypto-app as a local-only personal dodoAI project and record the canonical dodoAI repository path.",
+  "gate": "All bootstrap tasks and governance gates pass.",
+  "layer": "product",
+  "truth_type": "observed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [],
+  "phase": "DD01",
+  "deployment_validation": "local-only",
+  "scope": "repository-governance-and-local-project-registry",
+  "hil_approval": "user://2026-08-22/personal-project-initialization",
+  "dd_progress": {
+    "DD01": "running",
+    "feature_complete": "running"
+  },
+  "blocking_findings": [
+    "rules catalog and roadmap SoT are not initialized by project.scaffold"
+  ],
+  "updated_by": "codex",
+  "schema": "sdt-node-v3.0",
+  "created_at": "2026-08-22T02:00:30.274701+00:00",
+  "updated_at": "2026-08-22T02:00:30.274701+00:00"
+}

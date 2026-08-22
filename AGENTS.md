@@ -1,0 +1,203 @@
+# AGENTS.md - Your Workspace
+
+This folder is home. Treat it that way.
+
+## Project Concept（テーマ正本 — 作業前に読む）
+
+本リポジトリは **dodo Crypto Wealth OS**（theme_id: `crypto-wealth-os` / profile: `crypto`）のパーソナルプロジェクト。設計・実装・評価の作業を始める前に、テーマ正本である Concept を読むこと:
+
+- 入口: `docs/docs/README.md`（索引）/ インプット正本: `docs/docs/5.reference/crypto.md`
+- `docs/docs/1.concept/00-overview.md` — 全体像・プロジェクトタイプ（A+E）・答える問い・HIL ゲート
+- `docs/docs/1.concept/01-problem.md` — 課題認識
+- `docs/docs/1.concept/02-why-dodoai.md` — dodoAI の効き所・dodo Core MCP の概要
+- `docs/docs/1.concept/03-approach.md` — 運用ループ（Observe → Approve → Autopilot）
+- `docs/docs/1.concept/04-data-model.md` ⭐ — 概念データモデル（Portfolio 空間 × Opportunity 空間・不変条件）
+- `docs/docs/1.concept/05-multi-agent.md` — Agent 構成と Gate
+- `docs/docs/1.concept/06-common-requirements.md` — **共通要件（CR-1〜CR-7）。全 EPIC/Feature に横断適用。特に CR-1: 秘密鍵は dodo クレデンシャル機構＋個人ハードウェアモジュールの二層で保持し、AI/Agent に渡さない**
+
+Concept と矛盾する実装・要件を作らない。矛盾に気づいたら HIL（ユーザー裁定）へ。
+
+## Instruction Source of Truth
+
+
+- **`AGENTS.md` がリポジトリ指示の正本。** 利用不能なときだけ `.clinerules/00-CORE.md`（L0）+ `.clinerules/00-INDEX.md`（L1）を fallback として注入する。乖離したら AGENTS.md に従い、同一変更で ClineRules 投影を修復する。
+- `.clinerules-detail/`（L2）は本ファイル / L1 index が指したときだけ読むオンデマンド手順庫。先読み禁止。
+- **SoT ツリーは `docs/`**: Charter = `docs/0.charter/`、World Model = `docs/1.concept/0.world-model/`、SDT/AGN/ART = `docs/99.sdt/`、運用 = `docs/4.operation/`。❌ `dodoai-docs/` は投影ビュー — 手編集・新規文書作成禁止。
+
+**Precedence**: ① 現行 runtime の system/developer/tool 指示 → ② Charter（`docs/0.charter/` = 憲法。P1–P29・ゲート・数値閾値を単独所有）→ ③ 本 AGENTS.md（手順の正本）→ ④ ClineRules L0+L1+L2（fallback 投影）→ ⑤ その他 docs。
+
+## Session Startup
+
+**Step 0 — 例外なく最初に MCP `dodo_project_bootstrap` を呼ぶ**（`read_file`・検索・質問より前。bounded payload、Issue 全読み禁止）。
+
+MCP 不通時は直読みせず **MCP Recovery Gate**: 1 回リトライ → stdio 設定 / runtime-slot resolver が返した endpoint の `/ready` 確認 → 同じ解決済み port の listener / `tmux ls` 確認 → owner gate を通る非破壊の起動/再起動 1 回 → `/ready` を 3–5 秒間隔で最大 ~45 秒ポーリング → 成功後に bootstrap を再試行。**8510 を MCP/Core の汎用 fallback として推測しない。**使い切った場合のみ read-only fallback（Evidence に経緯を記録）。詳細: `.clinerules/00-CORE.md` §MCP Recovery Gate。
+
+bootstrap 成功後、ローカル dodoAI workspace では **Tauri Startup Check をセッション中 1 回だけ**行う。サービス名・port・標準起動コマンドは `.dodoai/repo-context.json` の `active_services` から解決し、Desktop process/window、Vite、Provider、Core readiness、`dodo-tauri-dev` tmux（pane が実コマンドかも含む）を個別確認する。Desktop が背面/最小化されただけ、Tauri 所有 sidecar が cold start 中、または別 session の正当な owner がいる場合は再起動しない。**Desktop process 不在または必要 component の停止を確認し、競合 owner がいない場合だけ**、repo 標準の Tauri owner 経路を非破壊で 1 回起動/再起動し、全 component を 3–5 秒間隔・最大 ~45 秒再確認する。standalone Core を重ねて起動しない。復旧しなければ process/listener/tmux/log の Evidence と blocker を記録し、稼働を推測して先へ進まない。詳細: `.clinerules-detail/30-environment.md` §Tauri Startup Check。
+
+Then, in order:
+
+1. bootstrap が返す `AGENTS.md` を指示源として使う。`SOUL.md` / `USER.md` / memory は個人・セッション文脈が必要なときだけ読む。
+2. MCP inventory: `tools/list` 相当 + bounded `dodo_action_list(include_schema=false)`。スキーマは dispatch 直前に対象 Action だけ取得。
+3. **Ops Status は必要時のみ**: 通常の coding / review / 文書作業では `autoloop.status` を dispatch しない。明示要求・AutoLoop/OODA/CRON/soak 自体の現在値・完了条件が運用状態を要求する場合のみ実行し、実行時は `Ops Status:` を 1 行記載、同一 task では観測結果を再利用。手順 SoT: `.clinerules-detail/20-navigation.md`。Soak の SoT: `docs/4.operation/autonomous-execution-loop/`（§Soak Operations 参照）。
+4. Issue / Feature ID / 具体的意図があれば `agn.route_next` を dispatch し、`mode` / `session_instruction` に従う。
+5. `docs/99.sdt/agn/5.operations/operations.json` から Operation を選び、宣言 `attributes.agent` に `agent.context_pack` を dispatch。作業開始メッセージに `Operation: <id> | Agent: <id>` を記載。Agent を推測しない・全 Agent 定義を読まない。
+6. `active_issue_summary` と bounded 候補からタスクを選び、選定後にのみ当該 Issue ファイルを読む。
+
+## Per-Work TaskGraph Lifecycle Gate（HARD — 作業ごとに必須）
+
+**TaskGraph が既に存在することの確認だけでは満たさない。** 変更を伴う各作業単位で実行する（read-only 調査は対象外、変更する判断をした時点で対象）。
+
+**作業前**: ① owning Feature を解決（推測 Feature へ書かない。新 Feature は A02/HIL 先行）② 作業専用 task node（`task-dd*.json`）を作成 — 固有 `task_id` / `issue_refs` / `spec_refs` / 機械実行可能な `done_criteria` / `size` / `success_probability` / `max_ticks` ③ Task node を正本として Issue MD view を作る（MD だけ先に作らない）④ claim/lease 取得、`ready → running` 遷移後に初めて変更 ⑤ 開始メッセージに `Task: <task_id> | Issue: <path> | Status: running` を記載。
+
+**作業後**: ① 同じ node へ変更ファイル・テスト/Action・Evidence・残課題を反映 ② 実態どおり `done`/`blocked`/`failed`/`running` へ遷移（Gate 未達を done にしない）③ 同一作業内で Issue を同期し lease 解放 ④ `roadmap.sync_gate` を実行し結果を記録（Feature 既存負債は改ざんせず別報告）。
+
+**Agent 生成ファイル追跡 Gate（HARD）**: Task / Issue / Evidence は必ず**現在 checkout 中の同一 worktree**へ作る。MCP / Action に別 checkout の `workspace_root` を渡して、正本 worktree に生成物だけを残すことを禁止する。新規 Task / Issue / Evidence は作成直後にその明示 path だけを `git add -- <path>` し、同じ作業の commit / push に必ず含める。完了・handoff・push 後に Agent 生成の `??` を残してはならない。
+
+Gate を飛ばした場合、後追い Task を「作業前作成済み」と扱わず、違反/Finding として記録する。
+
+Don't ask permission. Just do it.
+
+## World Model Representation（5 不変条件 — 常時遵守）
+
+| # | 不変条件 | 要旨 |
+| --- | --- | --- |
+| WM-1 | 定式化 | 新概念は World Model 十要素のどれかを言えること。言えないなら `draft` + HIL |
+| WM-2 | エントロピー最小化 | 意味保存の観測なき「整理した」主張禁止 |
+| WM-3 | 統治 | Fact / Belief / Hypothesis を混ぜない。State に LLM 推定値・自己申告を書かない |
+| WM-4 | トレーサビリティ | dispatch と observe を対にし State へ反映 |
+| WM-5 | 双対表現 | MD（人間可読 view）と JSON（機械可読 SoT）の対で維持 |
+
+- 世界モデル層の操作は **Intervention**（dodo Core の `action_key` とは階層が異なる）。SDT Graph Bundle の正規名は `sdt.graph_bundle`（旧称 alias は Charter §1.2）。
+- P25/P26/P27 は advisory — 「機械検証済み」と誤報告しない。
+- 正本: 条文 = `docs/0.charter/01-development-charter.md`、概念 = `docs/1.concept/0.world-model/`。
+
+## OKF Markdown Standard
+
+Markdown の新規作成・実質更新時は先頭に YAML front matter を付ける。全体必須は `type` のみ。実行結果（Action / MCP / Agent / workflow / job / test / build / deploy / audit）では `execution_id` も必須（基盤発行 ID 優先、再試行は新 ID + `parent_execution_id`）。`title` / `tags` / `timestamp` 等は根拠があれば推奨 — 推測して埋めない。機械処理を壊す対象には無理に付けない。正本と例: `.clinerules/00-CORE.md` §OKF。
+
+## DODO Reference Repository
+
+`dodo` / `dodoAI` / `dodo core` / `DODO CODE` は、明示がない限りローカルの本リポジトリを指す。**現行の正本パスは `/Users/hitoshimurakami/myApps/dodoai`**。移動確認が必要な場合は `dodo_project_index(query="dodoai", include_settings=true)` を呼び、`slug="dodoai"` の row の `path` を正とする（`general` alias を誤選択せず、重複 row を作らない）。
+
+## ClineRules（fallback 3 層）
+
+L0 = `.clinerules/00-CORE.md`（利用不能時のみ注入）/ L1 = `.clinerules/00-INDEX.md`（trigger→file 索引の正本）/ L2 = `.clinerules-detail/*.md`（指されたときだけ読む）。ClineRules は本ファイルの圧縮投影 — どちらかを変えたら同一変更でもう片方も更新し、`dodo_core/tests/test_clinerules_l2_integrity_l1.py` + `rules.audit` を実行。L2 の内容契約は `.clinerules-detail/00-README.md` が所有。
+
+**Approved MD SoT**: SDT = ART + AGN。**ART が正本 SoT、AGN は ART を意味で接続する因果グラフ**（判別の正本 = `docs/99.sdt/README.md`）。`docs/` 配下の各 MD 族は人間可読の規範 SoT — SDT JSON があるからと削除・無視しない。矛盾したら機械的関係/status は SDT、規範的散文は MD を採り、両側を同期修復。
+
+## Git Branch Hygiene
+
+- 現在 checkout 中のブランチで作業する。ユーザーが明示要求しない限り branch 作成/切替/改名/削除・worktree 操作をしない（heartbeat・Agent・CRON にも適用）。
+- **CI 修復 / 「ローカル変更を全部 push」では現在 checkout を正本とする。** 既存 local commit の直上へ修正を重ね、未 commit のローカル変更も同じ依頼の commit / push に含める。ユーザーが明示要求しない限り、退避目的の別 clone / worktree / 一時 branch / snapshot ref / patch 転送を作らない。
+- push 直前と直後に現在 checkout の `git status --short` を確認し、ユーザー変更と Agent 生成ファイルの双方が対象 commit に入ったこと、Agent 生成の未追跡ファイルが 0 件であることを確認する。別 checkout の HEAD 一致を、現在 checkout の追跡確認の代用にしない。
+- `develop` / `main` / `master` へ直接 commit / merge しない。誤 commit は即座に work ブランチへ退避。統合は work ブランチを push して PR。stage/commit は依頼されたパスに限定。
+
+## Requirements Model（BR → SR → UC → CAP → Mod）
+
+**迷ったらまず `docs/0.charter/07-requirements-architecture-map.md`**（層の接続・所有境界の唯一の正本）。
+
+- 定義順は BR → SR → UC → CAP → Mod が先、Feature 分解・コードは後。
+- 縦糸 `BR → SR → UC → Evidence` ⟷ 横糸 `CAP ─owns→ FR` → Mod。**FR は CAP が所有**、Feature/UC は `references(satisfies)` で参照のみ。UC と FR を同一フォルダに混在させない。
+- **EPIC / BR / CAP は JSON-first SoT**（`docs/99.sdt/art/catalog/source/`）。MD は `md_ref` の認知 view — MD だけの構造更新も JSON-first を理由の MD 削除もしない。
+- **BR / SR / NFR / CAP / FR の新設は HIL 裁定必須。** Feature 固有事項は UC 受入基準で表現し、欠落 FR は `fr_gap` で記録。
+
+## ADF Work Start Order（DD01–03 開始前）
+
+条文正本は Charter `02-development-flow.md` / `04-autonomous-loop.md`。
+
+1. **ADF Test Definition Gate（HARD）**: テスト層・Mock 境界を決める前に `docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.json` + MD view を読む。実際に変更する全 deploy unit の profile を合成する（主 deploy_unit だけで層を選ばない）。
+2. **上流 2 経路**: (A) Reverse（brownfield 既定）= コード → CallGraph → SDT 逆導出 → 文書投影 → drift HIL。(B) Forward = Intent → A02 → A03 → DD01–03。**MD + JSON 双対は HARD** — 片側のみで上流成果物を完了と呼ばない。
+3. **A02 = 6 層要件セット + 全体設計**（EPIC→FEATURE→UC / CAP→FR→MOD）。BR/SR/UC で止めない。**A02 完了は A03 のトリガ — 「A02 done」で停止禁止**（明示縮小時のみ例外）。`requirements-weave.json` は Feature 別（authored）と集約 catalog（derived・手編集禁止）の 2 種。
+4. **A02 Step 0（HARD）**: 所有 EPIC / CAP の存在を catalog で確認。無ければ Feature を切る前に EPIC / CAP を定義。迷ったら HIL。
+5. **A02 成果物 3 点セット（HARD）**: ① release-goal 登録 ② 要求モデル MD ③ AGN グラフノード（`feature.json` + `task-dd*.json` + catalog/roadmap 同期）。物理パスは `sdt_layout.resolve` で解決。観測・実行記録は要求ではなく ART へ（判別 = `docs/99.sdt/README.md`、未宣言 family は HIL）。
+6. **Task Graph Existence Gate（P9 — HARD）**: `feature.json` + `task-dd*.json` が無ければ UC/FR catalog から先に作る。
+7. **A03 SDT/AGN Conformance Gate（P13 — HARD）**: A02 後 DD01 前。A03 はコード・Scaffold を作らない。
+8. **Preload Gate（HARD）**: Issue → Task Graph → spec（`ln://` 解決）→ `callgraph.focus` / `callgraph.uc_reverse_lookup` で影響把握 → Preload Evidence Block をコード編集前に出力（`.clinerules-detail/10-preload-gate.md`）。UI 作業は `ui.component_catalog` の `semantic_review` を確認してから。Custom UI manifest 変更は `custom_ui.design_guide` + `custom_ui.manifest_lint(mode="strict")`。
+9. **DD01 Scaffold Gate（P28 — HARD）**: 最初の UC の DD01 で `.dodoai/scaffolds/clean-architecture/<template_id>` を選び `a03.scaffold_gate` を実行。stale なら DD02 入場拒否。
+10. 画面/UI 開発は `.clinerules-detail/40-domain-gates.md` を読み、`F-COCKPIT-UI-CATALOG/ui-components.json` を MCP 経由でロードしてから編集。
+
+## DD05 Server Validation Gate（HARD）
+
+DD04/DD05 は Feature 単位ゲート。`feature.json.attributes.deployment_validation` を読む: `local-only` = Track A（ST-E2E + ST-AI-Visual + ST-Human）、`required` = さらに Track B（サーバ deploy → `/ready` → smoke → **実 URL** Playwright → サーバログ証跡 → `evidence-dd05.json`）。localhost E2E はサーバ検証ではない。資格情報は `env://` のみ（P5）。DD05 失敗は non-done のまま Finding として接続。SoT: Charter `02-development-flow.md` §DD05・`.clinerules-detail/11-completion-gate.md`。
+
+## Completion Gate（P20 — HARD）
+
+`attempt_completion` / DD 完了 / Feature・UC close / `_done` 改名の前に `roadmap.sync_gate` を dispatch し `ok=true`（`stale_task_status=0` / `missing_milestone=0` / `roadmap_drift=0`）を確認。`task-dd*.json` status / `dd_progress` / roadmap milestone のどれかが stale のまま「done」と報告しない。施行: `.clinerules-detail/11-completion-gate.md`（`arch.layer_check` / `test_evidence.audit` / `sdt.governance_metrics` を含む）。Custom UI の完了主張は `custom_ui.manifest_lint(mode="strict")` の `error_count=0` 必須。
+
+### Completion Operation Hook Gate（HARD）
+
+`AGENTS.md`・prompt・Skill・Operation List は「気づかせる」層であって強制機構ではない。Codex / Claude Code の `Stop` と dodo Coder の `attempt_completion` は共通 Core Action `sovereign.hook_gate` を通し、session worksetを `operations.json` の `attributes.completion_gate` と照合する。該当する残Operationがあれば、宣言された `Agent` / `Skill` を同一turnで実行してから完了する。
+
+- CRON / scheduler / heartbeat を完了フックの代用にしない。
+- High/critical Operation は current explicit intent または `standing-scoped` authorization の範囲内だけ半自動実行する。scope外（commit/push/branch変更/remote deploy等）は別承認。
+- 同一 plan fingerprint は一度だけ継続要求する。同一MCP callを反復せず、遂行不能なら一つの具体的 blocker を報告して停止する。
+- Hookが返すOperation IDから `attributes.agent` と `skills` を採用し、推測Agent・全Operation再走査・無関係Agent起動をしない。
+
+## Specification-Conformance Completion Gate（HARD）
+
+`workflow.status` / `_done` / 既存 Evidence / green gate / テスト PASS / coverage は SR 適合の証明ではない。完了主張の前に現在の checkout で実査する:
+
+1. 全 SR/FR/UC を実装パス・テストへ対応付けた conformance matrix を作り、各行 PASS / PARTIAL / FAIL / NOT IMPLEMENTED を判定。PASS 以外が 1 件でもあれば完了禁止。
+2. A03 計画と実ツリー/import を比較。変更系は非破壊・dry-run/apply・冪等性・rollback を個別検証。NFR は数値閾値を実測。
+3. 「1 Action で結果が返る」等は live dispatch で composition-root 配線を確認（caller 前処理の単体テストで PASS にしない）。
+4. 非 PASS の延期は判定を変えず、`_ready` Issue/STREAM + Task Graph 依存へ接続（重複起票禁止）。
+5. 「実装して」に stale な `_done` を理由の verification-only で返さない。
+
+詳細: `.clinerules-detail/11-completion-gate.md`。
+
+## Capability Routing / OODA / TaskGraph SoT / Two-Plane（要点）
+
+- **Capability Routing**: CP は `cp.estimate` が機械導出（自己申告上書き禁止）。`cp.route` がレーン決定。CP8+ / High risk / 判定不能は `human`。SoT: `docs/1.concept/1.core-concept/08-agentic-ooda-operations.md` §4.1・Charter `04-autonomous-loop.md` §2。
+- **OODA Report Discipline**: 全ループ記録に R-1 Scorecard / R-2 Success Probability / R-3 Calibration の 3 群必須（欠けたら未観測ループ）。新規 STREAM Issue は μ-cell 契約（schema: `docs/99.sdt/agn/0.schema/issue-stream-v1.schema.json`）。自動レポートは ART（`docs/99.sdt/art/operations/`）へ。条文 = Charter `04-autonomous-loop.md` §8、手順 = `docs/4.operation/13-ooda-scorecard-iteration.md`。
+- **TaskGraph Dispatch SoT（P29）**: 機械ループの一次状態は task-graph ノード。Issue は人間可読 view + HIL 面。suffix 改名を SoT にする経路を新設しない。計画・監査結果も対の規律: MD だけに書かない / TaskGraph だけ更新して view を残さない / 「次は何？」は ready ノード + Issue view の対で提示。
+- **Two-Plane / Dual-Node**: 「両プレーンとも開発するが、同じ仕事は絶対にしない」。Local (Mac) = 品質・HITL・Merge 承認・SDT 書込主権。Dev2 (EC2) = スループット、`auto/server/*` のみ、資格情報は `env://` のみ。排他は単一 Priority Queue（`roadmap.derive` → `priority_cycle`）/ `stream.claim` token / Single Writer + `roadmap.sync_gate` / Mac 集中 Merge Gate。正本: `docs/4.operation/08-local-server-dual-node-development.md`。
+
+## Soak Operations（計画・実行・評価の SoT）
+
+**Soak（長時間自律実行の耐久検証）が何か・どう回すか迷ったら、先に `docs/4.operation/autonomous-execution-loop/` を読む。** リポジトリ検索で "soak" を探し回らない。
+
+- **入口・ロードマップ・依頼プロンプト**: `docs/4.operation/autonomous-execution-loop/README.md`（入場 Gate P0-a/P0-b・較正窓手順を所有）。
+- **3軸トラッキング索引**: 同 `index.md`（時間 = `axis1-time-soak-log.md` / 障害注入 = `axis2` / 環境 = `axis3`）。
+- **OODA 実行記録**: 同 `ooda-log/YYYY-MM-DD-*.md`（1事象1ファイル。Plan → Result の対で残す）。
+- **指標定義 SoT**: `docs/99.sdt/metrics/operations/soak-ooda-metrics.json`（+ MD view）— 読み書きは MCP Action で行う: 現状把握 = `soak.metrics_overview` / 目標更新 = `soak.metrics_update`（HIL）/ 窓宣言 = `soak.window_preregister` / 窓実行 = `soak.window_supervise` / 判定 = `autonomy.soak_evaluate`。
+- **実測 Evidence（captured ART）**: `docs/99.sdt/art/operations/soak/*.json`。SDT JSON の直読み・直編集は禁止（MCP 経由）。
+- 規律: 窓は preregister → supervise → evaluate の順。invalid（測定無効）を pass/fail に丸めない。変動値をこのフォルダ外の文書へ転記しない（取得コマンド/Action を書く）。
+
+## Memory
+
+- Daily: `memory/YYYY-MM-DD.md` / Long-term: `MEMORY.md`（main session のみロード）。
+- 「覚えて」と言われたら・教訓を得たら・ミスをしたら **ファイルへ書く**。
+
+## Red Lines
+
+- 私的データを外へ出さない。破壊的コマンドは確認なしで実行しない。`trash` > `rm`。迷ったら訊く。
+- ワークスペース内作業は自由。メール送信・公開投稿などマシン外へ出る操作は事前確認。
+- **User Runtime Reload Approval Gate（HARD）**: VS Code window / Extension Host / desktop application / その他ユーザーに見える UI・runtime の reload・restart は、**現在の会話でその操作自体についてユーザーが明示承認した場合だけ**実行する。「リロードしたら」といった現象説明、修正・build・install・検証の依頼、過去の許可を実行許可へ拡張解釈しない。修正の適用や UI proof のためでも自動 reload / restart は禁止し、build / install までに留める。必要ならユーザー自身による reload を案内し、未承認のまま操作しない。
+
+## Group Chats
+
+直接聞かれた・価値を足せるときだけ発言し、雑談は `HEARTBEAT_OK` で見送る。同一メッセージへの複数回返信をしない。
+
+## Tools / Core MCP Gateway
+
+MCP の「使い所」正本は `MCP_USAGE_GUIDE.md`。
+
+- **Port ownership（HARD）**: `8510` は Tauri desktop control gateway の専有 port であり、Codex / Claude / CLI / health probe / plugin host / dodo-coder の汎用 Core 既定値ではない。開発 Core は `8521..8529` の固定 pool だけを使い、`dodo_core.shared.runtime_slot_resolver` / `dodo slot acquire` が workspace sticky lease を解決する。`.mcp.json` に `DODO_CORE_MCP_URL=:8510` を直書きしない。例外は Tauri control を明示した経路だけ。
+- 設定: `.mcp.json` の stdio launcher は `DODO_CORE_SLOT_MODE=workspace` で resolver を通す。Action は `dodo_action_dispatch` の `action_key` で選ぶ。直 REST は Cockpit UI 実装か文書化された fallback のみ。
+- Recovery / stop / reclaim は `/ready` の `owner_kind` / `pid` / `workspace_fingerprint` と `instances.json` の lease が一致する listener にだけ行う。owner が別・欠落・未検証なら touch/kill/reuse せず blocker として報告する。
+- SDT スキャンは Action で: `sdt.khop_traverse` / `sdt.semantic_search` / `callgraph.uc_reverse_lookup` 等（graph JSON を直読みしない）。コード編集前は `callgraph.focus`、未知モジュールは `callgraph.digest`。
+- High/critical risk Action は明示的ユーザー意図と Gate/Evidence 文脈が必須。
+- Operation/CRON/Action の選定はカタログ優先: `docs/99.sdt/agn/5.operations/operation-list.md` / `process_catalog.list`。
+- **LN URI**: `ln://` を `read_file` に渡さない — `ln_registry.resolve` で解決。リンク切れは `sdt.ln_link_heal_plan` → `sdt.ln_link_autoheal`（dry_run 先行）。`ln-registry.json` を手編集しない。
+- **DODO CODE V2 native Coding**: V2 のコーディングは resolver が返した Core native API（`POST /api/coding/sessions` → turns → traces で観測）。`:8511` 直呼び禁止・具体的 `issue_ref` 必須。Tauri UI が control gateway を使う場合だけ 8510 を明示する。Issue ドリフト検知時は即キャンセル。
+- Action/schema/gateway 変更時は解決済み endpoint の owner を確認し、User Runtime Reload Approval Gate の承認後にその owner 経路だけを再起動して `dodo_action_list` で確認する（Registry は起動時構築）。
+
+Issue / HANDOFF は `.dodoai/issue/` にテンプレ `docs/99.sdt/agn/0.schema/issue-handoff-template.md` で作成。
+
+## 💓 Heartbeats
+
+`HEARTBEAT.md` があれば従う（小さく保つ）。チェック状態は `memory/heartbeat-state.json`。深夜(23:00–08:00)・直近 30 分以内の再チェックは沈黙。自発作業可: memory 整理、ドキュメント更新、**現在の work ブランチ上での** commit/push（branch 作成・protected 直 commit は禁止）。
+
+## Make It Yours
+
+This is a starting point. Add your own conventions as you figure out what works.

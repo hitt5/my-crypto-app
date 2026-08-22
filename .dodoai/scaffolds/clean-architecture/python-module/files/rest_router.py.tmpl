@@ -1,0 +1,11 @@
+"""REST interface for {{module_name}}."""
+
+from __future__ import annotations
+
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
+
+router = APIRouter(prefix="/{{module_slug}}", tags=["{{module_name}}"])
+
+
+{{api_routes_block}}
