@@ -52,7 +52,7 @@ Agentic 時代に情報の非対称性と実行速度の差は縮小する。し
 | 🟡 **proxy（プロキシ経由の推定）** | Perp ポジショニング（Funding Rate・OI・Long/Short 比率から推定 — CEX 内部の個別ポジションは不可視）、Market Maker 在庫（既知アドレスのラベリング依存）、同一モデル混雑（同一 Stop 価格帯・TVL 集中・行動の同質性から逆算 — §4 参照） | 集計値・ラベリング・クラスタリングからの推定 | **Belief** |
 | 🔴 **structural-prior（構造的事前知識のみ）** | 月末に売らねばならないファンド（TradFi の償還・リバランス義務は非公開 — 季節性ヒューリスティクスが限界）、税務上売れない投資家（完全に非公開 — 年末 tax-loss selling 等の集計統計のみ） | 公開されない。構造的な傾向としてのみ保持 | **Hypothesis** |
 
-課題として重要なのは、🟢 の直接観測可能な部分（清算マップ・Unlock カレンダーだけでも実用的な Constraint Alpha の一部）ですら個人は継続観測していないという点である。本文の例示に含まれる 🔴 は「制約の非対称性が消えない」ことの説明であり、直接の観測対象ではない。ConstraintNode（[`../2.sdt-design/02-data-model.md`](../2.sdt-design/02-data-model.md)）はこの等級を属性として持ち、Fact / Belief / Hypothesis を混ぜない（WM-3）。
+課題として重要なのは、🟢 の直接観測可能な部分（清算マップ・Unlock カレンダーだけでも実用的な Constraint Alpha の一部）ですら個人は継続観測していないという点である。本文の例示に含まれる 🔴 は「制約の非対称性が消えない」ことの説明であり、直接の観測対象ではない。ConstraintNode（[`04-data-model.md`](04-data-model.md)）はこの等級を属性として持ち、Fact / Belief / Hypothesis を混ぜない（WM-3）。
 
 ### 3. 正解率を追い、Payoff 構造（Convexity）を見ない
 
@@ -119,4 +119,3 @@ Agent の予測が行動になり、その行動が市場を変える。皆が�
 | v0.3.1 | 2026-08-22 | 課題 2（Constraint Alpha）に観測可能性等級の補足を追加（direct / proxy / structural-prior の 3 等級と WM-3 対応。04-data-model.md ConstraintNode 不変条件と対） |
 | v0.3.0 | 2026-08-22 | **根本改訂**: 課題 0（価値原理の欠如）を根本課題として新設。リスク誤定義（不可逆性）・Constraint Alpha 不在・Convexity 無視・Reflexivity を課題 1〜4 として追加。既存のオペレーショナルα・自動売買・退避・記録課題を大原則の下位課題として再位置づけ |
 | v0.2.0 | 2026-08-22 | crypto.md（5.reference）を元に課題・リスクを記入 |
-| v0.1.0 | {{DATE}} | 雛形から生成（未記入） |
