@@ -1,0 +1,66 @@
+{
+  "schema": "sdt-node-v3.0",
+  "id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "type": "feature",
+  "name": "Personal Crypto Portfolio Dashboard",
+  "description": "Personal/local-first Crypto Wealth dashboard for read-only EVM portfolio observation and multi-source valuation.",
+  "summary": "本人のEVM資産をオンチェーンFactと複数価格ソースで統合表示するPersonal Custom App Feature。",
+  "gate": "SR-1〜SR-7のconformance matrixが全行PASSし、strict manifest lint・focused tests・live UI proof・roadmap.sync_gateを記録する。",
+  "status": "running",
+  "truth_type": "designed",
+  "layer": "product",
+  "spec_refs": {
+    "sr": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "iuc": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "uc_catalog": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "fr_catalog": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md"
+  },
+  "attributes": {
+    "name": "Personal Crypto Portfolio Dashboard",
+    "theme_id": "crypto-wealth-os",
+    "deploy_unit": "personal-custom-ui",
+    "deployment_validation": "local-only",
+    "priority": "P1",
+    "phase": "DD03",
+    "uc_ids": [
+      "UC-1",
+      "UC-2",
+      "UC-3"
+    ],
+    "fr_ids": [
+      "FR-PORTFOLIO-OBSERVE",
+      "FR-PORTFOLIO-VIEW"
+    ],
+    "capability_refs": [
+      "CAP-PORTFOLIO-OBSERVE",
+      "CAP-PORTFOLIO-VIEW"
+    ],
+    "target_module": ".dodoai/personal",
+    "spec_refs": {
+      "sr": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+      "uc": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+      "index": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md"
+    },
+    "dd_progress": {
+      "DD01": "done",
+      "DD02": "done",
+      "DD03": "running",
+      "feature_complete": "running"
+    },
+    "phase_gates": {
+      "A02": {
+        "status": "partial",
+        "evidence": "Feature spec exists; EPIC/CAP JSON-first catalogs remain uninitialized and are recorded as governance debt."
+      },
+      "A03": {
+        "status": "partial",
+        "evidence": "Workspace SDT layout/test-definition catalogs are not initialized; current repair is bounded to an existing Personal Custom UI manifest."
+      }
+    },
+    "depends_on": []
+  },
+  "created_at": "2026-08-22T05:12:42.166Z",
+  "updated_by": "codex-root",
+  "updated_at": "2026-08-22T05:12:42.203344+00:00"
+}

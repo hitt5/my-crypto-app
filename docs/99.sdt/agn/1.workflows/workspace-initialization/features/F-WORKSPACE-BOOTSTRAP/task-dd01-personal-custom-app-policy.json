@@ -1,0 +1,69 @@
+{
+  "node_id": "F-WORKSPACE-BOOTSTRAP-DD01-PERSONAL-CUSTOM-APP-POLICY",
+  "type": "dd01",
+  "name": "Personal Custom App policy",
+  "description": "Establish the repository-wide product policy that dodo Crypto Wealth OS is built as a single-owner personal dodo Custom App and project that policy into Concept and AGENTS.md.",
+  "gate": "Concept and AGENTS.md consistently declare the personal Custom App scope, local-first security boundary, and HIL requirement for multi-user or public-product expansion.",
+  "spec_refs": {
+    "concept": "docs/docs/1.concept/00-overview.md#product-form",
+    "common_requirements": "docs/docs/1.concept/06-common-requirements.md#cr-8-personal-custom-app-scope",
+    "instruction": "AGENTS.md#personal-custom-app-policy"
+  },
+  "feature": "F-WORKSPACE-BOOTSTRAP",
+  "layer": "governance",
+  "truth_type": "observed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [
+    "governance"
+  ],
+  "task_id": "F-WORKSPACE-BOOTSTRAP-DD01-PERSONAL-CUSTOM-APP-POLICY",
+  "phase": "DD01",
+  "issue_refs": [
+    ".dodoai/issue/20260822_TASK_F-WORKSPACE-BOOTSTRAP_personal-custom-app-policy_in-progress.md"
+  ],
+  "done_criteria": [
+    "AGENTS.md declares personal dodo Custom App as the default product form and forbids unapproved multi-user or public SaaS expansion",
+    "Concept overview declares a single-owner personal Custom App with Custom UI and Custom Action as the default delivery form",
+    "Common requirements define local-first personal scope and require HIL before multi-user, public SaaS, hosted custody, or third-party commercialization",
+    "JSON parsing and targeted text assertions pass for all changed governance artifacts"
+  ],
+  "size": "S",
+  "success_probability": 0.95,
+  "max_ticks": 3,
+  "changed_files": [],
+  "evidence": [
+    "user://2026-08-22/personal-custom-app-policy",
+    "taskgraph.dd_select_claim: claimed_by=codex-root, stream_id=task-edit:F-WORKSPACE-BOOTSTRAP-DD01-PERSONAL-CUSTOM-APP-POLICY"
+  ],
+  "blocking_findings": [
+    "Standard workflow, Operation catalog, and SDT layout contract are not initialized; agn.route_next selected adaptive mode"
+  ],
+  "updated_by": "codex",
+  "schema": "sdt-node-v3.0",
+  "created_at": "2026-08-22T04:00:00+00:00",
+  "updated_at": "2026-08-22T04:02:00+00:00",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T04:01:10.250504+00:00",
+        "by": "taskgraph.dd_select_claim",
+        "reason": "deterministic DD claim by codex-root; execution_id=personal-custom-app-policy-20260822-01; observed_updated_at=2026-08-22T04:00:00+00:00"
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "taskgraph.dd_select_claim",
+      "overridden_at": "2026-08-22T04:01:10.250504+00:00",
+      "source": "manual",
+      "reason": "deterministic DD claim by codex-root; execution_id=personal-custom-app-policy-20260822-01; observed_updated_at=2026-08-22T04:00:00+00:00"
+    }
+  },
+  "overridden_by": "taskgraph.dd_select_claim",
+  "overridden_at": "2026-08-22T04:01:10.250504+00:00",
+  "override_reason": "deterministic DD claim by codex-root; execution_id=personal-custom-app-policy-20260822-01; observed_updated_at=2026-08-22T04:00:00+00:00"
+}

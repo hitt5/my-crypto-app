@@ -1,40 +1,19 @@
-# 98.dodoai-custom-spec — dodoAI Custom UI / Custom Action 仕様
+# 98.dodoai-custom-spec — Custom UI / Action 仕様
 
-本ディレクトリは my-crypto-app の DODO Custom UI / Custom Action に関する **A02 仕様正本**を置く。
+> **テーマ**: {{PROJECT_NAME}} / **theme_id**: `{{THEME_ID}}` / **profile**: `{{PROFILE}}` / **作成**: {{DATE}}
 
-| Feature | Spec | Status |
-| --- | --- | --- |
-| {F-EXAMPLE-CUSTOM-ACTION} | [{機能の説明}]({F-EXAMPLE-CUSTOM-ACTION}/index.md) | 📋 A02 Draft |
+| Feature | Spec | 実装 | Status |
+|---|---|---|---|
+| `F-CRYPTO-PORTFOLIO-DASHBOARD` | [00-spec.md](F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md) | `.dodoai/personal/`（Action 3 本 + UI dashboard） | running（live 確認・実値設定が残） |
+| `F-VIABILITY-POLICY-CORE` | [00-spec.md](F-VIABILITY-POLICY-CORE/00-spec.md) | 未着手（DD01 は H1+H2 待ち） | draft |
 
-各 Feature は dodoAI A02 に従い、**BR → SR → UC → CAP → FR → MOD と全体設計を一組**で定義する。
+> A02 完了条件: 仕様 MD 一式 ＋ AGN JSON（feature.json / task-dd*.json）の両方。
 
-## Feature フォルダ構成（1 Feature = 1 フォルダ）
+---
 
-```text
-98.dodoai-custom-spec/
-  00-overview.md                  ← このファイル（Feature 一覧）
-  {FEATURE_ID}/
-    index.md                      ← Feature 概要・ステータス
-    business-requirement.md       ← BR
-    system-requirements.md        ← SR
-    uc.md                         ← UC
-    capability-module.md          ← CAP / FR / MOD
-    module-design.md              ← モジュール設計（必要に応じ）
-```
+## 改版履歴
 
-## 実装との対応
-
-| 対象 | 仕様（ここ） | 実装 |
-|------|------------|------|
-| Custom Action | `{FEATURE_ID}/` 一式 | `.dodoai/custom_actions/{action_name}/`（`action.json` + `action.py` + `CONTRACT.md` + tests） |
-| Custom UI | `{FEATURE_ID}/` 一式 | `.dodoai/custom_ui/{ui_name}/` |
-| AGN タスクグラフ | — | `docs/99.sdt/agn/1.workflows/{epic}/features/{FEATURE_ID}/`（`feature.json` + `task-dd*.json`） |
-
-> A02 完了条件: 仕様 MD 一式 + AGN JSON（feature.json / task-dd*.json）の両方が揃っていること。
-> どちらか一方だけで A02 完了と言わない。
-
-## 画面一覧（Custom UI がある場合）
-
-| ドキュメント | 内容 |
-| --- | --- |
-| {screen-list.md} | {必要なカスタム UI 画面一覧} |
+| バージョン | 日付 | 内容 |
+|---|---|---|
+| v0.2.0 | 2026-08-22 | Feature 一覧を記入（F-CRYPTO-PORTFOLIO-DASHBOARD / F-VIABILITY-POLICY-CORE） |
+| v0.1.0 | {{DATE}} | 雛形から生成（未記入） |

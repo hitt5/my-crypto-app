@@ -1,0 +1,88 @@
+{
+  "node_id": "F-WORKSPACE-BOOTSTRAP-DD01-TERMINOLOGY-RESOLUTION-GUIDANCE",
+  "type": "dd01",
+  "name": "Resolve SCO and ADF terminology from canonical sources",
+  "description": "Make project terminology handling explicit: define SCO in the project glossary and require AGENTS.md to resolve unknown terms through Charter or glossary, with ADF routed to the canonical dodoAI ADF documentation path.",
+  "gate": "AGENTS.md contains deterministic terminology lookup rules and docs/GLOSSARY.md explains SCO and the canonical ADF reference path without inventing project-local meanings.",
+  "spec_refs": {
+    "instruction": "AGENTS.md#instruction-source-of-truth",
+    "glossary": "docs/GLOSSARY.md",
+    "dodoai_adf": "/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/",
+    "dodoai_development_flow": "/Users/hitoshimurakami/myApps/dodoai/docs/0.charter/02-development-flow.md"
+  },
+  "feature": "F-WORKSPACE-BOOTSTRAP",
+  "layer": "governance",
+  "truth_type": "observed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [
+    "governance"
+  ],
+  "created_at": "2026-08-22T07:18:57Z",
+  "updated_at": "2026-08-22T07:22:07.520760+00:00",
+  "task_id": "F-WORKSPACE-BOOTSTRAP-DD01-TERMINOLOGY-RESOLUTION-GUIDANCE",
+  "phase": "DD01",
+  "issue_refs": [
+    ".dodoai/issue/20260822_TASK_F-WORKSPACE-BOOTSTRAP_terminology-resolution-guidance_in-progress.md"
+  ],
+  "done_criteria": [
+    "AGENTS.md instructs agents to consult docs/0.charter and docs/GLOSSARY.md before interpreting unknown or ambiguous terms",
+    "AGENTS.md routes ADF references to /Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/ and the current dodoAI development-flow Charter",
+    "docs/GLOSSARY.md defines SCO as Semantic Canonical Ontology and distinguishes it from project scope",
+    "targeted rg assertions, git diff --check, and Markdown front-matter checks pass"
+  ],
+  "size": "S",
+  "success_probability": 0.98,
+  "max_ticks": 2,
+  "changed_files": [
+    "AGENTS.md",
+    "docs/GLOSSARY.md",
+    ".clinerules/00-CORE.md",
+    ".clinerules/00-INDEX.md",
+    ".dodoai/issue/20260822_TASK_F-WORKSPACE-BOOTSTRAP_terminology-resolution-guidance_in-progress.md",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-terminology-resolution-guidance.json"
+  ],
+  "evidence": [
+    "dodoAI docs/3.system/3.external-design/screen-design/ED16-SCR-SCO-VIEWER-001-sco-glossary.md: SCO = SDT Semantic Canonical Ontology",
+    "dodoAI ADF/docs/ja/1.problem_overview/1.problem-overview.md and ADF/docs/ja/glossary.md: ADF = Agentic Development Framework",
+    "sdt_layout.resolve: blocked because docs/99.sdt/0.schema/sdt-layout-contract.json is absent; used the existing F-WORKSPACE-BOOTSTRAP workflow directory",
+    "taskgraph.dd_select_claim: claim contention",
+    "task_graph.acquire_edit_lease: success=true, required=false for the SQLite-backed project",
+    "targeted terminology/path/front-matter/jq assertions: PASS",
+    "git diff --check for scoped changed files: PASS",
+    "rules.audit: unavailable because docs/99.sdt/agn/99.rules/rule-catalog.json is absent",
+    "roadmap.sync_gate: ok=false, stale_task_status=0, missing_milestone=1, epic_orphan=1, cap_unbound=1, roadmap_drift=0",
+    "sovereign.hook_gate: decision=not_applicable, block=false, required_operations=0, evidence_ref=agent-authz:474ca2c7-5151-4da4-b1d2-68f167f08ae5"
+  ],
+  "blocking_findings": [
+    "Operation catalog and Agent definitions are not initialized; no Operation or Agent was guessed",
+    "rules.audit cannot run because docs/99.sdt/agn/99.rules/rule-catalog.json is absent",
+    "roadmap.sync_gate ok=false: missing_milestone=1, epic_orphan=1, cap_unbound=1; stale_task_status=0 and roadmap_drift=0",
+    "Formal F-WORKSPACE-BOOTSTRAP closure remains blocked by existing catalog and layout-contract debt"
+  ],
+  "updated_by": "codex-root",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T07:20:03Z",
+        "by": "codex-root",
+        "reason": "User requested terminology resolution; task_graph.acquire_edit_lease returned success=true and required=false."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "codex-root",
+      "overridden_at": "2026-08-22T07:20:03Z",
+      "source": "manual",
+      "reason": "User requested terminology resolution; task_graph.acquire_edit_lease returned success=true and required=false."
+    }
+  },
+  "overridden_by": "codex-root",
+  "overridden_at": "2026-08-22T07:20:03Z",
+  "override_reason": "User requested terminology resolution; task_graph.acquire_edit_lease returned success=true and required=false.",
+  "schema": "sdt-node-v3.0"
+}

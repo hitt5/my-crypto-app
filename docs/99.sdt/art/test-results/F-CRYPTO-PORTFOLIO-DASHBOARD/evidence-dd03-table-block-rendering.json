@@ -1,0 +1,77 @@
+{
+  "schema": "dodo-evidence-v1",
+  "execution_id": "exec-20260822-crypto-table-render-01",
+  "feature_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-TABLE-RENDER-20260822",
+  "phase": "DD03",
+  "status": "partial",
+  "observed_at": "2026-08-22T14:16:00+09:00",
+  "implementation": {
+    "manifest": ".dodoai/personal/custom_ui/crypto-wealth/manifest.json",
+    "test": ".dodoai/personal/custom_actions/tests/test_crypto_actions.py",
+    "changes": [
+      "Replaced four unsupported table blocks with data-table.",
+      "Replaced items_field with rows_field for by_wallet, by_asset, allocation_drift, and ticks.",
+      "Added an exact manifest contract regression test."
+    ]
+  },
+  "checks": [
+    {
+      "name": "manifest contract jq check",
+      "result": "pass",
+      "observed": "true"
+    },
+    {
+      "name": "focused manifest regression test",
+      "result": "pass",
+      "observed": "1 passed in 0.02s"
+    },
+    {
+      "name": "full personal crypto action test suite",
+      "result": "pass",
+      "observed": "PYTHONPATH=/Users/hitoshimurakami/myApps/dodoai: 17 passed in 0.09s"
+    },
+    {
+      "name": "unconfigured repository-local test invocation",
+      "result": "invalid",
+      "observed": "5 passed, 12 failed because dodo_core was absent from PYTHONPATH; superseded by the configured suite run"
+    },
+    {
+      "name": "strict manifest content lint in canonical temporary placement",
+      "result": "pass",
+      "observed": "checked_manifests=1, error_count=0, warning_count=0"
+    },
+    {
+      "name": "Tauri-owned Core live registry read",
+      "result": "pass",
+      "observed": "manifest version=1.0.1; four blocks have type=data-table and rows_field"
+    },
+    {
+      "name": "headless live dashboard render",
+      "result": "pass",
+      "observed": "unsupported fallback count=0; rendered table count=4"
+    },
+    {
+      "name": "personal action live dispatch",
+      "result": "fail",
+      "observed": "HTTP 404 Action not found: personal.crypto_portfolio_valuation"
+    },
+    {
+      "name": "roadmap.sync_gate",
+      "result": "fail",
+      "observed": "ok=false; stale_task_status=3, missing_milestone=1, roadmap_drift=0, epic_orphan=1, cap_unbound=1, phase_contains_missing=1"
+    }
+  ],
+  "findings": [
+    "The action tests require the canonical dodoAI workspace on PYTHONPATH; a bare repository-local Python invocation cannot import dodo_core.",
+    "custom_ui.manifest_lint against the personal path reported checked_manifests=0, so it does not prove the personal manifest was inspected.",
+    "The current Tauri runtime has not registered personal.crypto_portfolio_valuation; table structure renders but live data remains unavailable.",
+    "The project roadmap graph and upstream TaskGraph nodes required by roadmap.sync_gate are not initialized."
+  ],
+  "runtime_actions": {
+    "user_visible_runtime_reloaded": false,
+    "user_visible_runtime_restarted": false,
+    "headless_browser_only": true
+  },
+  "verdict": "The unsupported-block rendering defect is implemented and live-render verified. The Task and Feature remain running because runtime Action registration and governance gates are still open."
+}

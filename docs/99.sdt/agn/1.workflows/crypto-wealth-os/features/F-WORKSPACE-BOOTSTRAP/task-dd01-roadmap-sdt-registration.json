@@ -1,0 +1,101 @@
+{
+  "node_id": "F-WORKSPACE-BOOTSTRAP-DD01-ROADMAP-SDT-REGISTRATION",
+  "type": "task",
+  "name": "Register crypto wealth roadmap in SDT",
+  "description": "Register the approved development roadmap view as the human-authored SDT release plan and generate the roadmap matrix, Markdown projection, and AGN roadmap graph without creating unapproved requirements.",
+  "gate": "Roadmap release plan loads, roadmap trace contains the existing approved Feature records, and roadmap.sync_gate reports the remaining governance gaps truthfully.",
+  "spec_refs": {
+    "roadmap": "docs/2.sdt-design/01-development-roadmap.md",
+    "priority": "docs/3.strategy/01-implementation-priority.md",
+    "concept": "docs/1.concept/03-approach.md"
+  },
+  "feature": "F-WORKSPACE-BOOTSTRAP",
+  "layer": "execution",
+  "truth_type": "observed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [
+    "governance",
+    "live-mcp"
+  ],
+  "created_at": "2026-08-22T07:17:40Z",
+  "updated_at": "2026-08-22T07:22:12.007783+00:00",
+  "task_id": "F-WORKSPACE-BOOTSTRAP-DD01-ROADMAP-SDT-REGISTRATION",
+  "phase": "DD01",
+  "issue_refs": [
+    ".dodoai/issue/task-planner-agent/STREAM_unknown_F-WORKSPACE-BOOTSTRAP-DD01-ROADMAP-SDT-REGISTRATION_ready.md"
+  ],
+  "done_criteria": [
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-release-plan.json exists as the human-authored Roadmap SoT and preserves Concept implementation order and P0-P4 priority semantics",
+    "roadmap.release_plan_load returns ok=true for the current project",
+    "roadmap.release_plan_update dry-run and apply generate roadmap-matrix.json, roadmap.md, and roadmap-graph.json from the release plan",
+    "roadmap.trace.load returns the registered existing Feature records without inventing EPIC, CAP, BR, SR, FR, or UC records",
+    "roadmap.sync_gate is executed and any remaining catalog, ownership, or TaskGraph gaps remain non-done findings"
+  ],
+  "size": "M",
+  "success_probability": 0.85,
+  "max_ticks": 5,
+  "changed_files": [
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/feature.json",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration.json",
+    ".dodoai/issue/task-planner-agent/STREAM_unknown_F-WORKSPACE-BOOTSTRAP-DD01-ROADMAP-SDT-REGISTRATION_ready.md",
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-release-plan.json",
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-matrix.json",
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-matrix.md",
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-graph.json",
+    "docs/99.sdt/art/knowledge/ln-registry.json"
+  ],
+  "evidence": [
+    "user://2026-08-22/register-roadmap-in-sdt",
+    "agn.route_next: exploratory; SDT search required because roadmap graph was absent",
+    "sdt.search: existing F-CRYPTO-PORTFOLIO-DASHBOARD and F-VIABILITY-POLICY-CORE resolved",
+    "roadmap.release_plan_load: release_plan_not_found",
+    "roadmap.trace.load: loaded_count=0; roadmap graph absent",
+    "roadmap.release_plan_update dry_run: ok=true, changed_sections=time_axis/work_categories/releases/row_markers, fingerprint=8e600e3ea66a8da70771694a7e7b84074ba6e6e996ec0fff2bc0b2d710589586",
+    "roadmap.release_plan_update apply: ok=true, source_sha256=95ed487680cff4267a8f61b406514a54729ac3bdb4df4303f135654ffaf181ff",
+    "roadmap.release_plan_load after apply: ok=true, rows=10, releases=5, markers=10",
+    "roadmap.trace.load after apply: ok=true, loaded_count=2, node_count=7, edge_count=2",
+    "sdt.governance_metrics: ok=true, feature_count=2, schema_integrity violations=0",
+    "agn.sdt_contract_test final: this Task and F-WORKSPACE-BOOTSTRAP feature have 0 issues; 3 issues remain only in concurrent task-dd01-terminology-resolution-guidance.json"
+  ],
+  "blocking_findings": [
+    "roadmap.sync_gate: ok=false; F-WORKSPACE-BOOTSTRAP is missing a roadmap-milestone feature_ref, owning EPIC, and capability_refs",
+    "roadmap.trace.load: BR, EPIC, and Capability JSON catalogs are missing",
+    "docs/99.sdt/0.schema/sdt-layout-contract.json is absent, so sdt_layout.resolve cannot resolve paths",
+    "ADF test-definition contract is absent from this scaffold",
+    "operations.json is absent and operation-list is an uninitialized template, so Operation and Agent cannot be selected without guessing",
+    "agn.sdt_contract_test has 3 unresolved issues only in the concurrent task-dd01-terminology-resolution-guidance.json; this roadmap Task and owning Feature have 0 contract issues"
+  ],
+  "updated_by": "codex-root",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T07:18:10.331372+00:00",
+        "by": "codex-root",
+        "reason": "User requested roadmap registration; dedicated Task and Issue view created; local edit lease not required by Core."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "codex-root",
+      "overridden_at": "2026-08-22T07:18:10.331372+00:00",
+      "source": "manual",
+      "reason": "User requested roadmap registration; dedicated Task and Issue view created; local edit lease not required by Core."
+    }
+  },
+  "overridden_by": "codex-root",
+  "overridden_at": "2026-08-22T07:18:10.331372+00:00",
+  "override_reason": "User requested roadmap registration; dedicated Task and Issue view created; local edit lease not required by Core.",
+  "priority": "P0",
+  "deliverables": [
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-release-plan.json (CONTRACT: human-authored Roadmap SoT)",
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-matrix.md (test projection generated by roadmap.release_plan_update)",
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-matrix.json",
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-graph.json"
+  ],
+  "schema": "sdt-node-v3.0"
+}
