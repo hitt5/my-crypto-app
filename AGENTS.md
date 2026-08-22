@@ -6,23 +6,54 @@ This folder is home. Treat it that way.
 
 本リポジトリは **dodo Crypto Wealth OS**（theme_id: `crypto-wealth-os` / profile: `crypto`）のパーソナルプロジェクト。設計・実装・評価の作業を始める前に、テーマ正本である Concept を読むこと:
 
-- 入口: `docs/docs/README.md`（索引）/ インプット正本: `docs/docs/5.reference/crypto.md`
-- `docs/docs/1.concept/00-overview.md` — 全体像・プロジェクトタイプ（A+E）・答える問い・HIL ゲート
-- `docs/docs/1.concept/01-problem.md` — 課題認識
-- `docs/docs/1.concept/02-why-dodoai.md` — dodoAI の効き所・dodo Core MCP の概要
-- `docs/docs/1.concept/03-approach.md` — 運用ループ（Observe → Approve → Autopilot）
-- `docs/docs/1.concept/04-data-model.md` ⭐ — 概念データモデル（Portfolio 空間 × Opportunity 空間・不変条件）
-- `docs/docs/1.concept/05-multi-agent.md` — Agent 構成と Gate
-- `docs/docs/1.concept/06-common-requirements.md` — **共通要件（CR-1〜CR-7）。全 EPIC/Feature に横断適用。特に CR-1: 秘密鍵は dodo クレデンシャル機構＋個人ハードウェアモジュールの二層で保持し、AI/Agent に渡さない**
+- 入口: `docs/README.md`（索引）/ インプット正本: `docs/5.reference/crypto.md`
+- `docs/1.concept/00-overview.md` — 全体像・Product Form・プロジェクトタイプ（A+E）・答える問い・HIL ゲート
+- `docs/1.concept/01-problem.md` — 課題認識
+- `docs/1.concept/02-why-dodoai.md` — dodoAI の効き所・dodo Core MCP の概要
+- `docs/1.concept/03-approach.md` — 運用ループ（Observe → Approve → Autopilot）
+- `docs/2.sdt-design/02-data-model.md` ⭐ — SDT データモデル（3 空間・不変条件。旧 `1.concept/04-data-model.md` から移設）
+- `docs/2.sdt-design/03-sco-policy.md` — SCO 方針（語彙の正準化 — Core SCO 写像 + Domain SCO Package）
+- `docs/1.concept/05-multi-agent.md` — Agent 構成と Gate
+- `docs/3.common/0.common-requirements/00-common-requirements.md` — **共通要件（CR-1〜CR-9 正本）。全 EPIC/Feature に横断適用。CR-1 は鍵分離、CR-8 はパーソナル Custom App スコープ、CR-9 は生存原理を所有する。BR/SR/NFR 展開は `docs/3.common/`**
 
 Concept と矛盾する実装・要件を作らない。矛盾に気づいたら HIL（ユーザー裁定）へ。
 
-## Instruction Source of Truth
+## Personal Custom App Policy（基本方針 — HARD）
 
+本リポジトリは **single-owner / local-first のパーソナル dodo Custom App** として開発する。汎用の暗号資産 SaaS や不特定多数向けサービスを既定形にしない。
+
+- プロダクト形態は dodoAI 上の **Personal Custom UI + Personal Custom Action** を基本とする。A02 仕様は `docs/98.dodoai-custom-spec/`、personal scope の実装は `.dodoai/personal/custom_ui/` / `.dodoai/personal/custom_actions/` に置く。
+- 一次利用者・資産所有者・最終承認者はユーザー本人。Multi-Agent は本人の意思決定を補助する内部ロールであり、複数顧客・組織・多数決を前提にしない。
+- 個人の Portfolio / Policy / Wallet / Evidence に合わせて最適化する。ただし秘密鍵・シード・個人実値を repository、fixture、SDT、ログへ保存せず、CR-1 の dodo クレデンシャル機構＋個人ハードウェアモジュール境界を守る。
+- multi-user、public SaaS、hosted custody、顧客アカウント、組織承認、第三者向け商用化への拡張は既定スコープ外。必要になった時点で HIL を行い、Concept と A02 要件セットを先に更新する。
+- 共通化は本人の Custom App の保守性・再利用性に必要な範囲に留める。「将来売るかもしれない」を理由に multi-tenant / enterprise 機能を先行実装しない。
+
+## Project Registration（dodo Core 登録情報）
+
+本リポジトリは dodo Core にパーソナルプロジェクトとして登録済み:
+
+| 項目 | 値 |
+|---|---|
+| Project ID | `43e2f654-cdd7-4572-b921-962bea2f0820` |
+| Path | `/Users/hitoshimurakami/myApps/my-crypto-app` |
+| Visibility | `personal` |
+| Repo context | `.dodoai/repo-context.json`（標準 scaffold 生成済み） |
+| Remote | `https://github.com/hitt5/my-crypto-app.git` |
+
+- セッションの `dodo_project_bootstrap` / `project.index` はこの登録を解決する。別 project（`dodoai` 本体等）と混同しない。
+- Rules/Roadmap catalog は未生成（初期化 Feature `F-WORKSPACE-BOOTSTRAP` は `running`）。catalog 生成後に本表を更新する。
+
+## Instruction Source of Truth
 
 - **`AGENTS.md` がリポジトリ指示の正本。** 利用不能なときだけ `.clinerules/00-CORE.md`（L0）+ `.clinerules/00-INDEX.md`（L1）を fallback として注入する。乖離したら AGENTS.md に従い、同一変更で ClineRules 投影を修復する。
 - `.clinerules-detail/`（L2）は本ファイル / L1 index が指したときだけ読むオンデマンド手順庫。先読み禁止。
 - **SoT ツリーは `docs/`**: Charter = `docs/0.charter/`、World Model = `docs/1.concept/0.world-model/`、SDT/AGN/ART = `docs/99.sdt/`、運用 = `docs/4.operation/`。❌ `dodoai-docs/` は投影ビュー — 手編集・新規文書作成禁止。
+
+### Terminology Resolution（HARD）
+
+- 未知・多義的な用語や略語に遭遇したら、文脈や綴りから推測して作業を進めない。まず本プロジェクトの Charter（`docs/0.charter/`）と用語集（`docs/GLOSSARY.md`）で定義・正本参照先を確認する。どちらにも定義がない、または定義が矛盾する場合は、要件・実装を変更する前に HIL へ上げる。
+- **SCO** は `Semantic Canonical Ontology`（意味の正準オントロジー）であり、project scope の略ではない。定義は `docs/GLOSSARY.md`、詳細な dodoAI 正本は `/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/glossary.md` を読む。
+- **ADF** と言われたら `Agentic Development Framework` を指す。必ず dodoAI 正本 `/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/`（入口 `index.md`、用語 `glossary.md`）を読み、現行の開発工程・Gate は `/Users/hitoshimurakami/myApps/dodoai/docs/0.charter/02-development-flow.md` で確認する。`Autonomous Development Flow` など別の展開を推測して使わない。
 
 **Precedence**: ① 現行 runtime の system/developer/tool 指示 → ② Charter（`docs/0.charter/` = 憲法。P1–P29・ゲート・数値閾値を単独所有）→ ③ 本 AGENTS.md（手順の正本）→ ④ ClineRules L0+L1+L2（fallback 投影）→ ⑤ その他 docs。
 

@@ -29,6 +29,9 @@
 
 | こういう時 | 読む |
 |---|---|
+| 未知・多義的な用語や略語に遭遇した | `docs/0.charter/` + `docs/GLOSSARY.md`。未定義・矛盾時は HIL |
+| SCO の意味を確認したい | `docs/GLOSSARY.md` + dodoAI `/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/glossary.md` |
+| ADF と言われた / ADF の工程・Gate を確認したい | dodoAI `/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/` + `/Users/hitoshimurakami/myApps/dodoai/docs/0.charter/02-development-flow.md` |
 | **層の関係が分からない / どこに書けばよいか迷った / 新しい BR・SR・FR・CAP を作ってよいか** | Charter `07-requirements-architecture-map.md` |
 | World Model → Strategy → BR → EPIC/UC → CAP/FR → Code → Evidence の接続を確認したい | Charter `07-requirements-architecture-map.md` §1 |
 | 縦糸（UC）と横糸（FR）のどちらに書くか判断したい | Charter `07-requirements-architecture-map.md` §3 / §5 |

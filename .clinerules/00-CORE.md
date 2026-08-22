@@ -22,6 +22,26 @@
 
 ---
 
+## 🔤 Terminology Resolution（HARD）
+
+- 未知・多義的な用語や略語は推測せず、まず `docs/0.charter/` と `docs/GLOSSARY.md` で定義と正本参照先を確認する。未定義・矛盾時は要件や実装の変更前に HIL へ上げる。
+- **SCO** = `Semantic Canonical Ontology`。project scope の略ではない。詳細は `/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/glossary.md`。
+- **ADF** = `Agentic Development Framework`。言及されたら `/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/` を読み、現行工程・Gate は `/Users/hitoshimurakami/myApps/dodoai/docs/0.charter/02-development-flow.md` で確認する。別の展開を推測しない。
+
+---
+
+## 🧩 Personal Custom App Policy（基本方針）
+
+my-crypto-app は **single-owner / local-first のパーソナル dodo Custom App** として開発する。
+
+- dodoAI 上の Personal Custom UI + Personal Custom Action を既定形とする。A02 仕様は `docs/98.dodoai-custom-spec/`、personal scope の実装は `.dodoai/personal/custom_ui/` / `.dodoai/personal/custom_actions/`。
+- 一次利用者・資産所有者・最終承認者はユーザー本人。Multi-Agent は本人を補助する内部ロールであり、複数顧客・組織・多数決を前提にしない。
+- 個人最適化を行っても、秘密鍵・シード・個人実値を repository、fixture、SDT、ログへ保存しない。鍵は dodo クレデンシャル機構＋個人ハードウェアモジュールの境界内に置く。
+- multi-user、public SaaS、hosted custody、顧客アカウント、組織承認、第三者向け商用化はスコープ外。着手前に HIL を行い、Concept と A02 要件セットを更新する。
+- 将来の外販だけを理由に multi-tenant / enterprise 機能を先行実装しない。
+
+---
+
 ## 📝 OKF Markdown（YAML風ヘッダ）を標準とする
 
 新規作成または実質的に更新する Markdown は、可能な限り先頭に `---` で囲んだ YAML front matter を持つ **OKF（Object Knowledge Format）** とする。Codex、Claude Code、Clineのいずれが作成する場合も同じ規約を適用する。

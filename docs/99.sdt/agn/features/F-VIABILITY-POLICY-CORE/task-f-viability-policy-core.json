@@ -1,0 +1,42 @@
+{
+  "node_id": "F-VIABILITY-POLICY-CORE",
+  "type": "feature",
+  "name": "Viability 正本（生存制約・投資憲法・RiskBudget・Ω）と DRIFTED 検知",
+  "description": "Concept 03-approach S1 を担う Feature。ViabilityConstraint（ε）・Policy（投資憲法）・Wallet 役割・RiskBudget・Ω を機械検査可能な JSON 正本として定義し、実態観測と突合して DRIFTED を検知する（Stage 1 Observe / read-only）。DD01 入場前提 = H1 + H2。",
+  "theme_id": "crypto-wealth-os",
+  "status": "draft",
+  "spec_refs": {
+    "a02_spec": "docs/98.dodoai-custom-spec/F-VIABILITY-POLICY-CORE/00-spec.md",
+    "roadmap": "docs/2.sdt-design/01-development-roadmap.md"
+  },
+  "attributes": {
+    "stage": "observe",
+    "deployment_validation": "local-only",
+    "product_form": "personal-custom-app",
+    "risk_level": "low",
+    "entry_gates": [
+      {
+        "gate": "H1",
+        "description": "Concept v0.5 根本改訂の再承認",
+        "status": "pending"
+      },
+      {
+        "gate": "H2",
+        "description": "正本値（ε・損失限度・目標配分・Allowlist）の HIL 確定",
+        "status": "pending"
+      }
+    ]
+  },
+  "depends_on": [
+    "F-CRYPTO-PORTFOLIO-DASHBOARD",
+    "F-WORKSPACE-BOOTSTRAP"
+  ],
+  "dd_progress": {
+    "a02": "done",
+    "a03": "pending"
+  },
+  "schema": "sdt-node-v3.0",
+  "id": "F-VIABILITY-POLICY-CORE",
+  "created_at": "2026-08-22T06:47:16.479158+00:00",
+  "updated_at": "2026-08-22T06:47:16.479158+00:00"
+}

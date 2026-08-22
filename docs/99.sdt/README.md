@@ -1,30 +1,18 @@
-# SDT（Semantic Digital Twin）
+# 99.sdt — SDT（ART + AGN）
 
-## SDT = ART + Governance Graph
+> **テーマ**: {{PROJECT_NAME}} / **theme_id**: `{{THEME_ID}}` / **profile**: `{{PROFILE}}` / **作成**: {{DATE}}
 
-| 構成要素 | パス | 内容 |
-|---------|------|------|
-| **Governance Graph** | `agn/` | タスクグラフ・Evidence・Agent/Skill 定義 — 統治構造 |
-| **ART** | `art/` | CallGraph IR・生成された成果物 — 精製物 |
+| 区分 | パス | 性質 |
+|---|---|---|
+| ART | `art/` | **成果物の正本（SoT）** — カタログ・DocGraph・Evidence の中身 |
+| AGN | `agn/` | **因果グラフ** — ART を意味で接続する関係・status・タスクグラフ |
 
-## フォルダ構成
+> 判別基準の正本はプロジェクトルートの `docs/99.sdt/README.md`。ここへ再掲しない。
 
-```
-99.sdt/
-├── README.md          ← このファイル
-├── agn/               ← Governance Graph（ハーネス）
-│   ├── 0.schema/      ← JSON スキーマ定義
-│   ├── 1.workflows/   ← EPIC → Feature → Task Graph
-│   ├── 2.agents/      ← Agent 定義
-│   └── 3.skills/      ← Skill 定義
-└── art/               ← ART（精製物）
-    ├── context/       ← CallGraph IR 等
-    ├── catalog/       ← ART catalog
-    └── operations/    ← Operation catalog / reports
-```
+---
 
-## ルール
+## 改版履歴
 
-- JSON ファイルが SoT（P10）
-- タスクグラフ JSON なしでの開発着手禁止（P9）
-- Evidence は全ての開発行為に必須（A3, P4）
+| バージョン | 日付 | 内容 |
+|---|---|---|
+| v0.1.0 | {{DATE}} | 雛形から生成（未記入） |

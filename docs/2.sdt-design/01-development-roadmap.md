@@ -7,8 +7,9 @@ tags: [crypto-wealth-os, roadmap, design, personal-scope]
 # 01 — 開発ロードマップ（Concept 準拠）
 
 > **テーマ**: dodo Crypto Wealth OS / **theme_id**: `crypto-wealth-os` / **profile**: `crypto` / **作成**: 2026-08-22
-> **正本関係**: 実装順の正本は [`../1.concept/03-approach.md`](../1.concept/03-approach.md)（不可逆性の低い順①〜⑪・ステップ S1〜S7）。本書はそれを **Feature 系列 + 本体/カスタム分担**へ写像した設計 view。矛盾したら Concept を正とし HIL へ。
+> **正本関係**: 実装順の正本は [`../1.concept/03-approach.md`](../1.concept/03-approach.md)（不可逆性の低い順①〜⑪・ステップ S1〜S7）。同ファイル v0.5.0 で全体フローは **OODA×WF 実行モデル**（運用ループの WF 写像・評価成果物の SDT+MD 双対 HARD 原則）へ改訂済み — 各 Feature の観測/評価系はこの WF 写像と双対原則に準拠すること。本書はそれを **Feature 系列 + 本体/カスタム分担**へ写像した設計 view。**実装優先度（5軸判定基準・P0〜P4 キュー）の正本は [`../1.concept/2.strategy/01-implementation-priority.md`](../1.concept/2.strategy/01-implementation-priority.md)** — 本書 §2 の Feature 順は同書の優先度に追随する。矛盾したら Concept を正とし HIL へ。
 > **Product Form**: single-owner / local-first のパーソナル dodo Custom App（CR-8）。Stage 1 Observe を完成させるまで実行系（署名・取引）には触れない。
+> **同フォルダの正本**: SDT データモデル = [`02-data-model.md`](02-data-model.md)（1.concept/04 から移設）/ SCO 方針（語彙の正準化） = [`03-sco-policy.md`](03-sco-policy.md)。
 
 ## 1. 現在地
 
@@ -22,25 +23,27 @@ tags: [crypto-wealth-os, roadmap, design, personal-scope]
 
 ## 2. Feature ロードマップ（実装順 = 不可逆性の低い順）
 
-Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する。**着手順は上から**。各 Feature の着手時に A02（6 層要件セット）→ A03 → DD01–03 の正規フローを踏む。
+Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する。**着手順は上から**（優先度 P0〜P4 の正本 = [`../1.concept/2.strategy/01-implementation-priority.md`](../1.concept/2.strategy/01-implementation-priority.md)）。各 Feature の着手時に A02（6 層要件セット）→ A03 → DD01–03 の正規フローを踏む。
 
-| 順 | Concept 実装順 | Feature（候補 ID） | Stage | 概要 | 前提 |
-|---|---|---|---|---|---|
-| 1 | ① 資産・ポジション統合表示 | `F-CRYPTO-PORTFOLIO-DASHBOARD` | Observe | Wallet 残高・Position の Fact 化、複数ソース価格照合、dashboard（**着手済**） | — |
-| 2 | S1 Viability 正本 | `F-VIABILITY-POLICY-CORE` | Observe | ViabilityConstraint（ε・総損失限度・流動性準備率）・Policy（投資憲法）・Wallet 役割（Vault/Earn/Explore/Trade）・RiskBudget・Ω 初期棚卸しを**機械検査可能な正本**として定義し、①に DRIFTED（正本 vs 実態乖離）表示を追加 | H1 再承認 + H2（正本値の HIL 確定） |
-| 3 | ② 境界変数・Constraint Graph 観測 | `F-WORLD-MODEL-OBSERVE` | Observe | BoundaryVariable（Unlock・Stablecoin 供給・金利等、観測容易なものから）・ConstraintNode・Source 信頼度階層の観測 Action 群 + 観測ページ | H1 再承認 |
-| 4 | ③ Opportunity 生成・Convexity 評価 | `F-OPPORTUNITY-ENGINE` | Observe | W.M.×V.M. 差分からの Opportunity 機械生成、Convexity 評価（分布×損益×不可逆性）、No-action Counterfactual 比較、`derives_from` 必須 | 2・3 |
-| 5 | ④ RiskSignal 検知（Guardian） | `F-GUARDIAN-RISKSIGNAL` | Observe | 決定論的閾値の RiskSignal 検知・不可逆性レベル付与・通知（停止フローの実行系接続は後段） | 2・3 |
-| 6 | ⑤ Airdrop / Claim / 期限管理 | `F-AIRDROP-CLAIM-TRACKER` | Observe | Eligibility 構造化・期限管理・Claim 検知（実行なし） | 4 |
-| 7 | ⑥ Lending / Staking 比較 | `F-YIELD-COMPARE` | Observe | 期待純収益（コスト込み）比較・表面 APY 比較禁止 | 4 |
-| 8 | ⑦ 人間承認つき実行 | `F-EXECUTION-APPROVE` | **Approve** | CR-3 固定パイプライン + 全 Gate + HIL 全件承認。dodo-wallet / Session Key 統合 | **H4 + Stage 昇格 HIL**（CR-2.5） |
-| 9 | ⑧〜⑪ 限定自律〜トレーディング | （後日 A02） | Autopilot | Canary Gate 経由でのみ昇格 | Stage 3 昇格 HIL |
+| 順 | Concept 実装順 | Feature（候補 ID） | Stage | 優先度 | 概要 | 前提 |
+|---|---|---|---|---|---|---|
+| 1 | ① 資産・ポジション統合表示 | `F-CRYPTO-PORTFOLIO-DASHBOARD` | Observe | P0 | Wallet 残高・Position の Fact 化、複数ソース価格照合、dashboard（**着手済**） | — |
+| 2 | S1 Viability 正本 | `F-VIABILITY-POLICY-CORE` | Observe | P0 | ViabilityConstraint（ε・総損失限度・流動性準備率）・Policy（投資憲法）・Wallet 役割（Vault/Earn/Explore/Trade）・RiskBudget・Ω 初期棚卸しを**機械検査可能な正本**として定義し、①に DRIFTED（正本 vs 実態乖離）表示を追加 | H1 再承認 + H2（正本値の HIL 確定） |
+| 3 | ② 境界変数・Constraint Graph 観測 | `F-WORLD-MODEL-OBSERVE` | Observe | P1 | BoundaryVariable（Unlock・Stablecoin 供給・金利等、観測容易なものから）・ConstraintNode・Source 信頼度階層の観測 Action 群 + 観測ページ | H1 再承認 |
+| 4 | ③ Opportunity 生成・Convexity 評価 | `F-OPPORTUNITY-ENGINE` | Observe | P1 | W.M.×V.M. 差分からの Opportunity 機械生成、Convexity 評価（分布×損益×不可逆性）、No-action Counterfactual 比較、`derives_from` 必須 | 2・3 |
+| 5 | ④ RiskSignal 検知（Guardian） | `F-GUARDIAN-RISKSIGNAL` | Observe | P1 | 決定論的閾値の RiskSignal 検知・不可逆性レベル付与・通知（停止フローの実行系接続は後段） | 2・3 |
+| 6 | ⑤ Airdrop / Claim / 期限管理 | `F-AIRDROP-CLAIM-TRACKER` | Observe | P2 | Eligibility 構造化・期限管理・Claim 検知（実行なし） | 4 |
+| 7 | ⑥ Lending / Staking 比較 | `F-YIELD-COMPARE` | Observe | P2 | 期待純収益（コスト込み）比較・表面 APY 比較禁止 | 4 |
+| 8 | ⑦ 人間承認つき実行 | `F-EXECUTION-APPROVE` | **Approve** | P3 | CR-3 固定パイプライン + 全 Gate + HIL 全件承認。dodo-wallet / Session Key 統合 | **H4 + Stage 昇格 HIL**（CR-2.5） |
+| 9 | ⑧〜⑪ 限定自律〜トレーディング | （後日 A02） | Autopilot | P4（凍結） | Canary Gate 経由でのみ昇格 | Stage 3 昇格 HIL |
 
 **規律**:
 
 - Stage 昇格（Observe→Approve→Autopilot）は HIL 承認必須（CR-2.5）。順 8 以降は本ロードマップの再裁定なしに着手しない。
 - 「Swap 実行」「Yield 最適化」単体を主価値とする Feature を新設しない（07-why-not-simple §6）。
 - 新 Feature の A02 Step 0 で所有 EPIC / CAP を catalog に定義する（現状 catalog 未初期化 — `F-WORKSPACE-BOOTSTRAP` の解消が全 Feature の共通負債）。
+- **評価系成果物（Convexity 評価・校正・Gate 判定等）は SDT(JSON)+MD の双対で設計する**（Concept 03 §評価成果物の双対表現 — HARD）。運用ループは標準 WF（`workflow.catalog_upsert` 登録）として実装し、アドホック実行を定常運転にしない。標準 WF カタログの初期化は `F-WORKSPACE-BOOTSTRAP` の解消範囲に含める。
+- 優先度（P0〜P4）の変更は `1.concept/2.strategy/01-implementation-priority.md` を先に更新し、本書を同一変更で追随させる（片側のみの更新禁止）。
 
 ## 3. DODO 本体 vs 本プロジェクト（カスタム）の実装分担
 
@@ -89,11 +92,13 @@ Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する�
 
 ## 4. 直近のアクション（順序）
 
-1. `F-CRYPTO-PORTFOLIO-DASHBOARD` の完了: portfolio.json 実値設定（HIL・ユーザー作業）→ live dispatch / manifest_lint → Issue close
-2. `F-WORKSPACE-BOOTSTRAP` の catalog / roadmap SoT 初期化（TaskGraph 負債の解消 — 全 Feature 共通の前提）
-3. H1（Concept v0.5 再承認）の HIL
-4. `F-VIABILITY-POLICY-CORE` の A02 着手（→ [`../98.dodoai-custom-spec/F-VIABILITY-POLICY-CORE/00-spec.md`](../98.dodoai-custom-spec/F-VIABILITY-POLICY-CORE/00-spec.md)）
-5. `F-WORLD-MODEL-OBSERVE` の A02 着手
+> 正本: [`../1.concept/2.strategy/01-implementation-priority.md`](../1.concept/2.strategy/01-implementation-priority.md) §3 の P0 キュー。
+
+1. `F-CRYPTO-PORTFOLIO-DASHBOARD` の完了: portfolio.json 実値設定（HIL・ユーザー作業）→ live dispatch / manifest_lint → Issue close（P0-1）
+2. `F-WORKSPACE-BOOTSTRAP` の catalog / roadmap SoT 初期化（TaskGraph 負債の解消 — 全 Feature 共通の前提）（P0-2）
+3. H1（Concept v0.5 再承認）の HIL（P0-3）
+4. `F-VIABILITY-POLICY-CORE` の A02 着手（→ [`../98.dodoai-custom-spec/F-VIABILITY-POLICY-CORE/00-spec.md`](../98.dodoai-custom-spec/F-VIABILITY-POLICY-CORE/00-spec.md)）（P0-4）
+5. `F-WORLD-MODEL-OBSERVE` の A02 着手（P1-1）
 
 ---
 
@@ -101,4 +106,7 @@ Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する�
 
 | バージョン | 日付 | 内容 |
 |---|---|---|
+| v0.2.1 | 2026-08-22 | 同フォルダに `02-data-model.md`（1.concept/04 から移設）・`03-sco-policy.md`（SCO 方針）を新設したことを反映（ヘッダへ正本参照を追加） |
+| v0.2.0 | 2026-08-22 | 実装優先度の正本を `1.concept/2.strategy/01-implementation-priority.md` へ新設したことに追随: §2 に優先度列（P0〜P4）を追加、§4 を P0 キュー参照へ接続、片側更新禁止の規律を追加 |
+| v0.1.1 | 2026-08-22 | Concept 03-approach v0.5.0（OODA×WF 実行モデル・評価 SDT+MD 双対 HARD）へ追随。規律へ双対原則・標準 WF 登録を追加 |
 | v0.1.0 | 2026-08-22 | 初版。Concept 03-approach の実装順を Feature 系列へ写像し、DODO 本体/カスタム分担（境界原則・判定手順）を正本化 |
