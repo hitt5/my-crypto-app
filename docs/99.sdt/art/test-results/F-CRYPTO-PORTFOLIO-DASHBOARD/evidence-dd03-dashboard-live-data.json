@@ -1,0 +1,103 @@
+{
+  "schema": "dodo-evidence-v1",
+  "execution_id": "exec-20260822-crypto-dashboard-live-data-01",
+  "feature_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-LIVE-DATA-20260822",
+  "phase": "DD03",
+  "status": "partial",
+  "observed_at": "2026-08-22T20:43:00+09:00",
+  "implementation": {
+    "manifest": ".dodoai/personal/custom_ui/crypto-wealth/manifest.json",
+    "manifest_version": "1.1.1",
+    "test": ".dodoai/personal/custom_actions/tests/test_crypto_actions.py",
+    "changes": [
+      "Configured the SummaryHero as header-only so development-specific fallback metrics are not rendered.",
+      "Added a canonical valuation stat-card for total USD value and stale state.",
+      "Added an exact manifest regression test and synchronized the screen block inventory in the Feature spec.",
+      "Created a Git-ignored local-testnet-only portfolio config with a disposable Anvil address and no key material."
+    ]
+  },
+  "checks": [
+    {
+      "name": "local Anvil start and observation",
+      "result": "pass",
+      "observed": "chain_id=31337, running=true, disposable local-dev-vault balance=100 test ETH"
+    },
+    {
+      "name": "project-scoped personal Action hydration",
+      "result": "pass",
+      "observed": "personal.crypto_portfolio_valuation spec and dispatch returned HTTP 200 without runtime reload"
+    },
+    {
+      "name": "live snapshot",
+      "result": "pass",
+      "observed": "one local-dev-vault wallet, native_balance=100, persisted append-only JSONL"
+    },
+    {
+      "name": "live two-source price tick",
+      "result": "pass",
+      "observed": "CoinGecko and Binance both succeeded; degraded=false, alert=false"
+    },
+    {
+      "name": "live valuation",
+      "result": "pass",
+      "observed": "total USD value, wallet share, asset value, and allocation drift returned from observed data"
+    },
+    {
+      "name": "focused manifest regression",
+      "result": "pass",
+      "observed": "2 passed in 0.05s"
+    },
+    {
+      "name": "full personal crypto suite",
+      "result": "pass",
+      "observed": "32 passed in 0.07s"
+    },
+    {
+      "name": "strict manifest content lint",
+      "result": "pass",
+      "observed": "canonical temporary placement checked_manifests=1, error_count=0, warning_count=0"
+    },
+    {
+      "name": "strict manifest lint at personal scope path",
+      "result": "fail",
+      "observed": "MANIFEST_PATH_OUTSIDE_WORKSPACE; linter only accepts .dodoai/custom_ui and rejects .dodoai/personal/custom_ui"
+    },
+    {
+      "name": "headless live dashboard",
+      "result": "pass",
+      "observed": "four populated tables, total/stale cards visible, unsupported=0, alerts=0, irrelevant development metrics absent"
+    },
+    {
+      "name": "roadmap.sync_gate",
+      "result": "fail",
+      "observed": "ok=false; stale_task_status=2, missing_milestone=1, roadmap_drift=0, epic_orphan=1, cap_unbound=1, phase_contains_missing=0"
+    }
+  ],
+  "conformance": [
+    { "requirement": "SR-1", "verdict": "PASS", "evidence": "live local RPC snapshot" },
+    { "requirement": "SR-2", "verdict": "PASS", "evidence": "live two-source ETH tick" },
+    { "requirement": "SR-3", "verdict": "PASS", "evidence": "live valuation composition" },
+    { "requirement": "SR-4", "verdict": "PASS", "evidence": "snapshots.jsonl and ticks.jsonl append paths" },
+    { "requirement": "SR-5", "verdict": "PASS", "evidence": "portfolio.json is Git-ignored and contains only a disposable local address" },
+    { "requirement": "SR-6", "verdict": "PARTIAL", "evidence": "live UI passes; real personal-scope strict lint is rejected by the linter" },
+    { "requirement": "SR-7", "verdict": "PASS", "evidence": "Action manifests remain low-risk and read-only" },
+    { "requirement": "SR-8", "verdict": "PASS", "evidence": "Anvil start/status on localhost chain 31337" },
+    { "requirement": "SR-9", "verdict": "PASS", "evidence": "live anvil_setBalance and non-local rejection test" }
+  ],
+  "artifacts": [
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/dashboard-dd03-live-data.png"
+  ],
+  "findings": [
+    "The Custom UI linter does not yet accept the required personal scope path, so SR-6 and the Custom UI completion gate remain non-PASS.",
+    "The project SDT layout contract, ADF test definition, and CallGraph IR are not initialized.",
+    "roadmap.sync_gate is not green because the upstream DD01 scaffold record, milestone, EPIC binding, and capability binding are missing."
+  ],
+  "runtime_actions": {
+    "user_visible_runtime_reloaded": false,
+    "user_visible_runtime_restarted": false,
+    "headless_browser_only": true,
+    "local_anvil_started": true
+  },
+  "verdict": "The populated local-testnet dashboard is implemented and live-render verified. DD03 and the Feature remain running because the personal-scope strict-lint and roadmap gates are not green."
+}

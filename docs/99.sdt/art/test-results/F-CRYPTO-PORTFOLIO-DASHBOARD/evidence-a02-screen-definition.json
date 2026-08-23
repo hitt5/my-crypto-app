@@ -1,0 +1,106 @@
+{
+  "schema": "crypto-wealth-screen-definition-evidence-v1.0",
+  "execution_id": "3cf772d6-d8a4-486a-8607-9162917d09b6",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-A02-SCREEN-DEFINITION-20260822",
+  "feature_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "phase": "A02",
+  "observed_at": "2026-08-22T21:35:00+09:00",
+  "result": "requirements_defined_implementation_blocked",
+  "hil": {
+    "source": "current_user_instruction",
+    "decision": "Define the screen list and screen design against the registered EPIC and CAP before resuming implementation.",
+    "scope": "Refine the existing Feature and UC screen requirements; do not create a new EPIC, CAP, or FR."
+  },
+  "trace": {
+    "epic_id": "EPIC-VIABILITY",
+    "capability_refs": [
+      "CAP-ONCHAIN-OBSERVE",
+      "CAP-VIABILITY-EVAL",
+      "CAP-EVIDENCE-LEDGER"
+    ],
+    "fr_ids": [
+      "FR-OBS-1",
+      "FR-OBS-2",
+      "FR-VIA-3",
+      "FR-EVD-1",
+      "FR-EVD-5"
+    ],
+    "screen_ids": [
+      "SCR-CRYPTO-PORTFOLIO-001",
+      "SCR-CRYPTO-TESTNET-001"
+    ]
+  },
+  "artifacts": [
+    "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.md",
+    "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.json",
+    "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.md",
+    "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json"
+  ],
+  "validation": {
+    "json_parse": "pass",
+    "screen_id_pair": "pass",
+    "required_dashboard_blocks": "pass",
+    "noncanonical_capability_refs": "pass",
+    "git_diff_check": "pass"
+  },
+  "a03_conformance": {
+    "action": "a03.sdt_agn_conformance_gate",
+    "ok": false,
+    "checked_features": 0,
+    "schema_self_conformance": {
+      "status": "CONTRACT_MISSING",
+      "expected_paths": [
+        "docs/99.sdt/0.schema/sdt-layout-contract.json",
+        "docs/99.sdt/0.schema/sdt-authoring-contract.json",
+        "docs/99.sdt/agn/0.schema/sdt-layout-contract.json",
+        "docs/99.sdt/agn/0.schema/sdt-authoring-contract.json"
+      ]
+    },
+    "authoring_validate": {
+      "scanned": 25,
+      "errors": 25,
+      "rule_count": 0,
+      "classification": "unclassified"
+    },
+    "placement": "NO_INPUT",
+    "ontology": {
+      "ok": false,
+      "violations": 24,
+      "advisory": 274,
+      "critical": 0
+    },
+    "finding": "Workspace bootstrap debt prevents DD admission; this result is not a failure of the authored screen requirements."
+  },
+  "runtime_recovery": {
+    "native_mcp": "unavailable_after_core_start_timeout",
+    "workspace_slot": "8522 lease present with no owner/listener",
+    "recovery_attempt": "one non-destructive standard sidecar start attempt",
+    "recovery_result": "failed closed because the resolver selected the dodoai workspace lease",
+    "fallback": "explicit Tauri Desktop project-scoped Action gateway on 127.0.0.1:8510",
+    "runtime_reload_or_restart": false
+  },
+  "roadmap_sync_gate": {
+    "action": "roadmap.sync_gate",
+    "ok": false,
+    "status": "out_of_sync",
+    "summary": {
+      "stale_task_status": 2,
+      "missing_milestone": 1,
+      "roadmap_drift": 0,
+      "epic_orphan": 1,
+      "cap_unbound": 1,
+      "phase_contains_missing": 0
+    },
+    "findings": [
+      "DD01 task status is missing while feature.dd_progress says done.",
+      "DD01_SCAFFOLD admission and fingerprints are missing.",
+      "The roadmap has no milestone for F-CRYPTO-PORTFOLIO-DASHBOARD.",
+      "The gate cannot resolve the registered EPIC and CAP bindings from the incomplete catalogs."
+    ]
+  },
+  "remaining_work": [
+    "Generate the project SDT layout and authoring contracts through the canonical F-WORKSPACE-BOOTSTRAP path.",
+    "Rerun A03 conformance until the Feature is admitted to DD.",
+    "Implement the screen-design contract: symbols, price history, allocation chart, and explicit empty/degraded states."
+  ]
+}

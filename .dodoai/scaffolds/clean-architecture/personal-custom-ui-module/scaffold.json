@@ -1,0 +1,38 @@
+{
+  "schema": "scaffold-template.v1",
+  "template_id": "personal-custom-ui-module",
+  "language": "typescript-json-manifest",
+  "description": "Project-local scaffold contract for a declarative Personal Custom UI module. Rendering layers remain owned by dodoAI; this project owns the manifest only.",
+  "compatible_base_dirs": [
+    ".dodoai/personal/custom_ui"
+  ],
+  "layer_roles": {
+    "domain": "domain",
+    "application": "application",
+    "infrastructure": "infrastructure",
+    "interfaces": "presentation"
+  },
+  "placements": {
+    "repository_port": "application",
+    "repository_adapter": "infrastructure",
+    "entry": "presentation"
+  },
+  "default_variables": {},
+  "directories": [
+    {"path": "domain", "required": false},
+    {"path": "application", "required": false},
+    {"path": "infrastructure", "required": false},
+    {"path": "presentation", "required": false}
+  ],
+  "forbidden_paths": [
+    "node_modules",
+    "secrets",
+    "private_keys"
+  ],
+  "files": [
+    {
+      "path": "manifest.json",
+      "template": "files/manifest.json.tmpl"
+    }
+  ]
+}

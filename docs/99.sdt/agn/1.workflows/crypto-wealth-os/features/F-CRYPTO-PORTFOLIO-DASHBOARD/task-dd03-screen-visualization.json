@@ -1,0 +1,88 @@
+{
+  "node_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD03-SCREEN-VISUALIZATION-20260822",
+  "type": "task",
+  "name": "DD03 harden portfolio symbols and charts",
+  "description": "Harden the ED16 visualization against empty history, malformed JSONL, missing prices, single-source degradation, stale facts, watch-only assets, and bounded invalid inputs; verify local Action boundary and rendered manifest without runtime reload.",
+  "gate": "DD02 happy path is green; canonical DD03 error-path layers pass and Evidence is recorded.",
+  "spec_refs": {
+    "screen_design": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json",
+    "feature_spec": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "manifest": ".dodoai/personal/custom_ui/crypto-wealth/manifest.json"
+  },
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "layer": "execution",
+  "truth_type": "designed",
+  "status": "running",
+  "depends_on": [
+    "T-CRYPTO-PORTFOLIO-DASHBOARD-DD02-SCREEN-VISUALIZATION-20260822"
+  ],
+  "test_layers": [
+    "UT-Logic-FE",
+    "UT-Logic-BE",
+    "ITa-Workflow-FE",
+    "ITa-Harness-BE",
+    "IT-Boundary"
+  ],
+  "created_at": "2026-08-22T12:50:00+00:00",
+  "updated_at": "2026-08-22T12:57:44.267520+00:00",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD03-SCREEN-VISUALIZATION-20260822",
+  "summary": "Error-path and local-boundary hardening for the portfolio visualization.",
+  "phase": "DD03",
+  "priority": "P0",
+  "deploy_units": [
+    "personal-custom-ui",
+    "python-personal-actions"
+  ],
+  "issue_refs": [
+    ".dodoai/issue/task-planner-agent/DD03_STREAM_F-CRYPTO-PORTFOLIO-DASHBOARD_screen-visualization_20260822_in-progress.md"
+  ],
+  "done_criteria": [
+    "history with 0-1 points never fabricates a trend or 24h change",
+    "missing/unavailable prices never become zero valuation",
+    "single-source success is rendered degraded and partial failure preserves other assets",
+    "invalid hours/max_points and malformed persisted lines are bounded safely",
+    "focused DD03 tests, live project-scoped Action dispatches, strict manifest lint, and roadmap.sync_gate are recorded"
+  ],
+  "size": "M",
+  "success_probability": 0.82,
+  "max_ticks": 5,
+  "changed_files": [
+    ".dodoai/personal/custom_actions/crypto_price_history/action.py",
+    ".dodoai/personal/custom_actions/crypto_asset_overview/action.py",
+    ".dodoai/personal/custom_actions/crypto_price_tick/action.py",
+    ".dodoai/personal/custom_ui/crypto-wealth/manifest.json",
+    ".dodoai/personal/custom_actions/tests/test_crypto_actions.py"
+  ],
+  "test_evidence": [
+    "pytest: 26 passed including empty/one-point history, malformed JSONL, input bounds, missing prices, watch-only null holdings, and degraded source",
+    "ruff: 0 findings",
+    "strict manifest lint: error_count=0 warning_count=0 via identical-byte canonical path workaround",
+    "direct Action invocation against local personal data: 13 points; ETH held; BTC/BNB watch-only",
+    "roadmap.sync_gate: ok=true; stale/milestone/drift/EPIC/CAP/phase counts all 0 with require_milestone=false legacy waiver"
+  ],
+  "evidence_refs": [
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-visualization.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-visualization.md"
+  ],
+  "findings": [
+    "Running Core at 8521 predates the new Personal Actions and returns 404 for both keys",
+    "Visible runtime reload/restart was not authorized and was not performed",
+    "custom_ui.manifest_lint rejects the governed personal manifest path although identical bytes pass strict lint at canonical path"
+  ],
+  "remaining_work": [
+    "After explicit runtime reload approval or user-performed reload, live-dispatch both new Personal Actions through the project-scoped Core and capture dashboard UI evidence"
+  ],
+  "updated_by": "codex-root-dashboard-dd03-20260822",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T12:56:34Z",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "DD02 is green; DD03 error-path implementation and direct local Action checks passed, with live registry dispatch pending runtime reload."
+      }
+    ]
+  },
+  "schema": "sdt-node-v3.0"
+}

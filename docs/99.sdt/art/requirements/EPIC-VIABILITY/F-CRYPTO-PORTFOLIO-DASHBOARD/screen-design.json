@@ -1,0 +1,448 @@
+{
+  "schema": "sdt-screen-design-v1.0",
+  "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD-screen-design",
+  "type": "screen_design",
+  "truth_type": "designed",
+  "status": "authored",
+  "version": "1.0.0",
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "epic_id": "EPIC-VIABILITY",
+  "source_refs": {
+    "adf_standard": "/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/5.document/3.external-design/47-screen-design.md",
+    "screen_list": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.json",
+    "feature_spec": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "md_view": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.md"
+  },
+  "screens": [
+    {
+      "screen_id": "SCR-CRYPTO-PORTFOLIO-001",
+      "name": "資産・生存ダッシュボード",
+      "screen_type": "overview",
+      "route": "/app/custom-ui/crypto-wealth/dashboard",
+      "manifest_path": "dashboard",
+      "access": [
+        "single-owner"
+      ],
+      "purpose": "本人の保有銘柄、評価額、価格推移、配分、観測品質を同じ視線移動で把握し、DRIFTED の有無を判断する。",
+      "constraints": [
+        "Observe/read-only only",
+        "no private key, seed, signing, transfer, swap, or approval execution",
+        "no fabricated prices or viability thresholds",
+        "personal values remain under .dodoai/personal and are never committed"
+      ],
+      "requirement_trace": [
+        {
+          "section": "asset rows",
+          "capability": "CAP-ONCHAIN-OBSERVE",
+          "fr_ids": [
+            "FR-OBS-1",
+            "FR-OBS-2"
+          ],
+          "uc_ids": [
+            "UC-1",
+            "UC-2",
+            "UC-3"
+          ]
+        },
+        {
+          "section": "allocation and DRIFTED",
+          "capability": "CAP-VIABILITY-EVAL",
+          "fr_ids": [
+            "FR-VIA-3"
+          ],
+          "uc_ids": [
+            "UC-1"
+          ]
+        },
+        {
+          "section": "price history",
+          "capability": "CAP-EVIDENCE-LEDGER",
+          "fr_ids": [
+            "FR-EVD-1"
+          ],
+          "uc_ids": [
+            "UC-2",
+            "UC-3"
+          ]
+        }
+      ],
+      "layout": {
+        "type": "responsive-dashboard",
+        "sections": [
+          "identity header",
+          "summary metrics",
+          "price history chart",
+          "asset allocation chart",
+          "asset list",
+          "source and drift details"
+        ],
+        "desktop_columns": 12,
+        "narrow_behavior": "single column; charts precede tables; no horizontal page overflow"
+      },
+      "blocks": [
+        {
+          "id": "crypto-wealth-hero",
+          "type": "summary-hero",
+          "purpose": "画面名、Observe、read-only、local/personal 境界を表示する",
+          "data_source_id": null,
+          "required_props": [
+            "title",
+            "description",
+            "statusLabel",
+            "headerOnly"
+          ]
+        },
+        {
+          "id": "crypto-wealth-summary",
+          "type": "stat-card",
+          "purpose": "総評価額、観測鮮度、価格ソース状態、DRIFTED を要約する",
+          "data_source_id": "valuation",
+          "items": [
+            {
+              "label": "総資産",
+              "value_path": "total_value_usd",
+              "format": "USD currency",
+              "empty": "—"
+            },
+            {
+              "label": "観測鮮度",
+              "value_path": "stale",
+              "format": "Fresh / Stale"
+            },
+            {
+              "label": "価格ソース",
+              "value_path": "price_source_status",
+              "format": "Healthy / Degraded / Alert"
+            },
+            {
+              "label": "配分状態",
+              "value_path": "drift_status",
+              "format": "On target / DRIFTED / Not configured"
+            }
+          ]
+        },
+        {
+          "id": "crypto-wealth-price-history",
+          "type": "chart",
+          "purpose": "監視銘柄の価格推移を時系列で比較する",
+          "data_source_id": "price-history",
+          "chart_contract": {
+            "variant": "line",
+            "data_field": "series",
+            "x_key": "observed_at",
+            "series_field": "symbols",
+            "y_value": "USD price",
+            "legend": "symbol",
+            "empty_message": "価格履歴がまだありません。価格 Tick を取得してください。",
+            "table_alternative_field": "rows"
+          }
+        },
+        {
+          "id": "crypto-wealth-allocation",
+          "type": "chart",
+          "purpose": "現在の資産別評価額を比較し、偏りを把握する",
+          "data_source_id": "valuation",
+          "chart_contract": {
+            "variant": "bar",
+            "data_field": "by_asset",
+            "x_key": "symbol",
+            "data_keys": [
+              "value_usd"
+            ],
+            "y_value": "USD value",
+            "empty_message": "評価可能な保有資産がありません。",
+            "exclude_watch_only_zero_values": true
+          }
+        },
+        {
+          "id": "crypto-wealth-assets",
+          "type": "data-table",
+          "purpose": "保有銘柄と watch-only 銘柄を、価格・数量・評価額・観測品質付きで表示する",
+          "data_source_id": "asset-overview",
+          "rows_field": "assets",
+          "columns": [
+            {
+              "key": "symbol",
+              "label": "銘柄",
+              "required": true
+            },
+            {
+              "key": "name",
+              "label": "名称",
+              "required": true
+            },
+            {
+              "key": "holding_state",
+              "label": "区分",
+              "values": [
+                "held",
+                "watch-only"
+              ]
+            },
+            {
+              "key": "amount",
+              "label": "保有量",
+              "null_display": "—"
+            },
+            {
+              "key": "price_usd",
+              "label": "価格 (USD)",
+              "null_display": "取得不可"
+            },
+            {
+              "key": "change_24h_pct",
+              "label": "24h",
+              "null_display": "—"
+            },
+            {
+              "key": "value_usd",
+              "label": "評価額 (USD)",
+              "null_display": "—"
+            },
+            {
+              "key": "share",
+              "label": "構成比",
+              "null_display": "—"
+            },
+            {
+              "key": "divergence_pct",
+              "label": "価格乖離",
+              "null_display": "—"
+            },
+            {
+              "key": "source_status",
+              "label": "ソース",
+              "values": [
+                "healthy",
+                "degraded",
+                "alert",
+                "unavailable"
+              ]
+            }
+          ],
+          "row_rules": [
+            "held rows precede watch-only rows",
+            "zero holding is not rendered as missing data",
+            "missing price never produces a fabricated zero valuation",
+            "symbol is always visible even when price or amount is unavailable"
+          ],
+          "empty_message": "監視銘柄がありません。personal portfolio config に銘柄を追加してください。"
+        },
+        {
+          "id": "crypto-wealth-drift",
+          "type": "data-table",
+          "purpose": "目標配分が設定済みの場合のみ、実配分との差と DRIFTED を表示する",
+          "data_source_id": "valuation",
+          "rows_field": "allocation_drift",
+          "empty_message": "目標配分は未設定です。"
+        },
+        {
+          "id": "crypto-wealth-source-health",
+          "type": "data-table",
+          "purpose": "銘柄ごとの価格ソース値、乖離、degraded/alert を監査可能にする",
+          "data_source_id": "price-tick",
+          "rows_field": "ticks"
+        }
+      ],
+      "data_sources": [
+        {
+          "id": "valuation",
+          "action_key": "personal.crypto_portfolio_valuation",
+          "refresh_policy": "on_mount",
+          "required_output": [
+            "observed_at",
+            "total_value_usd",
+            "by_asset",
+            "allocation_drift",
+            "stale"
+          ]
+        },
+        {
+          "id": "price-tick",
+          "action_key": "personal.crypto_price_tick",
+          "refresh_policy": "on_mount",
+          "required_output": [
+            "observed_at",
+            "ticks"
+          ]
+        },
+        {
+          "id": "price-history",
+          "action_key": "personal.crypto_price_history",
+          "refresh_policy": "on_mount",
+          "default_payload": {
+            "hours": 24,
+            "max_points": 96
+          },
+          "required_output": [
+            "series",
+            "symbols",
+            "rows"
+          ]
+        },
+        {
+          "id": "asset-overview",
+          "action_key": "personal.crypto_asset_overview",
+          "refresh_policy": "on_mount",
+          "required_output": [
+            "assets",
+            "observed_at",
+            "stale"
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "loading",
+          "presentation": "summary skeleton, chart frames, and asset table loading state"
+        },
+        {
+          "id": "ready",
+          "presentation": "summary, charts, and asset rows are populated"
+        },
+        {
+          "id": "empty-config",
+          "presentation": "configuration guidance; no zero-value portfolio is fabricated"
+        },
+        {
+          "id": "history-empty",
+          "presentation": "current asset rows remain visible; history chart shows its explicit empty message"
+        },
+        {
+          "id": "degraded-price",
+          "presentation": "affected asset remains visible with degraded source state; no green healthy indicator"
+        },
+        {
+          "id": "stale",
+          "presentation": "last observed values remain visible with Stale label and timestamps"
+        },
+        {
+          "id": "error",
+          "presentation": "failed section shows a bounded error; independent sections continue rendering"
+        }
+      ],
+      "validation_rules": [
+        "symbol is non-empty and unique per row",
+        "held amount is decimal text; watch-only amount may be null",
+        "price_usd null means unavailable and must not be coerced to zero",
+        "change_24h_pct requires two valid observations spanning the comparison window",
+        "DRIFTED requires configured targets; otherwise status is Not configured"
+      ],
+      "accessibility": [
+        "charts have visible titles and a tabular alternative",
+        "positive/negative change is not communicated by color alone",
+        "source health and stale state include text labels",
+        "asset table headers use semantic column labels",
+        "keyboard focus follows visual section order"
+      ],
+      "error_handling": [
+        {
+          "condition": "all price sources fail",
+          "message": "価格を取得できませんでした。直近の観測値がある場合は Stale として表示します。",
+          "behavior": "do not fabricate price or valuation"
+        },
+        {
+          "condition": "one price source succeeds",
+          "message": "価格ソースが 1 系統のみです。",
+          "behavior": "render degraded state"
+        },
+        {
+          "condition": "no history",
+          "message": "価格履歴がまだありません。価格 Tick を取得してください。",
+          "behavior": "keep current asset rows visible"
+        },
+        {
+          "condition": "target allocation missing",
+          "message": "目標配分は未設定です。",
+          "behavior": "do not label the portfolio DRIFTED"
+        }
+      ],
+      "test_scenarios": [
+        {
+          "id": "SCR-PORT-01",
+          "kind": "normal",
+          "given": "ETH is held and BTC/BNB are watch-only with two-source prices",
+          "then": "all three symbols are visible; ETH has amount/value, BTC/BNB show watch-only without fabricated holdings"
+        },
+        {
+          "id": "SCR-PORT-02",
+          "kind": "normal",
+          "given": "two or more persisted ticks exist",
+          "then": "price history line chart and its legend render from persisted observations"
+        },
+        {
+          "id": "SCR-PORT-03",
+          "kind": "normal",
+          "given": "valued holdings exist",
+          "then": "asset allocation bar chart renders only valued holdings"
+        },
+        {
+          "id": "SCR-PORT-04",
+          "kind": "edge",
+          "given": "history is empty",
+          "then": "the chart shows the explicit empty message while current asset rows remain visible"
+        },
+        {
+          "id": "SCR-PORT-05",
+          "kind": "error",
+          "given": "one price source fails",
+          "then": "the asset row is degraded and no healthy status is shown"
+        },
+        {
+          "id": "SCR-PORT-06",
+          "kind": "error",
+          "given": "price is unavailable",
+          "then": "price and valuation show unavailable, never 0.00"
+        },
+        {
+          "id": "SCR-PORT-07",
+          "kind": "responsive",
+          "given": "narrow viewport",
+          "then": "sections stack in reading order without page-level horizontal overflow"
+        },
+        {
+          "id": "SCR-PORT-08",
+          "kind": "accessibility",
+          "given": "a chart is rendered",
+          "then": "the same observations are available through labeled rows or an accessible table alternative"
+        }
+      ]
+    },
+    {
+      "screen_id": "SCR-CRYPTO-TESTNET-001",
+      "name": "ローカルテストネット検証",
+      "screen_type": "status",
+      "route": "/app/custom-ui/crypto-wealth/testnet",
+      "manifest_path": "testnet",
+      "purpose": "Anvil chain 31337 の状態とローカル検証手順を表示する。",
+      "constraints": [
+        "localhost only",
+        "chain_id 31337 only for funding",
+        "no production or public-testnet funding"
+      ],
+      "blocks": [
+        {
+          "id": "crypto-testnet-hero",
+          "type": "summary-hero",
+          "data_source_id": "testnet-status"
+        },
+        {
+          "id": "crypto-testnet-detail",
+          "type": "markdown",
+          "data_source_id": "testnet-status"
+        }
+      ],
+      "states": [
+        "loading",
+        "running",
+        "stopped",
+        "error"
+      ]
+    }
+  ],
+  "hil_decision": {
+    "date": "2026-08-22",
+    "source": "current user instruction and supplied wallet UI reference",
+    "decision": "Symbols and graphs are mandatory dashboard information; requirements and screen definitions precede implementation."
+  }
+}

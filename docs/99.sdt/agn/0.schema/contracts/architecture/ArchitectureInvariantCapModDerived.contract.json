@@ -1,0 +1,175 @@
+{
+  "schema_ref": "../../architecture-invariants-v1.0.json",
+  "$id": "dodoai.architecture-invariant.capmod-derived.contract.v1",
+  "title": "Architecture Invariant Contract: Cap/Mod Derived Invariants",
+  "version": "1.0.0",
+  "status": "draft",
+  "schema_version": "architecture-invariants-v1.0",
+  "updated": "2026-07-11",
+  "source_documents": [
+    "docs/3.system/",
+    "docs/99.sdt/art/catalog/source/capability-catalog/capability-catalog.json",
+    "docs/99.sdt/agn/0.schema/architecture-invariants-v1.0.json"
+  ],
+  "contract_scope": {
+    "gate": "AG-04",
+    "phase_declared": "A02",
+    "phase_baselined": "A03",
+    "intended_actions": [
+      "arch.invariant_list",
+      "arch.invariant_check"
+    ],
+    "callgraph_required": true
+  },
+  "invariants": [
+    {
+      "id": "AI-DB-001",
+      "principle": "Domain layer must not access DB directly",
+      "source_ref": "CAP-DATA-MANAGEMENT:FR-PERSISTENCE-PORT",
+      "rule_type": "forbidden_dependency",
+      "scope": [
+        "dodo_core/module/**/domain/**"
+      ],
+      "severity": "high",
+      "on_violation": "block",
+      "evolution_policy": "fixed",
+      "deploy_unit": "core",
+      "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+      "forbidden_from": [
+        "dodo_core/module/**/domain/**"
+      ],
+      "forbidden_to": [
+        "dodo_core/shared/db/**",
+        "sqlalchemy",
+        "sqlite3"
+      ]
+    },
+    {
+      "id": "AI-FS-001",
+      "principle": "All filesystem access via Workspace allowlist",
+      "source_ref": "CAP-DATA-MANAGEMENT:FR-FILESYSTEM-PORT",
+      "rule_type": "mandatory_chokepoint",
+      "scope": [
+        "dodo_core/module/**"
+      ],
+      "severity": "critical",
+      "on_violation": "require_hil",
+      "evolution_policy": "fixed",
+      "deploy_unit": "core",
+      "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+      "protected_sinks": [
+        "os.open",
+        "open",
+        "pathlib.Path.open",
+        "shutil.copy",
+        "shutil.move",
+        "shutil.rmtree",
+        "os.remove",
+        "os.unlink"
+      ],
+      "required_gateway": [
+        "dodo_core/module/twin/**",
+        "dodo_core/module/workspace/**"
+      ],
+      "allowed_direct_callers": [
+        "dodo_core/module/twin/**",
+        "dodo_core/module/workspace/**"
+      ]
+    },
+    {
+      "id": "AI-LAYER-001",
+      "principle": "Domain layer must not depend on infrastructure or external libraries",
+      "source_ref": "F-ARCH-CONTRACT-EXTRACT:capability-module.md",
+      "rule_type": "forbidden_dependency",
+      "scope": [
+        "dodo_core/module/**/domain/**"
+      ],
+      "severity": "high",
+      "on_violation": "block",
+      "evolution_policy": "fixed",
+      "deploy_unit": "core",
+      "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+      "forbidden_from": [
+        "dodo_core/module/**/domain/**"
+      ],
+      "forbidden_to": [
+        "dodo_core/module/**/infrastructure/**",
+        "sqlalchemy",
+        "requests"
+      ]
+    },
+    {
+      "id": "AI-LLM-001",
+      "principle": "Domain layer must access LLM providers through LlmPort only",
+      "source_ref": "CAP-AGENT-MANAGEMENT:FR-LLM-PORT",
+      "rule_type": "forbidden_dependency",
+      "scope": [
+        "dodo_core/module/**/domain/**"
+      ],
+      "severity": "high",
+      "on_violation": "block",
+      "evolution_policy": "fixed",
+      "deploy_unit": "core",
+      "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+      "forbidden_from": [
+        "dodo_core/module/**/domain/**"
+      ],
+      "forbidden_to": [
+        "openai",
+        "anthropic",
+        "dodo_core/infrastructure/llm/**"
+      ]
+    },
+    {
+      "id": "AI-SECRET-001",
+      "principle": "Secret / Keychain access via Capability API only",
+      "source_ref": "CAP-IDENTITY-ACCESS:credential_operation_policy",
+      "rule_type": "mandatory_chokepoint",
+      "scope": [
+        "dodo_core/module/**"
+      ],
+      "severity": "critical",
+      "on_violation": "require_hil",
+      "evolution_policy": "fixed",
+      "deploy_unit": "core",
+      "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+      "protected_sinks": [
+        "keyring.get_password",
+        "keyring.set_password",
+        "keyring.delete_password"
+      ],
+      "required_gateway": [
+        "dodo_core/module/security/**"
+      ],
+      "allowed_direct_callers": [
+        "dodo_core/module/security/**"
+      ]
+    },
+    {
+      "id": "AI-TENANT-001",
+      "principle": "Tenant persistence must flow through TenantContext-aware repositories",
+      "source_ref": "CAP-MULTI-TENANCY:FR-TENANT-ISOLATION",
+      "rule_type": "mandatory_chokepoint",
+      "scope": [
+        "dodo_core/module/**"
+      ],
+      "severity": "critical",
+      "on_violation": "require_hil",
+      "evolution_policy": "fixed",
+      "deploy_unit": "core",
+      "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+      "protected_sinks": [
+        "sqlite3",
+        "sqlalchemy",
+        "dodo_core/shared/db/**"
+      ],
+      "required_gateway": [
+        "**/TenantContext",
+        "**/tenant_context*"
+      ],
+      "allowed_direct_callers": [
+        "dodo_core/module/**/repository/**"
+      ]
+    }
+  ]
+}

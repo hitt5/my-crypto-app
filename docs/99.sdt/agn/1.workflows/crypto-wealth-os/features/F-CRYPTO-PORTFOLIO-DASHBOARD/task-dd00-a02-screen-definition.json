@@ -1,0 +1,205 @@
+{
+  "schema": "sdt-node-v3.0",
+  "id": "T-CRYPTO-PORTFOLIO-DASHBOARD-A02-SCREEN-DEFINITION-20260822",
+  "node_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-A02-SCREEN-DEFINITION-20260822",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-A02-SCREEN-DEFINITION-20260822",
+  "type": "integration-task",
+  "name": "Define EPIC/CAP-aligned crypto portfolio screens",
+  "description": "Repair the Feature A02 designed truth before further UI implementation: align it to EPIC-VIABILITY and the canonical CAP/FR catalog, then author ADF ED15 screen list and ED16 screen design as MD+JSON pairs with explicit asset rows, portfolio/history charts, states, data contracts, accessibility, and test scenarios.",
+  "summary": "Contract-first repair for the Crypto Wealth dashboard screen model.",
+  "gate": "No further dashboard implementation until the ED15/ED16 MD+JSON pairs trace every visible section to existing UC and CAP-owned FR, and A03 conformance results are recorded.",
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "epic_id": "EPIC-VIABILITY",
+  "capability_refs": [
+    "CAP-ONCHAIN-OBSERVE",
+    "CAP-VIABILITY-EVAL",
+    "CAP-EVIDENCE-LEDGER"
+  ],
+  "fr_ids": [
+    "FR-OBS-1",
+    "FR-OBS-2",
+    "FR-VIA-3",
+    "FR-EVD-1",
+    "FR-EVD-5"
+  ],
+  "uc_ids": [
+    "UC-1",
+    "UC-2",
+    "UC-3"
+  ],
+  "layer": "product",
+  "truth_type": "designed",
+  "status": "done",
+  "phase": "A02",
+  "depends_on": [],
+  "deploy_unit": "personal-custom-ui",
+  "issue_refs": [
+    ".dodoai/issue/task-planner-agent/A02_STREAM_unknown_T-CRYPTO-PORTFOLIO-DASHBOARD-A02-SCREEN-DEFINITION-20260822_done.md"
+  ],
+  "spec_refs": {
+    "feature_spec": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "cap_catalog": "docs/4.common/3.capability-requirements/00-capability-requirements.md",
+    "epic_cap_roadmap": "docs/3.strategy/02-epic-cap-priority-roadmap.md",
+    "adf_ed15": "/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/5.document/3.external-design/46-screen-list.md",
+    "adf_ed16": "/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/5.document/3.external-design/47-screen-design.md",
+    "screen_list": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.json",
+    "screen_design": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json"
+  },
+  "done_criteria": [
+    {
+      "check": "EPIC/CAP/FR trace",
+      "expect": "Feature references only EPIC-VIABILITY and canonical CAP-owned FR; no CAP-PORTFOLIO-* aliases remain"
+    },
+    {
+      "check": "ADF ED15 dual representation",
+      "expect": "screen-list.md and screen-list.json define stable screen IDs, roles, routes, priorities, access, transitions, UC/FR trace"
+    },
+    {
+      "check": "ADF ED16 dual representation",
+      "expect": "screen-design.md and screen-design.json define asset symbols, valuation/allocation/history visualizations, states, data contracts, errors, accessibility and tests"
+    },
+    {
+      "check": "implementation admission",
+      "expect": "A03 conformance results recorded before manifest or Action implementation resumes"
+    },
+    {
+      "check": "roadmap.sync_gate",
+      "expect": "result recorded; non-green upstream debt remains explicit"
+    }
+  ],
+  "size": "M",
+  "success_probability": 0.86,
+  "success_probability_rationale": "Canonical EPIC/CAP/FR catalog and ADF ED15/ED16 templates exist; the remaining risk is missing project SDT layout/A03 infrastructure.",
+  "max_ticks": 5,
+  "changed_files": [
+    "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+    "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.md",
+    "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.json",
+    "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.md",
+    "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json",
+    ".dodoai/issue/task-planner-agent/A02_STREAM_unknown_T-CRYPTO-PORTFOLIO-DASHBOARD-A02-SCREEN-DEFINITION-20260822_blocked.md",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-a02-screen-definition.md",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-a02-screen-definition.json"
+  ],
+  "test_evidence": [
+    {
+      "check": "ED15/ED16 pair validation",
+      "result": "pass",
+      "details": "JSON parse, Screen ID parity, required dashboard blocks, and git diff check passed."
+    },
+    {
+      "check": "a03.sdt_agn_conformance_gate",
+      "result": "blocked",
+      "details": "CONTRACT_MISSING; authoring validation 25/25 unclassified; placement NO_INPUT."
+    },
+    {
+      "check": "roadmap.sync_gate",
+      "result": "blocked",
+      "details": "ok=false; stale_task_status=2, missing_milestone=1, roadmap_drift=0, epic_orphan=1, cap_unbound=1."
+    },
+    {
+      "check": "a03.sdt_agn_conformance_gate rerun",
+      "result": "pass",
+      "details": "Feature advanced; authoring 34/34 classified, schema and placement green, AGN schema issues 0."
+    },
+    {
+      "check": "roadmap.sync_gate rerun",
+      "result": "pass",
+      "details": "require_milestone=false compatibility waiver; all seven summary counts are zero."
+    }
+  ],
+  "evidence_refs": [
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-a02-screen-definition.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-a02-screen-definition.md"
+  ],
+  "findings": [],
+  "remaining_work": [],
+  "attributes": {
+    "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+    "phase": "A02",
+    "epic_id": "EPIC-VIABILITY",
+    "capability_refs": [
+      "CAP-ONCHAIN-OBSERVE",
+      "CAP-VIABILITY-EVAL",
+      "CAP-EVIDENCE-LEDGER"
+    ],
+    "fr_ids": [
+      "FR-OBS-1",
+      "FR-OBS-2",
+      "FR-VIA-3",
+      "FR-EVD-1",
+      "FR-EVD-5"
+    ],
+    "uc_ids": [
+      "UC-1",
+      "UC-2",
+      "UC-3"
+    ],
+    "issue_refs": [
+      ".dodoai/issue/task-planner-agent/A02_STREAM_unknown_T-CRYPTO-PORTFOLIO-DASHBOARD-A02-SCREEN-DEFINITION-20260822_done.md"
+    ],
+    "done_criteria": [
+      {
+        "check": "ED15/ED16 pair",
+        "expect": "MD and JSON representations are traceable and complete"
+      },
+      {
+        "check": "A03",
+        "expect": "conformance result is recorded before DD implementation"
+      }
+    ],
+    "size": "M",
+    "success_probability": 0.86,
+    "max_ticks": 5,
+    "blocker_evidence": []
+  },
+  "created_at": "2026-08-22T12:00:00+00:00",
+  "updated_by": "codex-root-dashboard-dd03-20260822",
+  "updated_at": "2026-08-22T12:49:18.621958+00:00",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T12:14:22.976997+00:00",
+        "by": "codex-root-crypto-screen-a02-20260822",
+        "reason": "User rejected the table-only dashboard; begin contract-first A02 repair using canonical EPIC/CAP/FR and ADF ED15/ED16 before further UI implementation."
+      },
+      {
+        "from": "running",
+        "to": "blocked",
+        "at": "2026-08-22T12:24:43.247297+00:00",
+        "by": "codex-root-crypto-screen-a02-20260822",
+        "reason": "ED15/ED16 and canonical EPIC/CAP/FR trace are authored and validated, but A03 is fail-closed on missing project SDT layout/authoring contracts and roadmap.sync_gate is out of sync. DD implementation remains prohibited until F-WORKSPACE-BOOTSTRAP resolves these gates."
+      },
+      {
+        "from": "blocked",
+        "to": "running",
+        "at": "2026-08-22T12:45:12.901625+00:00",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "User explicitly resumed the dashboard implementation goal through DD03; the previously recorded contract/bootstrap blockers are now being repaired."
+      },
+      {
+        "from": "running",
+        "to": "done",
+        "at": "2026-08-22T12:49:02.766345+00:00",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "ED15/ED16 pairs are validated, A03 passed after project contract/catalog bootstrap, and roadmap.sync_gate is green with the documented milestone compatibility waiver."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "running",
+      "to": "done",
+      "overridden_by": "codex-root-dashboard-dd03-20260822",
+      "overridden_at": "2026-08-22T12:49:02.766345+00:00",
+      "source": "manual",
+      "reason": "ED15/ED16 pairs are validated, A03 passed after project contract/catalog bootstrap, and roadmap.sync_gate is green with the documented milestone compatibility waiver."
+    }
+  },
+  "overridden_by": "codex-root-dashboard-dd03-20260822",
+  "overridden_at": "2026-08-22T12:49:02.766345+00:00",
+  "override_reason": "ED15/ED16 pairs are validated, A03 passed after project contract/catalog bootstrap, and roadmap.sync_gate is green with the documented milestone compatibility waiver.",
+  "completed_at": "2026-08-22T12:49:02.766345+00:00"
+}

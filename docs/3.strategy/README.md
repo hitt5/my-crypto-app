@@ -16,6 +16,8 @@ tags: [crypto-wealth-os, strategy, priority, concept, adf]
 | # | ファイル | 役割 | 品質バー（Done の定義） |
 |---|---|---|---|
 | 01 | [`01-implementation-priority.md`](01-implementation-priority.md) | **実装優先度の正本** — ADF パス接続（§0）・優先度判定基準（5軸）・Feature 優先度マトリクス（EPIC / CAP(FR) / satisfies 付き）・P0〜P3 の優先度付き実装キュー・見直し条件 | 全 Feature に EPIC / CAP 接続・優先度・根拠・前提 Gate が付与され、判定基準が決定論的に再適用可能であること |
+| 02 | [`02-epic-cap-priority-roadmap.md`](02-epic-cap-priority-roadmap.md) | **EPIC / CAP 優先度とロードマップ** — EPIC 6 の投資順序（E-P0〜P3・完了条件付き）・CAP 8 の成熟ロードマップ（M0〜M3）・EPIC×CAP×Feature 統合時間軸（t1/t2/t3 + 昇格条件） | 全 EPIC に完了条件、全 CAP に成熟度目標が付与され、時間軸の昇格条件が Gate として明示されていること |
+| 03 | [`03-screen-roadmap.md`](03-screen-roadmap.md) | **画面ロードマップの正本** — OPS（ネットワーク管理 L1/L2/L3・環境設定・Agent 実行管理/Kill Switch）/ LOOP（Catalog・Run・Eval）/ DOMAIN（運用ループ①〜⑥対応）のカテゴリー構成と実装順 | 全画面が所有 Feature・運用ループステップ・優先度へ接続され、ED15/ED16 の作成先（所有 Feature の A02）が明示されていること |
 
 ## 本フォルダが所有するもの / しないもの
 
@@ -39,5 +41,7 @@ tags: [crypto-wealth-os, strategy, priority, concept, adf]
 
 | バージョン | 日付 | 内容 |
 |---|---|---|
+| v0.4.0 | 2026-08-22 | 03-screen-roadmap.md（OPS / LOOP / DOMAIN 画面ロードマップ正本）を新設し索引へ追加 |
+| v0.3.0 | 2026-08-22 | 02-epic-cap-priority-roadmap.md（EPIC 6 / CAP 8 の優先度・成熟ロードマップ・統合時間軸）を新設し索引へ追加 |
 | v0.2.0 | 2026-08-22 | ADF パス接続: EPIC / CAP / FR カタログ（4.common/3.capability-requirements — JSON-first）を正本参照へ追加。所有境界・A02 Step 0 の参照先を更新。旧 `1.concept/2.strategy` / `3.common` 表記のパスを現配置（`3.strategy` / `4.common`）へ修正 |
 | v0.1.0 | 2026-08-22 | 新設。Concept 配下に戦略層（実装優先度の正本）を定義 |

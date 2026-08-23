@@ -1,0 +1,946 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "sdt-file-schema-v3.0",
+  "title": "SDT File Schema v3.0",
+  "version": "3.5.0",
+  "description": "SDT（Semantic Digital Twin）統一ファイルスキーマ。全実態ファイルが node/edge グラフとして機械可読であることを保証する。K-hop 走査で Intent → CallGraph を一気通貫で辿れる。v3.1: ISO監査項目追加。v3.2: CDM alignment。v3.3: schema-integrity vocabulary。v3.4: Authoring 必須化。v3.5: Node uuid / Edge edge_uuid を UUIDv5 の正規 PK として必須化し、既存 node_id/from/to は semantic id（sid）として維持する。",
+  "created_at": "2026-05-26T06:40:00+09:00",
+  "updated_at": "2026-08-01T00:00:00+09:00",
+  "design_principles": {
+    "P1_machine_readable": "全データは nodes[] + edges[] で表現。プログラムによる K-hop 走査が可能",
+    "P2_summary_required": "全ノードに summary（概要）カラム必須。人間可読かつ LLM コンテキスト圧縮に対応",
+    "P3_entity_as_attributes": "各実態ファイル（feature.json 等）の固有情報は attributes に属性値として格納",
+    "P4_edge_first": "ノード間の関係は edges[] に明示。暗黙的な depends_on リストではなく edge として宣言",
+    "P5_8layer_traversal": "Intent(L0) → Product(L1) → Execution(L2) → Agent(L3) → Code(L4) → Data(L5) → Infra(L6) → Runtime(L7) の8層を走査可能",
+    "P6_authoring_mandatory": "全ノード・全ファイルに authoring（書き込み主権）必須。誰が書いてよいか（write_owner）と何から導出されるか（derivation）を宣言し、生成物の手編集を機械的に禁止する。正本: 0.schema/authoring-schema-v1.0.json"
+  },
+  "x-validator-vocabulary": {
+    "filename_to_type": {
+      "feature.json": "feature",
+      "task-dd01.json": "task",
+      "task-dd02.json": "task",
+      "task-dd02_iter1.json": "task",
+      "task-dd02_iter2.json": "task",
+      "task-dd03.json": "task",
+      "agent.json": "agent"
+    },
+    "task_family_types": [
+      "task",
+      "fr-task",
+      "dd01-contract",
+      "dd02-implementation",
+      "dd02-impl",
+      "dd03-hardening",
+      "dd03-test",
+      "dd03-error"
+    ],
+    "feature_aliases": {
+      "F-AUTONOMY-SOAK": [
+        "SOAK"
+      ]
+    },
+    "implicit_edge_owner_types": [
+      "feature",
+      "task"
+    ],
+    "type_to_layers": {
+      "intent": [
+        "intent"
+      ],
+      "business-requirement": [
+        "intent"
+      ],
+      "epic": [
+        "product"
+      ],
+      "system-requirement": [
+        "product"
+      ],
+      "feature": [
+        "product"
+      ],
+      "functional-requirement": [
+        "product"
+      ],
+      "usecase": [
+        "product"
+      ],
+      "task": [
+        "execution",
+        "delivery"
+      ],
+      "fr-task": [
+        "execution"
+      ],
+      "dd01-contract": [
+        "execution",
+        "design"
+      ],
+      "dd02-implementation": [
+        "execution"
+      ],
+      "dd02-impl": [
+        "execution"
+      ],
+      "dd03-hardening": [
+        "execution",
+        "quality"
+      ],
+      "dd03-test": [
+        "execution",
+        "quality"
+      ],
+      "dd03-error": [
+        "execution",
+        "quality"
+      ],
+      "workflow": [
+        "execution",
+        "operations",
+        "governance"
+      ],
+      "contract": [
+        "execution",
+        "design"
+      ],
+      "test-case": [
+        "execution",
+        "quality"
+      ],
+      "auto-fix-task": [
+        "execution"
+      ],
+      "roadmap-phase": [
+        "execution"
+      ],
+      "roadmap-milestone": [
+        "execution"
+      ],
+      "agent": [
+        "agent",
+        "coordination"
+      ],
+      "skill": [
+        "agent"
+      ],
+      "tool": [
+        "agent"
+      ],
+      "service": [
+        "code"
+      ],
+      "api": [
+        "code"
+      ],
+      "function": [
+        "code"
+      ],
+      "class": [
+        "code"
+      ],
+      "domain-model": [
+        "code"
+      ],
+      "code-change": [
+        "code"
+      ],
+      "ui-component": [
+        "code"
+      ],
+      "database": [
+        "data"
+      ],
+      "knowledge": [
+        "data"
+      ],
+      "workspace": [
+        "data"
+      ],
+      "build": [
+        "infra"
+      ],
+      "deployment": [
+        "infra",
+        "delivery"
+      ],
+      "helm-change": [
+        "infra",
+        "delivery"
+      ],
+      "k8s-resource": [
+        "infra"
+      ],
+      "config": [
+        "infra"
+      ],
+      "trace": [
+        "runtime",
+        "verification"
+      ],
+      "metric": [
+        "runtime",
+        "quality",
+        "governance"
+      ],
+      "log": [
+        "runtime"
+      ],
+      "finding": [
+        "runtime",
+        "quality",
+        "governance"
+      ],
+      "test-run": [
+        "runtime",
+        "quality",
+        "verification"
+      ],
+      "evidence": [
+        "runtime",
+        "quality",
+        "verification",
+        "governance",
+        "design",
+        "execution"
+      ],
+      "health-probe": [
+        "runtime",
+        "verification"
+      ],
+      "runtime-verification": [
+        "runtime",
+        "verification"
+      ]
+    },
+    "status_by_family": {
+      "default": [
+        "draft",
+        "ready",
+        "running",
+        "in-progress",
+        "pending",
+        "done",
+        "completed",
+        "implementing",
+        "blocked",
+        "cancelled",
+        "failed",
+        "deprecated",
+        "superseded",
+        "active",
+        "unknown",
+        "todo",
+        "verified",
+        "designing",
+        "planned",
+        "dd01-ready"
+      ],
+      "evidence": [
+        "success",
+        "partial",
+        "failure",
+        "passed",
+        "pass",
+        "verified",
+        "implemented",
+        "completed-with-issues",
+        "completed-with-critical-issues",
+        "completed_with_issues",
+        "completed_with_critical_issues",
+        "completed_with_fixes",
+        "passed_with_warnings",
+        "agn-maintenance-complete",
+        "conditional_pass"
+      ],
+      "finding": [
+        "open",
+        "resolved",
+        "closed"
+      ],
+      "test-case": [
+        "implemented",
+        "skeleton",
+        "missing",
+        "pass",
+        "skip"
+      ]
+    }
+  },
+  "definitions": {
+    "NodeId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ノード一意識別子。命名規則: EPIC-SEMANTIC-DIGITAL-TWIN, F-SDT-STORE, UC-T001-DD01, agent:core-twin, fn:create_node 等"
+    },
+    "NodeUuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "正規 Node PK。UUIDv5(NS_DODO_SDT_NODE=6db0ebea-5fdb-5281-83fb-c7c043daf960, sid=node_id) で決定論導出する。"
+    },
+    "EdgeUuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "正規 Edge PK。UUIDv5(NS_DODO_SDT_EDGE=3e722809-0255-5f26-84e3-8a114e50eda8, name=from_sid|to_sid|type) で決定論導出する。"
+    },
+    "NodeType": {
+      "type": "string",
+      "enum": [
+        "intent",
+        "business-requirement",
+        "epic",
+        "system-requirement",
+        "feature",
+        "functional-requirement",
+        "usecase",
+        "capability",
+        "module",
+        "task",
+        "fr-task",
+        "dd01-contract",
+        "dd02-implementation",
+        "dd02-impl",
+        "dd03-hardening",
+        "dd03-test",
+        "dd03-error",
+        "workflow",
+        "contract",
+        "test-case",
+        "auto-fix-task",
+        "roadmap-phase",
+        "roadmap-milestone",
+        "agent",
+        "skill",
+        "tool",
+        "service",
+        "api",
+        "function",
+        "class",
+        "domain-model",
+        "code-change",
+        "ui-component",
+        "database",
+        "knowledge",
+        "workspace",
+        "build",
+        "deployment",
+        "helm-change",
+        "k8s-resource",
+        "config",
+        "trace",
+        "metric",
+        "log",
+        "finding",
+        "test-run",
+        "evidence",
+        "health-probe",
+        "runtime-verification",
+        "rule"
+      ],
+      "description": "SDT v3.0 ノード型（50 種）。`rule` = Charter/ClineRules の統治条項（layer=governance）。件数は本 enum が SoT であり、散文に数値を書かない。"
+    },
+    "Layer": {
+      "type": "string",
+      "enum": [
+        "intent",
+        "product",
+        "execution",
+        "agent",
+        "code",
+        "data",
+        "infra",
+        "runtime",
+        "operations",
+        "verification",
+        "design",
+        "quality",
+        "governance",
+        "delivery",
+        "coordination"
+      ],
+      "description": "AGN 8層モデル (L0:intent → L7:runtime)"
+    },
+    "EdgeType": {
+      "type": "string",
+      "enum": [
+        "decomposed_into",
+        "contains",
+        "implemented_by",
+        "executes",
+        "produced",
+        "built_from",
+        "depends_on",
+        "uses",
+        "delegates_to",
+        "imports",
+        "extends",
+        "implements",
+        "unlocks",
+        "blocks",
+        "prerequisite_for",
+        "calls",
+        "reads_from",
+        "writes_to",
+        "handled_by",
+        "exposes",
+        "persisted_in",
+        "deployed_by",
+        "modifies",
+        "monitors",
+        "verified_by",
+        "observed_by",
+        "instruments",
+        "evaluated_by",
+        "verifies",
+        "validated_by",
+        "resolves",
+        "triggered_by",
+        "triggered",
+        "found_in",
+        "evidenced_by",
+        "attested_by",
+        "proves",
+        "references"
+      ],
+      "description": "AGN v2.0 33エッジ型 + references"
+    },
+    "Status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "ready",
+        "running",
+        "in-progress",
+        "pending",
+        "done",
+        "completed",
+        "implementing",
+        "blocked",
+        "cancelled",
+        "failed",
+        "deprecated",
+        "superseded",
+        "active",
+        "unknown",
+        "todo",
+        "verified",
+        "designing",
+        "planned",
+        "dd01-ready",
+        "success",
+        "partial",
+        "failure",
+        "passed",
+        "pass",
+        "implemented",
+        "completed-with-issues",
+        "completed-with-critical-issues",
+        "completed_with_issues",
+        "completed_with_critical_issues",
+        "completed_with_fixes",
+        "passed_with_warnings",
+        "agn-maintenance-complete",
+        "conditional_pass",
+        "open",
+        "resolved",
+        "closed",
+        "skeleton",
+        "missing",
+        "skip"
+      ],
+      "description": "全 SDT ノード族で使用可能な状態語彙の上位集合"
+    },
+    "FeatureStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "ready",
+        "running",
+        "done",
+        "blocked"
+      ],
+      "description": "Feature の正準状態。Feature 以外の DD/Evidence/Finding 状態とは分離する"
+    },
+    "TruthType": {
+      "type": "string",
+      "enum": [
+        "designed",
+        "implemented",
+        "verified",
+        "observed",
+        "improvement"
+      ],
+      "description": "5つの真実"
+    },
+    "WriteOwner": {
+      "type": "string",
+      "enum": [
+        "human",
+        "agent",
+        "generator",
+        "mixed",
+        "unclassified"
+      ],
+      "description": "誰が書くのが正か。human=人間のみ / agent=Agent の実行結果 / generator=宣言された生成器のみ / mixed=フィールドごとに主権が分かれる / unclassified=未分類（deny-by-default。編集可を意味しない）。正本: authoring-schema-v1.0.json#/definitions/WriteOwner"
+    },
+    "Derivation": {
+      "type": "string",
+      "enum": [
+        "source",
+        "derived",
+        "captured",
+        "unclassified"
+      ],
+      "description": "何から導出されるか。source=それ自体が SoT / derived=再生成で復元可（手編集は無効） / captured=実行時記録で再生成不可（手編集も削除も禁止） / unclassified=未分類。正本: authoring-schema-v1.0.json#/definitions/Derivation"
+    },
+    "Authoring": {
+      "type": "object",
+      "description": "書き込み主権（v3.4 で全 SDT 必須）。provenance が『誰が書いたか』という事後の事実であるのに対し、authoring は『誰が書いてよいか』という事前の規範である。両者の食い違いが手編集の検知になる。正本: 0.schema/authoring-schema-v1.0.json",
+      "required": [
+        "write_owner",
+        "derivation"
+      ],
+      "properties": {
+        "write_owner": {
+          "$ref": "#/definitions/WriteOwner"
+        },
+        "derivation": {
+          "$ref": "#/definitions/Derivation"
+        },
+        "generator": {
+          "type": "string",
+          "description": "生成器の識別子（Action key / module path）。derivation=derived のとき必須"
+        },
+        "regen_command": {
+          "type": "string",
+          "description": "再生成コマンド。derivation=derived のとき推奨"
+        },
+        "human_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "write_owner=mixed のとき人間が主権を持つフィールドの JSON Pointer"
+        },
+        "generated_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "write_owner=mixed のとき生成器が同期するフィールドの JSON Pointer"
+        },
+        "hil_gate": {
+          "type": "boolean",
+          "default": false,
+          "description": "true なら人間の承認なしに変更不可"
+        },
+        "immutable_after_write": {
+          "type": "boolean",
+          "default": false,
+          "description": "true なら書込後の変更・削除を禁止（captured 監査証跡）"
+        },
+        "classified_by": {
+          "type": "string",
+          "enum": [
+            "human",
+            "action",
+            "glob_rule",
+            "inherited"
+          ]
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Provenance": {
+      "type": "object",
+      "description": "JSON生成元。タスクグラフ系JSONでは必須運用: created_by_agent / created_by_action / created_at を記録し、CRON経由なら created_by_cron も記録する。v3.1: updated_by_agent / updated_by_action 追加。",
+      "properties": {
+        "created_by_agent": {
+          "type": "string"
+        },
+        "created_by_cron": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "created_by_action": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_by_agent": {
+          "type": "string",
+          "description": "最終更新を行った Agent ID"
+        },
+        "updated_by_action": {
+          "type": "string",
+          "description": "最終更新を行った Action key"
+        },
+        "attribution": {
+          "type": "string",
+          "enum": [
+            "observed",
+            "inferred",
+            "manual"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "IsoAuditActor": {
+      "type": "string",
+      "description": "ISO監査項目の作成者/更新者。形式: 'human:<name>' | 'agent:<agent-id>' | 'cron:<cron-id>' | 'system:migration'",
+      "pattern": "^(human|agent|cron|system):.+$"
+    },
+    "Node": {
+      "type": "object",
+      "required": [
+        "uuid",
+        "node_id",
+        "type",
+        "layer",
+        "summary",
+        "authoring"
+      ],
+      "properties": {
+        "uuid": {
+          "$ref": "#/definitions/NodeUuid"
+        },
+        "node_id": {
+          "$ref": "#/definitions/NodeId"
+        },
+        "type": {
+          "$ref": "#/definitions/NodeType"
+        },
+        "layer": {
+          "$ref": "#/definitions/Layer"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "ノード概要（必須）。1-2文で何を表すか説明"
+        },
+        "status": {
+          "$ref": "#/definitions/Status",
+          "default": "draft"
+        },
+        "truth_type": {
+          "$ref": "#/definitions/TruthType"
+        },
+        "authoring": {
+          "$ref": "#/definitions/Authoring",
+          "description": "書き込み主権（必須）。未確定なら unclassified を明示的に宣言する。宣言の省略は許さない（AUTH-P2）"
+        },
+        "knowledge_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Linked Knowledge コンテナへの UUID 参照リスト（Charter 09）"
+        },
+        "deployment_scope": {
+          "type": "string",
+          "enum": [
+            "all",
+            "desktop-only",
+            "server-only",
+            "edge-only"
+          ],
+          "description": "デプロイメントコンテキスト。null = tier-agnostic"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance"
+        },
+        "attributes": {
+          "type": "object",
+          "description": "ノード固有の属性値。実態ファイルの全フィールドをここに格納"
+        },
+        "source_file": {
+          "type": "string",
+          "description": "元の実態ファイルパス（相対パス）"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Edge": {
+      "type": "object",
+      "required": [
+        "edge_uuid",
+        "from",
+        "to",
+        "type"
+      ],
+      "properties": {
+        "edge_uuid": {
+          "$ref": "#/definitions/EdgeUuid"
+        },
+        "from": {
+          "$ref": "#/definitions/NodeId",
+          "description": "始点ノードID"
+        },
+        "to": {
+          "$ref": "#/definitions/NodeId",
+          "description": "終点ノードID"
+        },
+        "type": {
+          "$ref": "#/definitions/EdgeType"
+        },
+        "summary": {
+          "type": "string",
+          "description": "エッジの説明（推奨）"
+        },
+        "weight": {
+          "type": "number",
+          "default": 1
+        },
+        "metadata": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/definitions_files/SdtGraphFile"
+    },
+    {
+      "$ref": "#/definitions_files/SdtNodeFile"
+    }
+  ],
+  "definitions_files": {
+    "SdtGraphFile": {
+      "type": "object",
+      "description": "グラフファイル: 複数ノード+エッジを含む統合ファイル（epic-graph, spec-graph, task-graph 等）",
+      "required": [
+        "schema",
+        "graph_id",
+        "summary",
+        "nodes",
+        "edges",
+        "authoring"
+      ],
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "sdt-graph-v3.0"
+        },
+        "graph_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "グラフ全体の概要"
+        },
+        "authoring": {
+          "$ref": "#/definitions/Authoring",
+          "description": "ファイル全体の書き込み主権（必須）。ノード個別宣言があればそちらが優先される"
+        },
+        "version": {
+          "type": "string"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Node"
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Edge"
+          }
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "created_by": {
+          "$ref": "#/definitions/IsoAuditActor",
+          "description": "登録者（ISO監査項目）"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_by": {
+          "$ref": "#/definitions/IsoAuditActor",
+          "description": "更新者（ISO監査項目）"
+        }
+      },
+      "additionalProperties": false
+    },
+    "SdtNodeFile": {
+      "type": "object",
+      "description": "ノードファイル: 1ノード = 1ファイル（feature.json, task-dd*.json, agent.json, skill.json 等）",
+      "required": [
+        "schema",
+        "uuid",
+        "node_id",
+        "type",
+        "layer",
+        "summary",
+        "authoring"
+      ],
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "sdt-node-v3.0"
+        },
+        "uuid": {
+          "$ref": "#/definitions/NodeUuid"
+        },
+        "node_id": {
+          "$ref": "#/definitions/NodeId"
+        },
+        "type": {
+          "$ref": "#/definitions/NodeType"
+        },
+        "layer": {
+          "$ref": "#/definitions/Layer"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "#/definitions/Status",
+          "default": "draft"
+        },
+        "truth_type": {
+          "$ref": "#/definitions/TruthType"
+        },
+        "authoring": {
+          "$ref": "#/definitions/Authoring",
+          "description": "ファイル全体の書き込み主権（必須）。ノード個別宣言があればそちらが優先される"
+        },
+        "attributes": {
+          "type": "object",
+          "description": "ノード固有の全属性値",
+          "properties": {
+            "release_status": {
+              "type": "string",
+              "enum": [
+                "unreleased",
+                "released"
+              ],
+              "description": "Feature のリリースライフサイクル状態。Release Validation Gate の判定軸"
+            },
+            "deployment_validation": {
+              "type": "string",
+              "enum": [
+                "local-only",
+                "required"
+              ],
+              "deprecated": true,
+              "description": "Deprecated: 環境ベースの旧デプロイ検証区分。Release Validation の判定には使用しない"
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Edge"
+          },
+          "description": "このノードから出る/入るエッジ"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance"
+        },
+        "source_file": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "created_by": {
+          "$ref": "#/definitions/IsoAuditActor",
+          "description": "登録者（ISO監査項目）"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_by": {
+          "$ref": "#/definitions/IsoAuditActor",
+          "description": "更新者（ISO監査項目）"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "layer_traversal_example": {
+    "description": "Intent → CallGraph の K-hop 走査パス例（depth=7 で全層到達）",
+    "path": [
+      {
+        "hop": 0,
+        "layer": "intent",
+        "node": "INTENT-01",
+        "edge": null
+      },
+      {
+        "hop": 1,
+        "layer": "product",
+        "node": "EPIC-SEMANTIC-DIGITAL-TWIN",
+        "edge": "decomposed_into"
+      },
+      {
+        "hop": 2,
+        "layer": "product",
+        "node": "F-SDT-STORE",
+        "edge": "contains"
+      },
+      {
+        "hop": 3,
+        "layer": "execution",
+        "node": "UC-T001-DD02",
+        "edge": "decomposed_into"
+      },
+      {
+        "hop": 4,
+        "layer": "agent",
+        "node": "agent:core-twin",
+        "edge": "executes"
+      },
+      {
+        "hop": 5,
+        "layer": "code",
+        "node": "fn:create_node",
+        "edge": "implemented_by"
+      },
+      {
+        "hop": 6,
+        "layer": "data",
+        "node": "db:agn-sqlite",
+        "edge": "persisted_in"
+      },
+      {
+        "hop": 7,
+        "layer": "runtime",
+        "node": "evidence:DD02",
+        "edge": "evidenced_by"
+      }
+    ]
+  },
+  "updated_by": "F-SDT-AUTHORING-POLICY DD01 (v3.4.0 — Authoring mandatory)"
+}

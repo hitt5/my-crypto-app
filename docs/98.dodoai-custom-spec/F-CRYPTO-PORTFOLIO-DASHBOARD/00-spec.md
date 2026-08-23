@@ -40,6 +40,8 @@ Concept `03-approach.md` の実装順 **①資産・ポジション統合表示�
 | SR-5 | Wallet アドレス・目標配分は `.dodoai/personal/config/portfolio.json`（Git 非共有）から読む。repo 内 fixture に実アドレスを書かない | コードレビュー + fixture 検査 |
 | SR-6 | Personal UI manifest `crypto-wealth` が dashboard ページ（総資産・Wallet 別内訳・Asset 一覧・価格照合状態）を提供する | `custom_ui.manifest_lint(mode="strict")` error_count=0 |
 | SR-7 | 全 Action は read-only（外部への書き込み・署名・送金経路を持たない）、`risk_level: low` | action.json 検査 |
+| SR-8 | Personal Custom Action `personal.crypto_testnet_ctl` が、ローカルテストネット（Anvil, chain_id 31337, localhost 限定 bind）を start/stop/status で制御できる。稼働判定は RPC 実測で行う | pytest（subprocess/RPC は mock）+ live smoke |
+| SR-9 | Personal Custom Action `personal.crypto_testnet_fund` が、ローカルテストネット上のアドレスへ test ETH を注入できる。chain_id 31337 以外は実行前に拒否する（設定ミス防御） | pytest（31337 以外拒否のテスト必須）+ live smoke |
 
 ## 4. UC（Use Cases）
 
@@ -57,12 +59,18 @@ Concept `03-approach.md` の実装順 **①資産・ポジション統合表示�
 - Action `personal.crypto_portfolio_snapshot` の実行ごとに残高スナップショットが JSONL へ追記される
 - 受入基準: 同一 payload での再実行が履歴を壊さない（追記のみ・冪等な読み取り）
 
+### UC-4 ローカルテストネットで検証する
+- ユーザーが Personal UI「テストネット」ページまたは Action dispatch で Anvil を起動し、Wallet アドレス（公開情報）へ test ETH を注入し、snapshot/dashboard の実 RPC 動作を確認する
+- 受入基準: start → status(running, chain_id=31337) → fund（残高は eth_getBalance 実測で返る）→ stop が成功し、mainnet/公開 testnet への fund は拒否される
+- ネットワーク選択の正本: `docs/2.sdt-design/04-network-policy.md`（L1 ローカル軸 — HIL 裁定 2026-08-22）
+
 ## 5. CAP / MOD
 
 | CAP | FR | MOD（実装置き場） |
 |---|---|---|
 | CAP-PORTFOLIO-OBSERVE（資産実態観測） | FR: EVM 残高実測 / 複数ソース価格照合 / 評価額算出 / ローカル追記保存 | `.dodoai/personal/custom_actions/crypto_portfolio_snapshot/`・`crypto_price_tick/`・`crypto_portfolio_valuation/` |
-| CAP-PORTFOLIO-VIEW（統合表示） | FR: dashboard ページ表示 | `.dodoai/personal/custom_ui/crypto-wealth/manifest.json` |
+| CAP-PORTFOLIO-VIEW（統合表示） | FR: dashboard / testnet ページ表示 | `.dodoai/personal/custom_ui/crypto-wealth/manifest.json` |
+| CAP-PORTFOLIO-OBSERVE（検証基盤） | FR: ローカルテストネット制御 / test 資金注入（local 限定） | `.dodoai/personal/custom_actions/crypto_testnet_ctl/`・`crypto_testnet_fund/` |
 
 > 注: EPIC / CAP catalog（`docs/99.sdt/art/catalog/source/`）は本プロジェクトで未初期化。catalog 初期化時に本表を正式登録する（fr_gap として記録）。
 
@@ -70,7 +78,8 @@ Concept `03-approach.md` の実装順 **①資産・ポジション統合表示�
 
 | Page | 内容 | Blocks |
 |---|---|---|
-| `dashboard` | 総資産額・24h コンテキスト・Wallet 別内訳・Asset 一覧 | summary-hero / stat-card / markdown（Asset 明細） |
+| `dashboard` | 総資産額・観測鮮度・Wallet 別内訳・Asset 一覧・配分乖離・価格照合 | summary-hero / stat-card / data-table × 4 |
+| `testnet` | ローカルテストネット（Anvil）状態・操作ガイド | summary-hero / markdown |
 | （後段）`wallets` | Wallet 役割別詳細・Approval 一覧 | — |
 | （後段）`ticks` | 価格履歴・ソース間乖離 | — |
 
@@ -108,4 +117,5 @@ Concept `03-approach.md` の実装順 **①資産・ポジション統合表示�
 
 | バージョン | 日付 | 内容 |
 |---|---|---|
+| v0.2.0 | 2026-08-22 | ローカルテストネット対応（HIL: ローカル軸）。SR-8/SR-9・UC-4・`testnet` ページ・`crypto_testnet_ctl` / `crypto_testnet_fund` を追加。ネットワーク選択の正本として `docs/2.sdt-design/04-network-policy.md` を新設・参照 |
 | v0.1.0 | 2026-08-22 | 初版。EVM から開始（ユーザー裁定）。Observe 段階の Action 3 本 + Personal UI dashboard を定義 |

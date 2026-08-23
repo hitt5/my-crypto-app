@@ -1,0 +1,95 @@
+{
+  "node_id": "T-WORKSPACE-BOOTSTRAP-DD01-SDT-CONTRACTS-20260822",
+  "type": "task",
+  "name": "Bootstrap project SDT contracts and dashboard admission gates",
+  "description": "Establish the project-owned SDT layout/test-definition contract inputs and regenerate roadmap bindings required to admit F-CRYPTO-PORTFOLIO-DASHBOARD to DD01-DD03 without cross-worktree output writes.",
+  "gate": "Project-local contract assets exist as governed source/projection pairs; A03 and roadmap admission results are rerun and recorded before dashboard implementation.",
+  "spec_refs": {
+    "project_rules": "AGENTS.md",
+    "layout_contract_authority": "/Users/hitoshimurakami/myApps/dodoai/docs/99.sdt/agn/0.schema/sdt-layout-contract.json",
+    "test_definition_authority": "/Users/hitoshimurakami/myApps/dodoai/docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.json",
+    "dashboard_feature": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json"
+  },
+  "feature": "F-WORKSPACE-BOOTSTRAP",
+  "layer": "execution",
+  "truth_type": "designed",
+  "status": "done",
+  "depends_on": [],
+  "test_layers": [],
+  "created_at": "2026-08-22T12:30:00+00:00",
+  "updated_at": "2026-08-22T12:59:01.648902+00:00",
+  "task_id": "T-WORKSPACE-BOOTSTRAP-DD01-SDT-CONTRACTS-20260822",
+  "summary": "Resolve the workspace bootstrap blockers exposed by the dashboard A03 gate.",
+  "phase": "DD01",
+  "priority": "P0",
+  "issue_refs": [
+    ".dodoai/issue/task-planner-agent/DD01_STREAM_unknown_T-WORKSPACE-BOOTSTRAP-DD01-SDT-CONTRACTS-20260822_done.md"
+  ],
+  "done_criteria": [
+    "Project-owned SDT layout contract source is present and schema_sync/audit results are recorded",
+    "ADF test-definition MD+JSON pair is available in the project contract path",
+    "roadmap.derive and roadmap.sync_gate results for F-CRYPTO-PORTFOLIO-DASHBOARD are recorded without hand-editing derived roadmap output",
+    "A03 conformance is rerun and any residual non-feature bootstrap debt remains explicit"
+  ],
+  "size": "M",
+  "success_probability": 0.72,
+  "max_ticks": 5,
+  "changed_files": [
+    "docs/99.sdt/agn/0.schema/sdt-layout-contract.json",
+    "docs/99.sdt/agn/0.schema/sdt-file-schema-v3.0.json",
+    "docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.json",
+    "docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.md",
+    "docs/99.sdt/art/catalog/source/epic-catalog/epic-catalog.json",
+    "docs/99.sdt/art/catalog/source/capability-catalog/capability-catalog.json",
+    "docs/99.sdt/agn/1.workflows/roadmap/roadmap-graph.derived.json"
+  ],
+  "test_evidence": [
+    "sdt_authoring_validate: 34/34 classified; error=0 warning=0 unclassified=0",
+    "A03 conformance: ok=true; AGN schema 6 files / 0 issues; feature-scoped critical ontology findings 0",
+    "roadmap.derive executed without hand editing derived output",
+    "roadmap.sync_gate: ok=true and all drift counters 0 with require_milestone=false legacy waiver"
+  ],
+  "evidence_refs": [
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-visualization.json"
+  ],
+  "findings": [
+    "roadmap.derive currently emits roadmap-work-item/empty derived closure while roadmap.sync_gate milestone checks use roadmap-milestone; require_milestone=false is an explicit legacy waiver",
+    "sdt_layout.schema_sync emitted docs/99.sdt/0.schema outside the project authoring contract; that generated copy was moved to Trash and governed source remains docs/99.sdt/agn/0.schema"
+  ],
+  "remaining_work": [
+    "Repair the roadmap.derive versus roadmap.sync_gate milestone model mismatch in the owning dodoAI framework Feature; do not hide it in this project Feature"
+  ],
+  "updated_by": "codex-root-dashboard-dd03-20260822",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T12:40:29.832714+00:00",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "User requested dashboard implementation through DD03; resolve the recorded project contract and roadmap admission blockers first."
+      },
+      {
+        "from": "running",
+        "to": "done",
+        "at": "2026-08-22T12:56:34Z",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "Project contract pair, catalog sources, A03 admission, and waived roadmap sync are recorded; framework mismatch remains explicit."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "codex-root-dashboard-dd03-20260822",
+      "overridden_at": "2026-08-22T12:40:29.832714+00:00",
+      "source": "manual",
+      "reason": "User requested dashboard implementation through DD03; resolve the recorded project contract and roadmap admission blockers first."
+    }
+  },
+  "overridden_by": "codex-root-dashboard-dd03-20260822",
+  "overridden_at": "2026-08-22T12:40:29.832714+00:00",
+  "override_reason": "User requested dashboard implementation through DD03; resolve the recorded project contract and roadmap admission blockers first.",
+  "schema": "sdt-node-v3.0"
+}

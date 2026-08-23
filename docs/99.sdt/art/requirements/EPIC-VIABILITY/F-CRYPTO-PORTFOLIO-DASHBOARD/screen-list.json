@@ -1,0 +1,140 @@
+{
+  "schema": "sdt-screen-list-v1.0",
+  "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD-screen-list",
+  "type": "screen_list",
+  "truth_type": "designed",
+  "status": "authored",
+  "version": "1.0.0",
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "epic_id": "EPIC-VIABILITY",
+  "capability_refs": [
+    "CAP-ONCHAIN-OBSERVE",
+    "CAP-VIABILITY-EVAL",
+    "CAP-EVIDENCE-LEDGER"
+  ],
+  "source_refs": {
+    "adf_standard": "/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/5.document/3.external-design/46-screen-list.md",
+    "feature_spec": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "cap_catalog": "docs/4.common/3.capability-requirements/00-capability-requirements.md",
+    "md_view": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.md"
+  },
+  "screens": [
+    {
+      "screen_id": "SCR-CRYPTO-PORTFOLIO-001",
+      "name": "資産・生存ダッシュボード",
+      "category": "資産観測",
+      "screen_type": "overview",
+      "role": "本人の保有銘柄、評価額、価格履歴、資産配分、観測鮮度と DRIFTED 状態を一画面で判断可能にする",
+      "route": "/app/custom-ui/crypto-wealth/dashboard",
+      "manifest_path": "dashboard",
+      "access": [
+        "single-owner"
+      ],
+      "priority": "P0",
+      "stage": "Observe",
+      "status": "implementation_pending",
+      "uc_ids": [
+        "UC-1",
+        "UC-2",
+        "UC-3"
+      ],
+      "fr_ids": [
+        "FR-OBS-1",
+        "FR-OBS-2",
+        "FR-VIA-3",
+        "FR-EVD-1"
+      ],
+      "block_types": [
+        "summary-hero",
+        "stat-card",
+        "chart",
+        "data-table"
+      ],
+      "data_sources": [
+        "personal.crypto_portfolio_valuation",
+        "personal.crypto_price_tick",
+        "personal.crypto_price_history"
+      ],
+      "notes": "Read-only。送金、署名、swap、approve は表示も実行もしない。"
+    },
+    {
+      "screen_id": "SCR-CRYPTO-TESTNET-001",
+      "name": "ローカルテストネット検証",
+      "category": "開発検証",
+      "screen_type": "status",
+      "role": "Anvil chain 31337 の稼働状態とローカル検証手順を確認する",
+      "route": "/app/custom-ui/crypto-wealth/testnet",
+      "manifest_path": "testnet",
+      "access": [
+        "single-owner"
+      ],
+      "priority": "P1",
+      "stage": "Observe",
+      "status": "implemented",
+      "uc_ids": [
+        "UC-4"
+      ],
+      "fr_ids": [],
+      "fr_gap": "Local testnet control/funding FR is already recorded on the Feature and remains HIL-pending; this screen does not create a new FR.",
+      "block_types": [
+        "summary-hero",
+        "markdown"
+      ],
+      "data_sources": [
+        "personal.crypto_testnet_ctl"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "asset-observation",
+      "name": "資産観測",
+      "purpose": "EPIC-VIABILITY の現在値を read-only で把握する",
+      "screen_ids": [
+        "SCR-CRYPTO-PORTFOLIO-001"
+      ]
+    },
+    {
+      "id": "development-verification",
+      "name": "開発検証",
+      "purpose": "本番資産を使わず観測経路を検証する",
+      "screen_ids": [
+        "SCR-CRYPTO-TESTNET-001"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "from": "SCR-CRYPTO-PORTFOLIO-001",
+      "to": "SCR-CRYPTO-TESTNET-001",
+      "trigger": "navigation",
+      "condition": "user selects local testnet"
+    },
+    {
+      "from": "SCR-CRYPTO-TESTNET-001",
+      "to": "SCR-CRYPTO-PORTFOLIO-001",
+      "trigger": "navigation",
+      "condition": "user returns to dashboard"
+    }
+  ],
+  "common_components": [
+    "SummaryHero",
+    "StatCard",
+    "Chart",
+    "DataTable",
+    "freshness/status presentation"
+  ],
+  "quality_checks": {
+    "stable_screen_ids": true,
+    "routes_defined": true,
+    "access_defined": true,
+    "priorities_defined": true,
+    "transitions_defined": true,
+    "requirement_trace_defined": true
+  },
+  "hil_decision": {
+    "date": "2026-08-22",
+    "source": "current user instruction",
+    "decision": "Define screens against the approved EPIC/CAP catalog before implementing symbols and charts."
+  }
+}

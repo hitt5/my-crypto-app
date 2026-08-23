@@ -1,0 +1,86 @@
+{
+  "schema": "sdt-graph-v3.0",
+  "name": "crypto-wealth-os capability catalog",
+  "description": "HIL-approved CAP/FR catalog for the personal Crypto Wealth OS.",
+  "version": "0.1.1",
+  "updated_at": "2026-08-22T21:50:00+09:00",
+  "updated_by": "codex-root-dashboard-dd03-20260822",
+  "capabilities": [
+    {
+      "id": "CAP-ONCHAIN-OBSERVE",
+      "type": "capability",
+      "layer": "product",
+      "name": "オンチェーン・市場観測",
+      "summary": "Wallet、Position、Approval、価格、境界変数を Fact として観測する。",
+      "attributes": {"provenance": "custom", "fr_ids": ["FR-OBS-1", "FR-OBS-2", "FR-OBS-3", "FR-OBS-4", "FR-OBS-5"]},
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "cap-onchain-observe"}
+    },
+    {
+      "id": "CAP-VIABILITY-EVAL",
+      "type": "capability",
+      "layer": "product",
+      "name": "生存制約評価",
+      "summary": "Viability 制約、ruin 距離、DRIFTED、optionality、Kelly sizing を評価する。",
+      "attributes": {"provenance": "custom", "fr_ids": ["FR-VIA-1", "FR-VIA-2", "FR-VIA-3", "FR-VIA-4", "FR-VIA-5"]},
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "cap-viability-eval"}
+    },
+    {
+      "id": "CAP-POLICY-ENGINE",
+      "type": "capability",
+      "layer": "product",
+      "name": "決定論的 Policy 検査",
+      "summary": "Policy、Stage、Gate を決定論的に検査する。",
+      "attributes": {"provenance": "dodoai-core+custom-rules", "fr_ids": ["FR-POL-1", "FR-POL-2", "FR-POL-3", "FR-POL-4"]},
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "cap-policy-engine"}
+    },
+    {
+      "id": "CAP-OPPORTUNITY-GEN",
+      "type": "capability",
+      "layer": "product",
+      "name": "差分生成・Convexity 評価",
+      "summary": "Opportunity、Convexity、counterfactual、期待純収益を評価する。",
+      "attributes": {"provenance": "custom", "fr_ids": ["FR-OPP-1", "FR-OPP-2", "FR-OPP-3", "FR-OPP-4", "FR-OPP-5"]},
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "cap-opportunity-gen"}
+    },
+    {
+      "id": "CAP-RISK-DETECT",
+      "type": "capability",
+      "layer": "product",
+      "name": "RiskSignal 検知",
+      "summary": "決定論的 RiskSignal、不 可逆性、crowding、停止フローを扱う。",
+      "attributes": {"provenance": "custom", "fr_ids": ["FR-RSK-1", "FR-RSK-2", "FR-RSK-3", "FR-RSK-4"]},
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "cap-risk-detect"}
+    },
+    {
+      "id": "CAP-EVIDENCE-LEDGER",
+      "type": "capability",
+      "layer": "product",
+      "name": "Evidence 記録・校正",
+      "summary": "追記型 Evidence、校正、Fact 分離、税務記録、SDT/MD 双対を扱う。",
+      "attributes": {"provenance": "dodoai-core+custom-rules", "fr_ids": ["FR-EVD-1", "FR-EVD-2", "FR-EVD-3", "FR-EVD-4", "FR-EVD-5"]},
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "cap-evidence-ledger"}
+    },
+    {
+      "id": "CAP-KEY-CUSTODY",
+      "type": "capability",
+      "layer": "product",
+      "name": "鍵・権限統治",
+      "summary": "dodo credential と個人 hardware 境界を統合し、鍵を保持しない。",
+      "attributes": {"provenance": "dodoai-core", "fr_ids": ["FR-KEY-1", "FR-KEY-2", "FR-KEY-3"]},
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "cap-key-custody"}
+    },
+    {
+      "id": "CAP-EXEC-PIPELINE",
+      "type": "capability",
+      "layer": "product",
+      "name": "実行パイプライン",
+      "summary": "固定実行 pipeline、Allowlist、fork simulation、回転数上限を扱う。",
+      "attributes": {"provenance": "dodoai-core+custom-rules", "fr_ids": ["FR-EXE-1", "FR-EXE-2", "FR-EXE-3", "FR-EXE-4"]},
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "cap-exec-pipeline"}
+    }
+  ],
+  "nodes": [],
+  "edges": [],
+  "capability_relations": [],
+  "withdrawn_capability_relations": []
+}

@@ -1,0 +1,86 @@
+{
+  "schema": "dodo.sdt.test-evidence.v1",
+  "evidence_id": "EVD-CRYPTO-P0-SCREENS-20260822",
+  "execution_id": "exec-crypto-p0-screens-20260822T1305Z",
+  "feature_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD01-SCREEN-ROADMAP-P0-IMPLEMENTATION-20260822",
+  "status": "partial",
+  "observed_at": "2026-08-22T13:05:00Z",
+  "implemented": [
+    {
+      "screen_id": "OPS-1",
+      "route": "/app/custom-ui/crypto-wealth-ops/network",
+      "manifest": ".dodoai/personal/custom_ui/crypto-wealth-ops/manifest.json",
+      "data_source": "personal.crypto_ops_status",
+      "result": "local implementation and registry projection verified"
+    },
+    {
+      "screen_id": "OPS-2",
+      "route": "/app/custom-ui/crypto-wealth-ops/sources",
+      "manifest": ".dodoai/personal/custom_ui/crypto-wealth-ops/manifest.json",
+      "data_source": "personal.crypto_ops_status",
+      "result": "portfolio config/source scope implemented with secret redaction"
+    }
+  ],
+  "validation": {
+    "focused_pytest": {"result": "pass", "passed": 45},
+    "ruff_action": {"result": "pass", "finding_count": 0},
+    "manifest_edit_dry_run": {"result": "pass", "error_count": 0, "warning_count": 0},
+    "manifest_edit_apply": {"result": "pass", "error_count": 0, "warning_count": 0},
+    "registry": {
+      "result": "pass",
+      "apps": ["crypto-wealth", "crypto-wealth-ops"],
+      "ops_pages": ["network", "sources"]
+    },
+    "direct_action": {
+      "result": "pass",
+      "config_valid": true,
+      "configured_chains": 1,
+      "reachable_chains": 1,
+      "unresolved_env_count": 0,
+      "mainnet_mode": "observe-only",
+      "promotion_statuses": ["observed", "not_recorded", "not_observed", "frozen"]
+    },
+    "strict_manifest_lint": {
+      "result": "blocked",
+      "error_count": 1,
+      "code": "MANIFEST_PATH_OUTSIDE_WORKSPACE",
+      "note": "The linter currently allows .dodoai/custom_ui only and rejects the governed personal path."
+    },
+    "live_action_registry": {
+      "result": "blocked",
+      "returned": 0,
+      "note": "The running Core predates the new Personal Action. No reload/restart was performed."
+    },
+    "visual_evidence": {"result": "not_measured", "reason": "live Action is not registered"},
+    "roadmap_sync_gate": {"result": "not_run", "reason": "workspace slot 8522 became unavailable"}
+  },
+  "recovery_evidence": {
+    "resolved_endpoint": "http://127.0.0.1:8522",
+    "ready": false,
+    "listener": false,
+    "matching_owner_tmux": false,
+    "restart_performed": false
+  },
+  "scope_status": [
+    {"screen": "DOM-1", "status": "existing_implementation_retained"},
+    {"screen": "OPS-1", "status": "implemented_local_pending_live_runtime"},
+    {"screen": "OPS-2", "status": "implemented_portfolio_scope_pending_a02_and_live_runtime"},
+    {"screen": "OPS-3", "status": "blocked_new_feature_epic_cap_hil"},
+    {"screen": "LOOP-1", "status": "blocked_loop_catalog_uninitialized"},
+    {"screen": "LOOP-2", "status": "blocked_no_owning_feature_a02"},
+    {"screen": "LOOP-3", "status": "blocked_opportunity_calibration_not_closed"},
+    {"screen": "DOM-2", "status": "blocked_h1_h2_and_dd01_entry"},
+    {"screen": "DOM-3", "status": "blocked_a02_not_started"},
+    {"screen": "DOM-4", "status": "blocked_a02_not_started"},
+    {"screen": "DOM-5", "status": "blocked_a02_not_started"},
+    {"screen": "DOM-6", "status": "frozen_stage2_h4_hil"},
+    {"screen": "DOM-7", "status": "blocked_a02_not_started"}
+  ],
+  "findings": [
+    "Feature A02 ED15/ED16 was not extended before implementation; do not claim ADF conformance.",
+    "The screen-roadmap Issue references a done Task node that is absent from the current worktree; the prior done claim is not verifiable.",
+    "Personal manifest lint and live runtime/visual gates remain open.",
+    "The task remains running; this Evidence is not Feature completion proof."
+  ]
+}

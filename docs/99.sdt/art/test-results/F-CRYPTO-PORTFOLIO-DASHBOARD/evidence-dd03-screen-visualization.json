@@ -1,0 +1,91 @@
+{
+  "schema": "dd-test-evidence-v1",
+  "execution_id": "8621c2e2-aa5a-4d19-90a7-c5a724fa4b4a",
+  "recorded_at": "2026-08-22T12:56:34Z",
+  "feature_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "tasks": [
+    "T-CRYPTO-PORTFOLIO-DASHBOARD-DD02-SCREEN-VISUALIZATION-20260822",
+    "T-CRYPTO-PORTFOLIO-DASHBOARD-DD03-SCREEN-VISUALIZATION-20260822"
+  ],
+  "phase_scope": ["DD02", "DD03"],
+  "result": "partial",
+  "checks": {
+    "focused_pytest": {
+      "status": "pass",
+      "command": "/Users/hitoshimurakami/myApps/dodoai/.venv/bin/python -m pytest .dodoai/personal/custom_actions/tests/test_crypto_actions.py -q",
+      "passed": 26,
+      "failed": 0
+    },
+    "ruff": {
+      "status": "pass",
+      "command": "/Users/hitoshimurakami/myApps/dodoai/.venv/bin/python -m ruff check ...",
+      "finding_count": 0
+    },
+    "manifest_json": {
+      "status": "pass",
+      "command": "jq empty .dodoai/personal/custom_ui/crypto-wealth/manifest.json"
+    },
+    "manifest_lint_strict": {
+      "status": "pass_with_path_workaround",
+      "error_count": 0,
+      "warning_count": 0,
+      "catalog_version": "1.0.0",
+      "catalog_source": "core-fallback",
+      "note": "The linter rejects the governed personal path as MANIFEST_PATH_OUTSIDE_WORKSPACE. Identical bytes were linted from a temporary .dodoai/custom_ui path."
+    },
+    "local_price_tick": {
+      "status": "pass",
+      "runs": 2,
+      "symbols": ["ETH", "BTC", "BNB"],
+      "persisted": true,
+      "source_observation": "all symbols priced; one BTC observation explicitly degraded to one source"
+    },
+    "local_price_history": {
+      "status": "pass",
+      "point_count": 13,
+      "symbols": ["BNB", "BTC", "ETH"],
+      "ignored_line_count": 0
+    },
+    "local_asset_overview": {
+      "status": "pass",
+      "symbols": ["ETH", "BNB", "BTC"],
+      "holding_state": {
+        "ETH": "held",
+        "BNB": "watch-only",
+        "BTC": "watch-only"
+      },
+      "allocation_symbols": ["ETH"],
+      "stale": false
+    },
+    "live_core_dispatch": {
+      "status": "blocked",
+      "core_endpoint": "http://127.0.0.1:8521",
+      "price_history_http_status": 404,
+      "asset_overview_http_status": 404,
+      "reason": "The running Core registry predates the new Personal Actions. Runtime reload/restart was not authorized and was not performed."
+    },
+    "roadmap_sync_gate": {
+      "status": "pass_with_legacy_milestone_waiver",
+      "ok": true,
+      "stale_task_status": 0,
+      "missing_milestone": 0,
+      "roadmap_drift": 0,
+      "epic_orphan": 0,
+      "cap_unbound": 0,
+      "phase_contains_missing": 0
+    }
+  },
+  "requirements": {
+    "symbols_and_names": "pass",
+    "price_history_line_chart": "pass",
+    "held_allocation_bar_chart": "pass",
+    "held_watch_only_distinction": "pass",
+    "no_missing_value_zero_fabrication": "pass",
+    "malformed_history_bounded": "pass",
+    "single_source_degraded": "pass",
+    "live_registered_action_boundary": "blocked"
+  },
+  "remaining_work": [
+    "After explicit user approval or user-performed runtime reload, dispatch personal.crypto_price_history and personal.crypto_asset_overview through the project-scoped Core and capture the UI result."
+  ]
+}

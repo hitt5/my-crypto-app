@@ -1,0 +1,1747 @@
+{
+  "schema": "dodo.sdt.layout.contract.v1",
+  "contract_version": "1.13.0",
+  "title": "SDT Canonical Layout Contract",
+  "updated_at": "2026-08-22T21:40:00+09:00",
+
+  "owner_feature": "F-SDT-LAYOUT-CONTRACT",
+  "principles": [
+    "single_contract_many_projects",
+    "uniform_envelope",
+    "resolver_only_access",
+    "sync_dont_fork",
+    "auditable_by_construction",
+    "authoring_declared_for_every_sdt"
+  ],
+  "directories": {
+    "sdt_root": "docs/99.sdt",
+    "sdt_children": [
+      "agn",
+      "art",
+      "metrics",
+      "sco"
+    ],
+    "agn": {
+      "root": "agn",
+      "children": [
+        "0.schema",
+        "1.workflows",
+        "2.agents",
+        "3.skills",
+        "5.operations",
+        "7.findings",
+        "99.rules"
+      ],
+      "forbidden_children": [
+        "art"
+      ]
+    },
+    "art": {
+      "root": "art",
+      "children": [
+        "archive",
+        "catalog",
+        "context",
+        "contracts",
+        "data-facts",
+        "doc_graph",
+        "docs",
+        "evidence",
+        "governance",
+        "knowledge",
+        "multi-agent",
+        "operations",
+        "relation",
+        "requirements",
+        "reverse-baseline",
+        "reviewed_sdt",
+        "roadmap",
+        "sco-mapping",
+        "security",
+        "strategy_synthesis",
+        "test-results",
+        "traceability",
+        "world-model"
+      ],
+      "forbidden_children": [
+        "agn"
+      ]
+    },
+    "metrics": {
+      "root": "metrics",
+      "children": [
+        "operations"
+      ],
+      "semantic_layer": "art",
+      "description": "計測値そのものではなく、指標定義・目標・比較規則・Observation source を保持する source SoT。実測スナップショットは art/operations 配下へ captured ART として保存する"
+    },
+    "sco": {
+      "root": "sco",
+      "semantic_layer": "source-and-derived",
+      "description": "共有概念・標準文書項目・正規化された意味定義を保持する Semantic Canonical Ontology。ART/AGN の配下には置かない。ADF項目はこの名前空間へ定義された時点でSCOであり、SCOへの写像対象ではない"
+    },
+    "art_docs": {
+      "root": "art/docs",
+      "canonical_children": [
+        "1.business-requirements",
+        "2.system-requirements",
+        "3.external-design",
+        "4.detail-design",
+        "5.infra-operations",
+        "6.implementation-testing"
+      ],
+      "legacy_aliases": {
+        "4.capability-module-detail-design": "4.detail-design",
+        "5.infrastructure-operations-design": "5.infra-operations"
+      }
+    }
+  },
+  "schema_id_rule": {
+    "pattern": "^dodo\\.sdt\\.[a-z0-9-]+\\.[a-z0-9-]+\\.v\\d+$",
+    "canonical_prefix": "dodo.sdt",
+    "writer_policy": "writers_must_emit_canonical_schema_ids_only",
+    "reader_policy": "readers_may_accept_legacy_ids_only_when_declared_in_legacy_schema_map"
+  },
+  "repo_context_schema": {
+    "schema": "dodoai.repo-context.v1",
+    "required": [
+      "repo_id",
+      "sdt_path",
+      "agn_path",
+      "art_path"
+    ],
+    "constraints": {
+      "sdt_path": "relative_path_from_repo_root",
+      "agn_path": "must_equal_or_resolve_to_<sdt_path>/agn",
+      "art_path": "must_equal_or_resolve_to_<sdt_path>/art"
+    }
+  },
+  "envelope": {
+    "required_keys": [
+      "schema",
+      "contract_version",
+      "project_id",
+      "generated_at",
+      "generator",
+      "payload"
+    ],
+    "forbidden_top_level_forms": [
+      "bare_list",
+      "bare_dict_without_schema",
+      "project_prefixed_schema_id",
+      "ad_hoc_dash_version_suffix"
+    ]
+  },
+  "artifact_declaration_schema": {
+    "required": [
+      "artifact_id",
+      "data_type"
+    ],
+    "data_type": {
+      "enum": [
+        "json",
+        "markdown",
+        "relational",
+        "sql",
+        "mixed"
+      ]
+    },
+    "store": {
+      "optional": true,
+      "default": "file://{canonical_path}",
+      "patterns": [
+        "^file://.+$",
+        "^db://[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+      ],
+      "physical_engine_forbidden": true
+    },
+    "overlay_on": {
+      "required_for_db_overlay": true,
+      "target": "artifact_id"
+    },
+    "md_ref": {
+      "optional": true
+    }
+  },
+  "artifacts": [
+    {
+      "artifact_id": "task-board-overlay",
+      "canonical_path": "",
+      "schema_id": "dodo.sdt.task-board.overlay.v1",
+      "schema_ref": "agn/0.schema/sqlite-physical-schema.json#/tables/task_board_overlays",
+      "data_type": "relational",
+      "store": "db://core/task_board_overlays",
+      "overlay_on": "agn-workflow-task",
+      "envelope": "optional",
+      "cardinality": "per-node-overlay",
+      "generator": "task_graph.create_manual",
+      "status": "active",
+      "note": "Task Board DB state is an overlay only. AGN TaskGraph JSON remains the machine SoT; updates use registered task_graph Actions, never manual SQL."
+    },
+    {
+      "artifact_id": "sdt-metric-definition",
+      "data_type": "json",
+      "canonical_path": "metrics/{domain_id}/{metric_set_id}.json",
+      "schema_id": "dodo.sdt.metrics.definition.v1",
+      "schema_path": "agn/0.schema/metrics-definition.schema.json",
+      "envelope": "optional",
+      "cardinality": "per-metric-set",
+      "generator": "",
+      "status": "active",
+      "note": "指標の意味・目標・比較規則・Observation source を定義する ART 系 source SoT。現在値や実行結果は保持しない"
+    },
+    {
+      "artifact_id": "agn-schema",
+      "data_type": "json",
+      "canonical_path": "agn/0.schema/{schema_file}",
+      "schema_id": "dodo.sdt.agn.schema.v1",
+      "schema_missing_reason": "local JSON Schema meta-schema is not yet vendored",
+      "envelope": "optional",
+      "cardinality": "per-schema",
+      "generator": "sdt_layout.schema_sync",
+      "status": "active"
+    },
+    {
+      "artifact_id": "agn-workflow-feature",
+      "data_type": "json",
+      "canonical_path": "agn/1.workflows/{workflow_id}/features/{feature_id}/feature.json",
+      "schema_id": "dodo.sdt.agn.feature.v1",
+      "schema_path": "agn/0.schema/contracts/agn_models/AgnV2Node.schema.json",
+      "envelope": "optional",
+      "cardinality": "per-feature",
+      "generator": "agn_issue_creator",
+      "status": "active"
+    },
+    {
+      "artifact_id": "agn-workflow-task",
+      "data_type": "json",
+      "canonical_path": "agn/1.workflows/{workflow_id}/features/{feature_id}/task-dd{phase}.json",
+      "schema_id": "dodo.sdt.agn.task.v1",
+      "schema_path": "agn/0.schema/contracts/agn_models/AgnV2Node.schema.json",
+      "envelope": "optional",
+      "cardinality": "per-dd-phase",
+      "generator": "agn_issue_creator",
+      "status": "active"
+    },
+    {
+      "artifact_id": "art-feature-requirement-asset",
+      "data_type": "json",
+      "canonical_path": "art/requirements/{epic_id}/{feature_id}/{artifact_file}",
+      "schema_id": "dodo.sdt.requirements.feature-asset.v1",
+      "schema_missing_reason": "format is selected by the specific requirement artifact kind",
+      "envelope": "optional",
+      "cardinality": "per-feature-file",
+      "generator": "",
+      "status": "active"
+    },
+    {
+      "artifact_id": "art-feature-contract",
+      "data_type": "json",
+      "canonical_path": "art/contracts/{feature_id}/{contract_file}",
+      "schema_id": "dodo.sdt.contracts.feature-contract.v1",
+      "schema_missing_reason": "contract and API contract variants use their own schemas",
+      "envelope": "optional",
+      "cardinality": "per-feature-file",
+      "generator": "",
+      "status": "active"
+    },
+    {
+      "artifact_id": "art-adf-test-definition",
+      "data_type": "json",
+      "canonical_path": "art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.json",
+      "schema_id": "dodo.sdt.testing.definition.v1",
+      "schema_path": "agn/0.schema/adf-test-definition-schema-v1.0.json",
+      "envelope": "optional",
+      "cardinality": "singleton",
+      "generator": "",
+      "status": "active",
+      "note": "ADF テスト分類・旧 L alias・DD phase 配置を機械判定する source ART。MD view と双対で維持する"
+    },
+    {
+      "artifact_id": "art-feature-test-result",
+      "data_type": "json",
+      "canonical_path": "art/test-results/{feature_id}/{result_file}",
+      "schema_id": "dodo.sdt.evidence.feature-result.v1",
+      "schema_missing_reason": "test definitions and captured results use kind-specific schemas",
+      "envelope": "optional",
+      "cardinality": "per-feature-file",
+      "generator": "",
+      "status": "active"
+    },
+    {
+      "artifact_id": "art-source-catalog",
+      "data_type": "json",
+      "canonical_path": "art/catalog/source/{catalog_id}/{catalog_file}",
+      "schema_id": "dodo.sdt.requirements.source-catalog.v1",
+      "schema_missing_reason": "catalog bodies and reports use catalog-specific schemas",
+      "envelope": "optional",
+      "cardinality": "per-catalog-file",
+      "generator": "",
+      "status": "active"
+    },
+    {
+      "artifact_id": "callgraph",
+      "data_type": "json",
+      "canonical_path": "art/context/callgraph/{profile}/graph.index.json",
+      "schema_id": "dodo.sdt.callgraph.index.v1",
+      "schema_path": "agn/0.schema/contracts/agn_models/AgnV2Graph.schema.json",
+      "envelope": "required",
+      "cardinality": "per-profile",
+      "generator": "callgraph",
+      "status": "active"
+    },
+    {
+      "artifact_id": "sq-derivation",
+      "data_type": "json",
+      "canonical_path": "art/context/sq-derivation/{profile}/sq.index.json",
+      "schema_id": "dodo.sdt.traceability.sq-derivation.v1",
+      "schema_missing_reason": "SQ derivation container schema is not available",
+      "envelope": "optional",
+      "cardinality": "per-profile",
+      "generator": "callgraph.uc_generate",
+      "status": "active"
+    },
+    {
+      "artifact_id": "ac-derivation",
+      "data_type": "json",
+      "canonical_path": "art/context/ac-derivation/{profile}/ac.index.json",
+      "schema_id": "dodo.sdt.traceability.ac-derivation.v1",
+      "schema_missing_reason": "AC derivation container schema is not available",
+      "envelope": "optional",
+      "cardinality": "per-profile",
+      "generator": "callgraph.ac_derive",
+      "status": "active"
+    },
+    {
+      "artifact_id": "ac-sq-trace",
+      "data_type": "json",
+      "canonical_path": "art/context/ac-sq-trace/{profile}/trace.index.json",
+      "schema_id": "dodo.sdt.traceability.ac-sq-trace.v1",
+      "schema_missing_reason": "AC-SQ trace container schema is not available",
+      "envelope": "optional",
+      "cardinality": "per-profile",
+      "generator": "callgraph.ac_sq_trace",
+      "status": "active"
+    },
+    {
+      "artifact_id": "uc-ac-link-candidates",
+      "data_type": "json",
+      "canonical_path": "art/context/uc-ac-link-candidates/{profile}/links.index.json",
+      "schema_id": "https://dodoai.local/schema/uc-ac-link-candidates-v1.0.0.json",
+      "envelope": "optional",
+      "cardinality": "per-profile",
+      "generator": "sdt.uc_ac_link_derive",
+      "status": "active"
+    },
+    {
+      "artifact_id": "uc-ac-link-catalog",
+      "data_type": "json",
+      "canonical_path": "agn/1.workflows/requirements-catalog/uc-ac-link-catalog.json",
+      "schema_id": "https://dodoai.local/schema/uc-ac-link-catalog-v1.0.0.json",
+      "envelope": "required",
+      "cardinality": "singleton",
+      "generator": null,
+      "status": "active"
+    },
+    {
+      "artifact_id": "uc-derivation",
+      "data_type": "json",
+      "canonical_path": "art/context/uc-derivation/{feature_id}/graph.index.json",
+      "schema_id": "dodo.sdt.traceability.uc-derivation.v1",
+      "schema_path": "agn/0.schema/contracts/agn_models/AgnV2Graph.schema.json",
+      "envelope": "required",
+      "cardinality": "per-feature",
+      "generator": "callgraph.uc_generate",
+      "status": "active"
+    },
+    {
+      "artifact_id": "docgraph",
+      "data_type": "json",
+      "canonical_path": "art/docs/docgraph/{synthesis_id}/graph.index.json",
+      "schema_id": "dodo.sdt.docgraph.index.v1",
+      "schema_path": "agn/0.schema/doc-graph-schema-v2.0.json",
+      "envelope": "required",
+      "cardinality": "per-synthesis",
+      "generator": "docgraph.sdtize",
+      "status": "active"
+    },
+    {
+      "artifact_id": "sco-ontology",
+      "data_type": "json",
+      "canonical_path": "agn/0.schema/ontology/sdt-canonical-ontology-v1.0.json",
+      "schema_id": "dodo.sdt.ontology.sco.v1",
+      "schema_missing_reason": "the existing SCO schema validates entries, not the ontology container",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "sdt.ontology_validate",
+      "status": "active"
+    },
+    {
+      "artifact_id": "standard-document-sco-catalog",
+      "data_type": "json",
+      "canonical_path": "sco/STANDARD-DOC-CATALOG.json",
+      "schema_id": "dodo.sdt.sco.standard-document-catalog.v1",
+      "schema_missing_reason": "the standard document SCO catalog uses its own versioned container schema",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "sdt.standard_doc_sco_frame",
+      "status": "active",
+      "note": "Every projected ADF document and item definition is an SCO entry. Optional upper-concept relations do not determine SCO membership."
+    },
+    {
+      "artifact_id": "standard-document-sco-documents",
+      "data_type": "mixed",
+      "canonical_path": "sco/documents/**",
+      "schema_id": "dodo.sdt.sco.standard-document-snapshot.v1",
+      "schema_missing_reason": "the snapshot preserves upstream Markdown and adjacent requirements JSON formats",
+      "envelope": "optional",
+      "cardinality": "collection",
+      "generator": "sdt.standard_doc_sco_frame",
+      "status": "active",
+      "note": "Workspace-local SCO definitions mirrored from the configured upstream standard_docs_root."
+    },
+    {
+      "artifact_id": "standard-document-sco-curation",
+      "data_type": "json",
+      "canonical_path": "sco/STANDARD-DOC-SCO-CURATION.json",
+      "schema_id": "dodo.sdt.sco.standard-document-curation.v1",
+      "schema_missing_reason": "the human curation source uses its own versioned container schema",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "",
+      "status": "active"
+    },
+    {
+      "artifact_id": "standard-document-sco-ontology",
+      "data_type": "json",
+      "canonical_path": "sco/STANDARD-DOC-SCO-ONTOLOGY.json",
+      "schema_id": "dodo.sdt.sco.standard-document-ontology.v1",
+      "schema_missing_reason": "the standard document ontology uses its own versioned container schema",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "sdt.standard_doc_sco_derive",
+      "status": "active"
+    },
+    {
+      "artifact_id": "capability-module-catalog",
+      "data_type": "json",
+      "canonical_path": "art/catalog/capability-module-catalog.json",
+      "schema_id": "dodo.sdt.requirements.capability-module-catalog.v1",
+      "schema_missing_reason": "catalog-specific container schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "dodo_core.tools.requirements_model_sync",
+      "status": "active"
+    },
+    {
+      "artifact_id": "epic-catalog",
+      "data_type": "json",
+      "canonical_path": "art/catalog/epic-catalog.json",
+      "schema_id": "dodo.sdt.requirements.epic-catalog.v1",
+      "schema_missing_reason": "catalog-specific container schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "dodo_core.tools.requirements_model_sync",
+      "status": "active"
+    },
+    {
+      "artifact_id": "feature-catalog",
+      "data_type": "json",
+      "canonical_path": "art/catalog/feature-catalog.json",
+      "schema_id": "dodo.sdt.requirements.feature-catalog.v1",
+      "schema_missing_reason": "catalog-specific container schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "dodo_core.tools.requirements_model_sync",
+      "status": "active"
+    },
+    {
+      "artifact_id": "functional-requirement-catalog",
+      "data_type": "json",
+      "canonical_path": "art/catalog/functional-requirement-catalog.json",
+      "schema_id": "dodo.sdt.requirements.functional-requirement-catalog.v1",
+      "schema_missing_reason": "catalog-specific container schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "dodo_core.tools.requirements_model_sync",
+      "status": "active"
+    },
+    {
+      "artifact_id": "use-case-catalog",
+      "data_type": "json",
+      "canonical_path": "art/catalog/use-case-catalog.json",
+      "schema_id": "dodo.sdt.requirements.use-case-catalog.v1",
+      "schema_missing_reason": "catalog-specific container schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "dodo_core.tools.requirements_model_sync",
+      "status": "active"
+    },
+    {
+      "artifact_id": "requirements-weave",
+      "data_type": "json",
+      "canonical_path": "art/catalog/requirements-weave.json",
+      "schema_id": "dodo.sdt.requirements.requirements-weave.v1",
+      "schema_missing_reason": "aggregate weave schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "dodo_core.tools.requirements_model_sync",
+      "status": "active",
+      "note": "縦糸(EPIC→Feature→UC)と横糸(CAP→FR→MOD)の対応表。epic-catalog / capability-catalog / feature.json から機械生成される集約物であり、新情報を持たない。2026/08/05 に agn/1.workflows/requirements-catalog/ から移設（生成物を AGN の source として宣言していた ART/AGN の SoT 反転の是正）。"
+    },
+    {
+      "artifact_id": "reverse-sco-map",
+      "data_type": "json",
+      "canonical_path": "art/sco-mapping/reverse-sco-map.json",
+      "schema_id": "dodo.sdt.ontology.reverse-sco-map.v1",
+      "schema_path": "agn/0.schema/ontology/term-mapping-schema-v1.0.json",
+      "envelope": "required",
+      "cardinality": "single",
+      "generator": "reverse_sco_bind",
+      "status": "active"
+    },
+    {
+      "artifact_id": "adf-coverage",
+      "data_type": "json",
+      "canonical_path": "art/docs/coverage/adf-coverage.json",
+      "schema_id": "dodo.sdt.adf.coverage.v1",
+      "schema_missing_reason": "ADF coverage schema is not available",
+      "envelope": "required",
+      "cardinality": "single",
+      "generator": "sdt.governance_metrics",
+      "status": "active"
+    },
+    {
+      "artifact_id": "epic-relation-graph",
+      "data_type": "json",
+      "canonical_path": "agn/1.workflows/epic-catalog/epic-relation-graph.json",
+      "schema_id": "dodo.sdt.requirements.epic-relation.v1",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "scripts.define_epic_concept_relations",
+      "status": "active",
+      "intra_layer": "epic",
+      "thread": "value",
+      "schema_path": "agn/0.schema/epic-relation-schema-v1.1.json",
+      "schema_ref": "agn/0.schema/epic-relation-schema-v1.1.json"
+    },
+    {
+      "artifact_id": "epic-observed-edges",
+      "data_type": "json",
+      "canonical_path": "art/relation/epic-observed-edges.json",
+      "schema_id": "dodo.sdt.requirements.epic-observed-edges.v1",
+      "schema_missing_reason": "observed-edge projection schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "scripts.derive_epic_feature_relation_graphs",
+      "status": "active",
+      "thread": "value"
+    },
+    {
+      "artifact_id": "feature-relation-graph",
+      "data_type": "json",
+      "canonical_path": "agn/1.workflows/requirements-catalog/feature-relation-graph.json",
+      "schema_id": "dodo.sdt.requirements.feature-relation.v1",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "scripts.derive_epic_feature_relation_graphs",
+      "status": "active",
+      "intra_layer": "feature",
+      "thread": "value",
+      "schema_path": "agn/0.schema/feature-relation-schema-v1.0.json",
+      "schema_ref": "agn/0.schema/feature-relation-schema-v1.0.json"
+    },
+    {
+      "artifact_id": "capability-relation-graph",
+      "data_type": "json",
+      "canonical_path": "agn/1.workflows/capability-catalog/capability-relation-graph.json",
+      "schema_id": "dodo.sdt.requirements.capability-relation.v1",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "scripts.derive_capmod_relation_graphs",
+      "status": "active",
+      "intra_layer": "capability",
+      "thread": "capability",
+      "schema_path": "agn/0.schema/capability-relation-schema-v1.0.json",
+      "schema_ref": "agn/0.schema/capability-relation-schema-v1.0.json"
+    },
+    {
+      "artifact_id": "module-relation-graph",
+      "data_type": "json",
+      "canonical_path": "agn/1.workflows/module-catalog/module-relation-graph.json",
+      "schema_id": "dodo.sdt.requirements.module-relation.v1",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "scripts.derive_capmod_relation_graphs",
+      "status": "active",
+      "intra_layer": "module",
+      "thread": "capability",
+      "schema_path": "agn/0.schema/module-relation-schema-v1.0.json",
+      "schema_ref": "agn/0.schema/module-relation-schema-v1.0.json"
+    },
+    {
+      "artifact_id": "capmod-relation-reconciliation",
+      "data_type": "json",
+      "canonical_path": "art/operations/governance/capmod-relation-reconciliation.json",
+      "schema_id": "dodo.sdt.requirements.capmod-reconciliation.v1",
+      "schema_missing_reason": "reconciliation report schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "scripts.derive_capmod_relation_graphs",
+      "status": "active"
+    },
+    {
+      "artifact_id": "mcp-review-package",
+      "data_type": "json",
+      "canonical_path": "art/operations/review-package/{review_id}/review-package.json",
+      "schema_id": "dodo.sdt.mcp.review-package.v1",
+      "schema_path": "agn/0.schema/mcp-review-package.schema.json",
+      "envelope": "required",
+      "cardinality": "per-review-snapshot",
+      "generator": "dodo_core.tools.mcp_review_package",
+      "status": "active"
+    },
+    {
+      "artifact_id": "epic-feature-relation-violations",
+      "data_type": "json",
+      "canonical_path": "art/relation/epic-feature-relation-violations.json",
+      "schema_id": "dodo.sdt.requirements.epic-feature-violations.v1",
+      "schema_missing_reason": "violation report schema is not available",
+      "envelope": "optional",
+      "cardinality": "single",
+      "generator": "scripts.derive_epic_feature_relation_graphs",
+      "status": "active"
+    },
+    {
+      "artifact_id": "iuc-derivation",
+      "data_type": "json",
+      "canonical_path": "art/context/iuc-derivation/",
+      "schema_id": "dodo.sdt.legacy.iuc-derivation.v1",
+      "schema_missing_reason": "deprecated IUC artifact; no new schema will be authored",
+      "envelope": "required",
+      "cardinality": "deprecated",
+      "generator": "callgraph.ac_derive",
+      "status": "deprecated"
+    },
+    {
+      "artifact_id": "iuc-uc-trace",
+      "data_type": "json",
+      "canonical_path": "art/context/iuc-uc-trace/",
+      "schema_id": "dodo.sdt.legacy.iuc-uc-trace.v1",
+      "schema_missing_reason": "deprecated IUC artifact; no new schema will be authored",
+      "envelope": "required",
+      "cardinality": "deprecated",
+      "generator": "callgraph.ac_sq_trace",
+      "status": "deprecated"
+    },
+    {
+      "artifact_id": "art-requirements-weave",
+      "data_type": "json",
+      "canonical_path": "art/requirements/{epic_id}/{feature_id}/requirements-weave.json",
+      "schema_id": "dodo.sdt.requirements.weave.v1",
+      "schema_path": "agn/0.schema/requirement-model.schema.json",
+      "envelope": "optional",
+      "cardinality": "per-feature",
+      "generator": "",
+      "status": "active"
+    },
+    {
+      "artifact_id": "art-requirements-ui-navigation-contract",
+      "data_type": "json",
+      "canonical_path": "art/requirements/{epic_id}/{feature_id}/ui-navigation-contract.json",
+      "schema_id": "dodo.sdt.requirements.ui-navigation-contract.v1",
+      "schema_missing_reason": "UI navigation contract schema is not available",
+      "envelope": "optional",
+      "cardinality": "per-feature",
+      "generator": "",
+      "status": "active"
+    },
+    {
+      "artifact_id": "sdt-structure-map",
+      "data_type": "json",
+      "canonical_path": "agn/0.schema/structure-map/sdt-structure-map.json",
+      "schema_id": "dodo.sdt.governance.structure-map.v1",
+      "envelope": "required",
+      "cardinality": "single",
+      "generator": "human",
+      "status": "active",
+      "schema_path": "agn/0.schema/structure-map-schema-v1.0.json",
+      "note": "SDT を構成する JSON 成果物群（json_targets）と Core Action ファミリー（action_families）を構造軸 S1〜S6 / 工程軸 / ART・AGN 軸で接続する統治グラフ。分類は人間の宣言（source / AUTH-R01 配下）。UI ビュー（構造/工程/ART・AGN）は同一グラフへの filter/group-by として payload.views に宣言する。人間可読 view: docs/2.common/2.system-requirements/{10,11,12}-*.md"
+    },
+    {
+      "artifact_id": "art-workflow-evidence-dd",
+      "data_type": "json",
+      "canonical_path": "art/test-results/{feature_id}/evidence-dd{phase}.json",
+      "schema_id": "dodo.sdt.evidence.test-results.v1",
+      "schema_path": "agn/0.schema/evidence-test-results.schema.json",
+      "envelope": "optional",
+      "cardinality": "per-dd-phase",
+      "generator": "test_evidence.link",
+      "status": "active"
+    }
+  ],
+
+  "legacy_schema_map": {
+    "reverse-adf-coverage-v1.0": "dodo.sdt.adf.coverage.v1",
+    "techx.reverse.adf-coverage.v1": "dodo.sdt.adf.coverage.v1",
+    "reverse-sco-map-v1.0": "dodo.sdt.ontology.reverse-sco-map.v1",
+    "techx.reverse.sco-map.v1": "dodo.sdt.ontology.reverse-sco-map.v1",
+    "iuc-derivation-v1.0": "dodo.sdt.legacy.iuc-derivation.v1",
+    "iuc-uc-trace-v1.0": "dodo.sdt.legacy.iuc-uc-trace.v1",
+    "epic-relation-graph/1.0.0": "dodo.sdt.requirements.epic-relation.v1",
+    "epic-relation-graph/1.1.0": "dodo.sdt.requirements.epic-relation.v1",
+    "epic-observed-edges/1.0.0": "dodo.sdt.requirements.epic-observed-edges.v1",
+    "feature-relation-graph/1.0.0": "dodo.sdt.requirements.feature-relation.v1",
+    "capability-relation-graph/1.0.0": "dodo.sdt.requirements.capability-relation.v1",
+    "capability-relation-graph/1.1.0": "dodo.sdt.requirements.capability-relation.v1",
+    "module-relation-graph/1.0.0": "dodo.sdt.requirements.module-relation.v1",
+    "capmod-relation-reconciliation/1.0.0": "dodo.sdt.requirements.capmod-reconciliation.v1",
+    "epic-feature-relation-violations/1.0.0": "dodo.sdt.requirements.epic-feature-violations.v1",
+    "requirements-weave.v1": "dodo.sdt.requirements.weave.v1",
+    "requirements-weave-v1.0": "dodo.sdt.requirements.weave.v1",
+    "sdt-requirement-contract-v1.0": "dodo.sdt.requirements.ui-navigation-contract.v1"
+  },
+  "deprecated": [
+    {
+      "artifact_id": "iuc-derivation",
+      "reason": "IUC retired by requirements model v2.0",
+      "migration": "move_to_.trash/sdt-migration-<date>/ after UC/FR trace replacement is verified"
+    },
+    {
+      "artifact_id": "iuc-uc-trace",
+      "reason": "IUC retired by requirements model v2.0",
+      "migration": "move_to_.trash/sdt-migration-<date>/ after UC/FR trace replacement is verified"
+    }
+  ],
+  "audit_checks": [
+    {
+      "check_id": "CHK-01",
+      "name": "repo_context_schema",
+      "severity": "error"
+    },
+    {
+      "check_id": "CHK-02",
+      "name": "directory_structure",
+      "severity": "error",
+      "description": "Every top-level child of agn/ and art/ must be declared above, and neither may contain the other. Undeclared directories are violations, not silently-ignored extras — an ignore-by-default check reported ok=true while 21 undeclared directories and a nested agn/art tree existed (2026/08/04)."
+    },
+    {
+      "check_id": "CHK-03",
+      "name": "canonical_path",
+      "severity": "error"
+    },
+    {
+      "check_id": "CHK-04",
+      "name": "schema_id_and_envelope",
+      "severity": "error"
+    },
+    {
+      "check_id": "CHK-05",
+      "name": "stray_dodoai_docs_tree",
+      "severity": "error"
+    },
+    {
+      "check_id": "CHK-06",
+      "name": "schema_drift",
+      "severity": "warning"
+    },
+    {
+      "check_id": "CHK-07",
+      "name": "deprecated_artifact",
+      "severity": "warning"
+    },
+    {
+      "check_id": "CHK-08",
+      "name": "authoring_policy_violation",
+      "severity": "error"
+    },
+    {
+      "check_id": "CHK-09",
+      "name": "unclassified_artifact",
+      "severity": "warning"
+    },
+    {
+      "check_id": "CHK-10",
+      "name": "db_artifact_consistency",
+      "severity": "error",
+      "description": "Declared db:// artifact tables must exist in both ORM and migration inventories; governed SDT relational tables must have a contract declaration."
+    }
+  ],
+  "action_contracts": {
+    "sdt_layout.resolve": {
+      "input": [
+        "workspace_root",
+        "project_id",
+        "artifact_id",
+        "mode"
+      ],
+      "output": [
+        "ok",
+        "physical_path",
+        "store",
+        "data_type",
+        "db_locator",
+        "artifact",
+        "resolution_chain",
+        "error"
+      ],
+      "failure_policy": "LayoutResolutionError; writers must not fall back to control-plane default paths"
+    },
+    "sdt_layout.audit": {
+      "input": [
+        "workspace_root",
+        "project_id",
+        "contract_path"
+      ],
+      "output": [
+        "ok",
+        "violations",
+        "summary"
+      ],
+      "completion_gate": "ok=true and violations=0"
+    },
+    "sdt_layout.schema_sync": {
+      "input": [
+        "workspace_root",
+        "project_id",
+        "subset",
+        "dry_run"
+      ],
+      "output": [
+        "ok",
+        "manifest_path",
+        "synced_files",
+        "violations"
+      ]
+    },
+    "sdt_layout.migrate": {
+      "input": [
+        "workspace_root",
+        "project_id",
+        "dry_run",
+        "audit_result_path"
+      ],
+      "output": [
+        "ok",
+        "plan",
+        "journal_path",
+        "trash_root",
+        "violations"
+      ],
+      "safety": "dry_run_default_true; trash_over_rm; conflict_requires_hil"
+    },
+    "sdt.authoring_validate": {
+      "input": [
+        "workspace_root",
+        "project_id",
+        "scope",
+        "fail_on_unclassified"
+      ],
+      "output": [
+        "ok",
+        "violations",
+        "summary",
+        "unclassified"
+      ],
+      "completion_gate": "ok=true and violations=0"
+    },
+    "sdt.authoring_classify": {
+      "input": [
+        "workspace_root",
+        "project_id",
+        "dry_run",
+        "write_rules"
+      ],
+      "output": [
+        "ok",
+        "classified",
+        "unclassified",
+        "proposals"
+      ],
+      "safety": "dry_run_default_true; 移行専用。unclassified は HIL 裁定へ回す"
+    },
+    "sdt.authoring_drift": {
+      "input": [
+        "workspace_root",
+        "project_id",
+        "artifact_id",
+        "regenerate"
+      ],
+      "output": [
+        "ok",
+        "drifted",
+        "details"
+      ],
+      "completion_gate": "drifted=0"
+    }
+  },
+  "completion_gate_integration": {
+    "rule": ".clinerules-detail/11-completion-gate.md",
+    "required_action": [
+      "sdt_layout.audit",
+      "sdt.authoring_validate"
+    ],
+    "pass_condition": "ok=true and violations=0",
+    "scope": "DD phase completion / Feature close / HANDOFF _done"
+  },
+  "authoring_policy": {
+    "schema_ref": "docs/99.sdt/agn/0.schema/authoring-schema-v1.0.json",
+    "policy_version": "1.0.0",
+    "description": "SDT の書き込み主権を glob で宣言する base 層。個々のノード宣言があればそちらが優先される（二層解決 / AUTH-P5）。ルールは上から順に評価し、最初に一致したものが勝つ。",
+    "default": {
+      "write_owner": "unclassified",
+      "derivation": "unclassified",
+      "rationale": "deny-by-default（AUTH-P3）。分類漏れを『編集可』にしない。unclassified は HIL 裁定待ちとして指標に計上される"
+    },
+    "rules": [
+      {
+        "rule_id": "AUTH-RDB01",
+        "match": "db://core/**",
+        "write_owner": "agent",
+        "derivation": "source",
+        "generator": "task_graph.create_manual",
+        "allowed_actions": [
+          "task_graph.create_manual",
+          "task_graph.update",
+          "task_graph.archive"
+        ],
+        "rationale": "DB-resident SDT overlays are writable only through declared registered Actions. Manual SQL is prohibited; the overlay never replaces AGN TaskGraph JSON as machine SoT."
+      },
+      {
+        "rule_id": "AUTH-R71",
+        "match": "metrics/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "指標の意味、目標値、比較規則は人間の運用判断を表す source SoT。Agent は実測値をここへ転記せず、変更は HIL 承認を受ける。2026-08-08 に metrics root と Soak OODA metric set を Human が承認"
+      },
+      {
+        "rule_id": "AUTH-R01A",
+        "match": "agn/0.schema/ontology/packages/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "Domain SCO Package はドメイン語彙の source。Agent は draft 提案までで、確定と frozen 昇格は HIL"
+      },
+      {
+        "rule_id": "AUTH-R01",
+        "match": "agn/0.schema/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "スキーマは概念定義そのもの。Agent は draft 提案までで、確定は HIL"
+      },
+      {
+        "rule_id": "AUTH-R02",
+        "match": "agn/1.workflows/roadmap/roadmap-release-plan.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "どの Version に何を載せるかは人間の意思決定。roadmap 配下で唯一の手書き SoT"
+      },
+      {
+        "rule_id": "AUTH-R03",
+        "match": "agn/1.workflows/roadmap/roadmap-matrix.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "dodo_core.tools.roadmap_matrix_build",
+        "regen_command": "python3 -m dodo_core.tools.roadmap_matrix_build --workspace-root .",
+        "rationale": "epic/capability catalog + release-plan + feature.json から決定論的に再生成される"
+      },
+      {
+        "rule_id": "AUTH-R04",
+        "match": "agn/1.workflows/roadmap/roadmap-graph*.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "roadmap.derive",
+        "regen_command": "python3 -m dodo_core.tools.roadmap_matrix_build --workspace-root .",
+        "rationale": "既存コンシューマ向けの legacy 投影。手編集は次の再生成で失われる"
+      },
+      {
+        "rule_id": "AUTH-R05",
+        "match": "agn/1.workflows/roadmap/roadmap-plan.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "roadmap.autoplan",
+        "rationale": "CRON の計画知能が fingerprint で冪等に生成する"
+      },
+      {
+        "rule_id": "AUTH-R06",
+        "match": "art/test-results/**/evidence-*.json",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "テスト・ゲート実行の記録。再生成不可のため手編集も削除も禁止（監査証跡）"
+      },
+      {
+        "rule_id": "AUTH-R07",
+        "match": "art/evidence/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "同上（Evidence 集約領域）"
+      },
+      {
+        "rule_id": "AUTH-R08",
+        "match": "art/evidence/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "同上（ART 側 Evidence）"
+      },
+      {
+        "rule_id": "AUTH-R09",
+        "match": "agn/7.findings/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "検出された Finding は観測事実。人間は status 遷移を Action 経由で行う"
+      },
+      {
+        "rule_id": "AUTH-R10",
+        "match": "agn/1.workflows/**/feature.json",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary",
+          "/attributes/name",
+          "/attributes/priority",
+          "/attributes/depends_on",
+          "/attributes/spec_refs",
+          "/attributes/capability"
+        ],
+        "generated_fields": [
+          "/attributes/dd_progress",
+          "/attributes/phase_gates",
+          "/status"
+        ],
+        "rationale": "意図（何を作るか・依存）は人間、DD 進捗は生成器が task-dd*.json から同期する"
+      },
+      {
+        "rule_id": "AUTH-R11",
+        "match": "agn/1.workflows/**/task-dd*.json",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary",
+          "/attributes/acceptance_criteria"
+        ],
+        "generated_fields": [
+          "/status"
+        ],
+        "rationale": "タスクの定義は人間・Agent、status は Harness/Action が遷移させる"
+      },
+      {
+        "rule_id": "AUTH-R12",
+        "match": "art/contracts/**/contract.json",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary"
+        ],
+        "generated_fields": [
+          "/attributes/extracted_at"
+        ],
+        "rationale": "DD01 CONTRACT は設計意図。抽出メタのみ生成器が更新する"
+      },
+      {
+        "rule_id": "AUTH-R13",
+        "match": "art/test-results/**/test-cases.json",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary"
+        ],
+        "generated_fields": [
+          "/attributes/last_run"
+        ],
+        "rationale": "テストケース定義は設計、実行結果メタは生成器"
+      },
+      {
+        "rule_id": "AUTH-R14",
+        "match": "art/requirements/**/fr-catalog.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "FR は CAP が所有する要求定義。人間の意図"
+      },
+      {
+        "rule_id": "AUTH-R15",
+        "match": "art/catalog/source/{epic,capability,br,fr,requirements,strategy}-catalog/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "EPIC/CAP/BR/FR カタログは要求モデルの骨格。新設・改訂は HIL 裁定（rule-030 A02 Step 0）"
+      },
+      {
+        "rule_id": "AUTH-R16",
+        "match": "art/requirements/**/context-flow.json",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary"
+        ],
+        "rationale": "コンテキストフロー定義は設計意図"
+      },
+      {
+        "rule_id": "AUTH-R17",
+        "match": "agn/2.agents/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "Agent 定義（persona/skills/guard）は人間が設計する"
+      },
+      {
+        "rule_id": "AUTH-R18",
+        "match": "agn/3.skills/skills.catalog.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "skill_registrar",
+        "rationale": "個別 skill.json から集約生成されるカタログ"
+      },
+      {
+        "rule_id": "AUTH-R19",
+        "match": "agn/3.skills/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "Skill 定義は人間が設計する（カタログは AUTH-R18 で除外済み）"
+      },
+      {
+        "rule_id": "AUTH-R20",
+        "match": "agn/5.operations/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "Operation 定義は運用設計。Agent 選定の根拠となるため人間が持つ"
+      },
+      {
+        "rule_id": "AUTH-R21",
+        "match": "art/context/derived/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "callgraph.uc_generate",
+        "rationale": "派生グラフ。ディレクトリ名のとおり導出物"
+      },
+      {
+        "rule_id": "AUTH-R21A",
+        "match": "art/knowledge/ln-registry.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "ln_registry.upsert",
+        "rationale": "LN Registry は正規 Action によるパスとハッシュの冪等投影。手編集しない"
+      },
+      {
+        "rule_id": "AUTH-R22",
+        "match": "art/knowledge/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "rationale": "Linked Knowledge は取り込み時点のスナップショット。人間が直接書き換える対象ではない"
+      },
+      {
+        "rule_id": "AUTH-R23",
+        "match": "art/context/callgraph/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "callgraph",
+        "regen_command": "dodo_action_dispatch action_key=callgraph",
+        "rationale": "コードから抽出される。実装が Ground Truth であり CallGraph はその投影"
+      },
+      {
+        "rule_id": "AUTH-R72",
+        "match": "art/context/sq-derivation/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "callgraph.uc_generate",
+        "regen_command": "dodo_action_dispatch action_key=callgraph.uc_generate",
+        "rationale": "CallGraph の module 内 call chain から導出される Implemented Truth の SQ 投影"
+      },
+      {
+        "rule_id": "AUTH-R73",
+        "match": "art/context/ac-derivation/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "callgraph.ac_derive",
+        "regen_command": "dodo_action_dispatch action_key=callgraph.ac_derive",
+        "rationale": "CallGraph の module 境界横断から導出される Implemented Truth の AC 投影"
+      },
+      {
+        "rule_id": "AUTH-R74",
+        "match": "art/context/ac-sq-trace/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "callgraph.ac_sq_trace",
+        "regen_command": "dodo_action_dispatch action_key=callgraph.ac_sq_trace",
+        "rationale": "同一 profile の AC、SQ、CallGraph 間の導出 trace 投影"
+      },
+      {
+        "rule_id": "AUTH-R75",
+        "match": "art/context/uc-ac-link-candidates/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.uc_ac_link_derive",
+        "regen_command": "dodo_action_dispatch action_key=sdt.uc_ac_link_derive",
+        "rationale": "Designed UC と implemented AC の照合候補。HIL 未裁定の Evidence であり正本 Edge ではない"
+      },
+      {
+        "rule_id": "AUTH-R24",
+        "match": "art/context/uc-derivation/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "callgraph.uc_generate",
+        "rationale": "CallGraph から UC を導出した投影物"
+      },
+      {
+        "rule_id": "AUTH-R25",
+        "match": "art/context/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "callgraph.*",
+        "rationale": "ART context 配下は CallGraph 系の導出物（個別は R23/R24 で先行一致）"
+      },
+      {
+        "rule_id": "AUTH-R26",
+        "match": "art/doc_graph/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "docgraph.sdtize",
+        "rationale": "ドキュメント群から抽出したグラフ"
+      },
+      {
+        "rule_id": "AUTH-R27",
+        "match": "art/docs/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "docgraph.sdtize",
+        "rationale": "ART docs は投影ビュー。MD SoT 側を直す"
+      },
+      {
+        "rule_id": "AUTH-R27A",
+        "match": "art/catalog/capability-module-catalog.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "dodo_core.tools.requirements_model_sync",
+        "rationale": "CAP/MOD 要件モデルから再生成する集約カタログ"
+      },
+      {
+        "rule_id": "AUTH-R27B",
+        "match": "art/catalog/epic-catalog.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "dodo_core.tools.requirements_model_sync",
+        "rationale": "EPIC 要件モデルから再生成する集約カタログ"
+      },
+      {
+        "rule_id": "AUTH-R27C",
+        "match": "art/catalog/feature-catalog.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "dodo_core.tools.requirements_model_sync",
+        "rationale": "Feature 宣言から再生成する集約カタログ"
+      },
+      {
+        "rule_id": "AUTH-R27D",
+        "match": "art/catalog/functional-requirement-catalog.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "dodo_core.tools.requirements_model_sync",
+        "rationale": "CAP 所有 FR 宣言から再生成する集約カタログ"
+      },
+      {
+        "rule_id": "AUTH-R27E",
+        "match": "art/catalog/use-case-catalog.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "dodo_core.tools.requirements_model_sync",
+        "rationale": "Feature 所有 UC 宣言から再生成する集約カタログ"
+      },
+      {
+        "rule_id": "AUTH-R27F",
+        "match": "art/catalog/requirements-weave.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "dodo_core.tools.requirements_model_sync",
+        "regen_command": "python3 -m dodo_core.tools.requirements_model_sync --workspace-root .",
+        "rationale": "縦糸(EPIC→Feature→UC)×横糸(CAP→FR→MOD)の対応表。epic-catalog / capability-catalog / feature.json から再生成される集約物で新情報を持たない。2026/08/05 まで agn/1.workflows/requirements-catalog/ 配下にあり AUTH-R15 により write_owner=human / derivation=source と宣言されていたが、ファイル自身が generated_at と source_documents を持ち生成器が機械上書きしていたため規範と事実が矛盾していた（ART=成果物の正本 / AGN=ART を接続する因果グラフ という docs/99.sdt/README.md の定義に対する SoT 反転）。ART へ移設し derived として宣言する"
+      },
+      {
+        "rule_id": "AUTH-R27G",
+        "match": "sco/STANDARD-DOC-CATALOG.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.standard_doc_sco_frame",
+        "rationale": "ADF 標準レジストリと repo-context の standard_docs_root から正規化する SCO 標準文書定義。SCO は ART/AGN と同じ SDT 直下の独立層"
+      },
+      {
+        "rule_id": "AUTH-R27G1",
+        "match": "sco/documents/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.standard_doc_sco_frame",
+        "rationale": "ADFを上流原典としてSCO配下へ同期する標準文書定義。source_mdの解決先であり手編集しない"
+      },
+      {
+        "rule_id": "AUTH-R27H",
+        "match": "sco/STANDARD-DOC-SCO-CURATION.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "標準文書SCOの意味、型、必須性、任意の上位概念関係は人間が裁定する source truth"
+      },
+      {
+        "rule_id": "AUTH-R27I",
+        "match": "sco/STANDARD-DOC-SCO-ONTOLOGY.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.standard_doc_sco_derive",
+        "rationale": "ADF frame と人間管理のSCO curationから再生成する統合オントロジー"
+      },
+      {
+        "rule_id": "AUTH-R27J",
+        "match": "sco/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "SDT直下のSCO名前空間は意味定義の正準境界。生成物は直前の個別ルールを優先する"
+      },
+      {
+        "rule_id": "AUTH-R28",
+        "match": "art/catalog/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.catalog_build",
+        "rationale": "集約カタログ。元データから再生成される"
+      },
+      {
+        "rule_id": "AUTH-R29",
+        "match": "art/sco-mapping/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "reverse_sco_bind",
+        "rationale": "SCO への写像は機械導出。写像規則は agn/0.schema/ontology 側で人間が持つ"
+      },
+      {
+        "rule_id": "AUTH-R29A",
+        "match": "art/operations/review-package/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "dodo_core.tools.mcp_review_package",
+        "regen_command": "python -m dodo_core.tools.mcp_review_package --workspace-root . --output-id <review-id>",
+        "rationale": "MCP review package is reproducibly derived from a git ref, the Action Registry, and dependency metadata; it is not an append-only runtime observation."
+      },
+      {
+        "rule_id": "AUTH-R30",
+        "match": "art/operations/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "rationale": "soak / autoloop の運用観測記録"
+      },
+      {
+        "rule_id": "AUTH-R31",
+        "match": "art/knowledge/ln-registry.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.ln_link_autoheal",
+        "rationale": "LN Registry は物理パス解決の投影。手編集は禁止（sdt.ln_link_autoheal で修復する）"
+      },
+      {
+        "rule_id": "AUTH-R32",
+        "match": "art/data-facts/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.data_facts_build",
+        "rationale": "実データから抽出したファクト"
+      },
+      {
+        "rule_id": "AUTH-R75",
+        "match": "art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.*",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "ADF テスト体系の機械可読定義と人間可読 view。分類・Phase 配置の変更は全 Feature の Evidence Gate に影響するため HIL を必須とする。2026-08-10 の Human 指示で家系新設を承認"
+      },
+      {
+        "rule_id": "AUTH-R33",
+        "match": "art/contracts/**",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary"
+        ],
+        "generated_fields": [
+          "/attributes/extracted_at"
+        ],
+        "rationale": "DD01/API 契約は成果物本体であり ART に置く。設計意図は source、抽出メタだけを生成器が更新する"
+      },
+      {
+        "rule_id": "AUTH-R34",
+        "match": "agn/1.workflows/**/workflow.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "Workflow 定義は実行設計。人間が設計し Agent が実行する"
+      },
+      {
+        "rule_id": "AUTH-R35",
+        "match": "agn/1.workflows/**/*task-graph*.json",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary"
+        ],
+        "generated_fields": [
+          "/status"
+        ],
+        "rationale": "タスクグラフは feature/task と同格。定義は設計、status は Harness が遷移させる"
+      },
+      {
+        "rule_id": "AUTH-R36",
+        "match": "art/test-results/**/coverage-*.json",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "カバレッジは実測値。テスト実行の観測記録"
+      },
+      {
+        "rule_id": "AUTH-R37",
+        "match": "art/test-results/**/evidence.json",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "Evidence（サフィックスなし表記ゆれ）。AUTH-R06 と同義"
+      },
+      {
+        "rule_id": "AUTH-R38",
+        "match": "art/test-results/**/result-*.json",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "実行結果の記録"
+      },
+      {
+        "rule_id": "AUTH-R39",
+        "match": "agn/1.workflows/**/finding.json",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "Finding は検出された観測事実。status 遷移は Action 経由"
+      },
+      {
+        "rule_id": "AUTH-R40",
+        "match": "art/requirements/**/screen*.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "画面一覧・画面設計は外部設計。人間の設計意図"
+      },
+      {
+        "rule_id": "AUTH-R41",
+        "match": "art/contracts/**/api-contract.json",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary"
+        ],
+        "generated_fields": [
+          "/attributes/extracted_at"
+        ],
+        "rationale": "API 契約は設計。抽出メタのみ生成器"
+      },
+      {
+        "rule_id": "AUTH-R42",
+        "match": "art/requirements/**/llm-test-boundaries.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "LLM テスト境界は品質設計の意図"
+      },
+      {
+        "rule_id": "AUTH-R43",
+        "match": "art/requirements/**/context_flow.json",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary"
+        ],
+        "rationale": "context-flow の表記ゆれ。AUTH-R16 と同義"
+      },
+      {
+        "rule_id": "AUTH-R44",
+        "match": "art/requirements/**/uc-catalog.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "UC カタログは要求定義"
+      },
+      {
+        "rule_id": "AUTH-R45",
+        "match": "agn/1.workflows/autofix/generated/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "autofix.generate",
+        "rationale": "ディレクトリ名のとおり自動生成物"
+      },
+      {
+        "rule_id": "AUTH-R46",
+        "match": "agn/1.workflows/**/*-graph.v3.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.migrate",
+        "rationale": "移行・集約で生成されたグラフスナップショット"
+      },
+      {
+        "rule_id": "AUTH-R47",
+        "match": "agn/1.workflows/**/projection.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.project",
+        "rationale": "投影物であることが名前に現れている"
+      },
+      {
+        "rule_id": "AUTH-R48",
+        "match": "art/test-results/**/dispatch.json",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "rationale": "Harness の dispatch 記録"
+      },
+      {
+        "rule_id": "AUTH-R48B",
+        "match": "agn/1.workflows/epic-catalog/epic-relation-graph.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "scripts.define_epic_concept_relations",
+        "regen_command": "python3 scripts/define_epic_concept_relations.py",
+        "human_fields": [
+          "/pillar_order",
+          "/edges",
+          "/hil_pending"
+        ],
+        "generated_fields": [
+          "/nodes",
+          "/observed_edges",
+          "/conformance"
+        ],
+        "rationale": "EPIC 層の概念データモデル（v1.1）。`edges[]` は人間が宣言する概念関係（belief）で HIL 裁定を受けるが、定義本体はスクリプト内 CONCEPT_EDGES に人間可読な形で置き、再生成で投影する（意図の SoT はスクリプト側）。`observed_edges[]` は art/relation/epic-observed-edges.json からの取り込み、`conformance` は突合の派生値であり手編集しない。**本ファイルの writer は define_epic_concept_relations 単独である**（Single Writer）。derive_epic_feature_relation_graphs は読み取りのみで、観測は別ファイルへ供給する（ADF 要件モデル §0.1 R9）。AUTH-R15（catalog 配下 human）より先行一致させるため R49 より前に置く"
+      },
+      {
+        "rule_id": "AUTH-R48A",
+        "match": "agn/1.workflows/{requirements-catalog,capability-catalog,module-catalog}/*-relation-graph.json",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "scripts.derive_capmod_relation_graphs|scripts.derive_epic_feature_relation_graphs",
+        "regen_command": "python3 scripts/derive_capmod_relation_graphs.py && python3 scripts/derive_epic_feature_relation_graphs.py",
+        "human_fields": [
+          "/plane_order",
+          "/pillar_order",
+          "/declared_edges",
+          "/hil_pending"
+        ],
+        "rationale": "同一層内関係グラフ（Feature/CAP/MOD）。Fact エッジと node 実在性は観測からの導出物なので手編集しない。plane_order / pillar_order / declared_edges / hil_pending は HIL 裁定結果を受ける人間側フィールド（ADF 要件モデル §0.1 R3 Fact/Policy 分離・R6 裁定は人間）。EPIC 層は writer が異なるため AUTH-R48B が先行一致する。AUTH-R15（catalog 配下 human）より先行一致させるため R49 より前に置く"
+      },
+      {
+        "rule_id": "AUTH-R48C",
+        "match": "agn/1.workflows/requirements-catalog/uc-ac-link-catalog.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "Designed UC と implemented AC の照合は自動確定せず、人が候補 Evidence を裁定する"
+      },
+      {
+        "rule_id": "AUTH-R49",
+        "match": "agn/1.workflows/**",
+        "write_owner": "mixed",
+        "derivation": "source",
+        "human_fields": [
+          "/summary"
+        ],
+        "rationale": "workflows 配下の既定。要求・設計系 SDT として扱い、個別ルールが先行一致する"
+      },
+      {
+        "rule_id": "AUTH-R50",
+        "match": "agn/4.findings/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "findings ディレクトリの表記ゆれ。AUTH-R09 と同義"
+      },
+      {
+        "rule_id": "AUTH-R51",
+        "match": "agn/99.rules/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "ルール定義は統治の正本。HIL 裁定"
+      },
+      {
+        "rule_id": "AUTH-R52",
+        "match": "art/reverse-baseline/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.reverse_baseline",
+        "rationale": "リバース積み上げのベースライン投影"
+      },
+      {
+        "rule_id": "AUTH-R53",
+        "match": "agn/*.json",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "AGN 直下のカタログ類は統治対象の設計物"
+      },
+      {
+        "rule_id": "AUTH-R54",
+        "match": "art/test-results/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "テスト実行結果の記録"
+      },
+      {
+        "rule_id": "AUTH-R55",
+        "match": "art/governance/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.governance_metrics",
+        "rationale": "ガバナンス指標は計測の投影"
+      },
+      {
+        "rule_id": "AUTH-R56",
+        "match": "art/traceability/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.traceability_build",
+        "rationale": "トレーサビリティは関係から導出される"
+      },
+      {
+        "rule_id": "AUTH-R57",
+        "match": "art/reverse-baseline/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.reverse_baseline",
+        "rationale": "同 AUTH-R52（ART 側）"
+      },
+      {
+        "rule_id": "AUTH-R58",
+        "match": "art/reviewed_sdt/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "rationale": "レビュー結果の記録"
+      },
+      {
+        "rule_id": "AUTH-R59",
+        "match": "art/multi-agent/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "rationale": "マルチエージェント実行の観測記録"
+      },
+      {
+        "rule_id": "AUTH-R60",
+        "match": "art/world-model/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "rationale": "World Model の観測状態スナップショット"
+      },
+      {
+        "rule_id": "AUTH-R61",
+        "match": "art/roadmap/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "roadmap.derive",
+        "rationale": "ART 側 roadmap 投影"
+      },
+      {
+        "rule_id": "AUTH-R62",
+        "match": "art/archive/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "immutable_after_write": true,
+        "rationale": "退避された過去資産。追跡性のため改変禁止"
+      },
+      {
+        "rule_id": "AUTH-R63",
+        "match": "art/strategy/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "戦略分類は人間の意思決定（STR 写像は HIL 裁定中）"
+      },
+      {
+        "rule_id": "AUTH-R64",
+        "match": "art/security/**",
+        "write_owner": "agent",
+        "derivation": "captured",
+        "rationale": "セキュリティ検査の観測記録"
+      },
+      {
+        "rule_id": "AUTH-R65",
+        "match": "art/knowledge/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "sdt.knowledge_build",
+        "rationale": "Knowledge 索引は投影物（ln-registry は AUTH-R31 で先行一致）"
+      },
+      {
+        "rule_id": "AUTH-R70A",
+        "match": "art/requirements/**/{feature.json,workflow.json,task-dd*.json,*task-graph*.json}",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "TaskGraph の Feature・Workflow・Task は AGN 正本。ART 側は誤配置の隔離領域として Agent 書き込みを禁止し、taskgraph-to-agn migration で復旧する。"
+      },
+      {
+        "rule_id": "AUTH-R70",
+        "match": "art/requirements/**",
+        "write_owner": "agent",
+        "derivation": "source",
+        "rationale": "A02 の要求モデルの中身（BR/SR/UC/CAP/FR/MOD と uc_fr_matrix）そのもの。成果物なので ART、かつ生成物ではなく Agent が起案する source。docs/3.system/ の MD は同じ内容の人間可読 view（WM-5 の対）。first-match-wins のため art/** catch-all（AUTH-R66）より前に置く。"
+      },
+      {
+        "rule_id": "AUTH-R66",
+        "match": "art/**",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "unknown",
+        "rationale": "ART 配下の既定。ART は原則として投影物であるという設計原則に従う。generator=unknown は AUTH-V02 で検出され HIL 裁定へ回る"
+      },
+      {
+        "rule_id": "AUTH-R67",
+        "match": "../3.system/index.md",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "scripts.generate_system_frame_skeleton",
+        "regen_command": "python3 scripts/generate_system_frame_skeleton.py",
+        "rationale": "3.system ルート索引は catalog から再生成される Frame Skeleton view"
+      },
+      {
+        "rule_id": "AUTH-R68",
+        "match": "../3.system/{1.epic,2.capability}/index.md",
+        "write_owner": "generator",
+        "derivation": "derived",
+        "generator": "scripts.generate_system_frame_skeleton",
+        "regen_command": "python3 scripts/generate_system_frame_skeleton.py",
+        "rationale": "縦糸・横糸の索引は catalog から再生成される"
+      },
+      {
+        "rule_id": "AUTH-R69",
+        "match": "../3.system/{1.epic,2.capability}/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "rationale": "単数形 thread 配下は active 要求 view。Feature A02 と HIL 裁定済み frame 内容の書き込み先"
+      },
+      {
+        "rule_id": "AUTH-R69A",
+        "match": "docs/3.system/3.external-design/**",
+        "write_owner": "human",
+        "derivation": "source",
+        "hil_gate": true,
+        "rationale": "ED16 などの外部設計は人間が合意した画面・API・状態・遷移の source view。repo-relative path を使う authoring_resolve 呼び出しを分類する。変更は HIL 承認を受ける。2026-08-16 に SCO UI ED16 の正式化を Human が承認"
+      },
+    {
+      "rule_id": "AUTH-R69B",
+      "match": "../3.system/3.external-design/**",
+      "write_owner": "human",
+      "derivation": "source",
+      "hil_gate": true,
+      "rationale": "ED16 などの外部設計は人間が合意した画面・API・状態・遷移の source view。SDT scanner が生成する SDT-root-relative path を分類し、機械可読 ART 設計との双対を維持する。変更は HIL 承認を受ける"
+    },
+    {
+      "rule_id": "AUTH-R69C",
+      "match": "../3.system/2.a03-design/**",
+      "write_owner": "human",
+      "derivation": "source",
+      "hil_gate": true,
+      "rationale": "A03 全体設計の MD/JSON 双対は、人間が合意した要件境界・依存規則・移行不変条件を保持する source design。SDT scanner の SDT-root-relative path を分類し、変更は HIL 承認を受ける。"
+    }
+    ]
+  }
+}

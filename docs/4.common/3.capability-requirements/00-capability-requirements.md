@@ -8,8 +8,8 @@ tags: [common, requirements, epic, cap, fr, adf, crypto-wealth-os]
 
 > **テーマ**: dodo Crypto Wealth OS / **theme_id**: `crypto-wealth-os` / **profile**: `crypto` / **作成**: 2026-08-22
 > **正本関係（JSON-first）**: 本書は **AGN catalog ノードの認知 view** である。機械可読 SoT は次の 2 ノード（`agn.node_upsert` 経由で読み書き — SDT JSON 直読み・直編集禁止）:
-> - EPIC catalog: `ln://agn/epic-catalog-crypto-wealth-os/task-epic-catalog-crypto-wealth-os`
-> - CAP/FR catalog: `ln://agn/cap-catalog-crypto-wealth-os/task-cap-catalog-crypto-wealth-os`
+> - EPIC catalog: `ln://agn/task-epic-catalog-crypto-wealth-os/task-task-epic-catalog-crypto-wealth-os`
+> - CAP/FR catalog: `ln://agn/task-cap-catalog-crypto-wealth-os/task-task-cap-catalog-crypto-wealth-os`
 >
 > **HIL 裁定**: 2026-08-22 — EPIC 6 + CAP 8 + FR セット + `impl_provenance`（dodoAI 本体実装参照 Index）方式をユーザー承認。**EPIC / CAP / FR の新設・変更は HIL 裁定必須**（AGENTS.md §Requirements Model）。
 > **ADF パス**: 縦糸 `BR → SR → UC（各 Feature A02）→ Evidence` ⟷ 横糸 `CAP ─owns→ FR → Mod`。**FR は CAP が所有**し、Feature / UC は `satisfies` で参照のみ（正本: dodoAI Charter `07-requirements-architecture-map.md` 同型）。
@@ -158,3 +158,4 @@ tags: [common, requirements, epic, cap, fr, adf, crypto-wealth-os]
 | バージョン | 日付 | 内容 |
 |---|---|---|
 | v0.1.0 | 2026-08-22 | 新設（HIL 裁定）。EPIC 6 / CAP 8 / FR 35 を JSON-first catalog（AGN ノード）+ 本 MD view の双対で定義。impl_provenance（dodoAI 本体実装参照 Index）を導入 |
+| v0.1.1 | 2026-08-22 | **修復**: JSON SoT ノード（`agn.node_upsert`）を実登録し、ダングリングだった `ln://` 参照を実 URI へ修正（MD 先行は WM-5 / JSON-first 違反として Finding 記録 — task node `task-dd01-epic-cap-catalog-registration` 参照） |

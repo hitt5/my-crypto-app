@@ -1,0 +1,72 @@
+{
+  "$schema": "dodo.sdt.catalog.epic.v1",
+  "model_id": "crypto-wealth-os-epic-catalog",
+  "model_kind": "epic-catalog",
+  "version": "0.1.1",
+  "updated_at": "2026-08-22T21:50:00+09:00",
+  "updated_by": "codex-root-dashboard-dd03-20260822",
+  "source_documents": [
+    "docs/4.common/3.capability-requirements/00-capability-requirements.md",
+    "docs/3.strategy/02-epic-cap-priority-roadmap.md"
+  ],
+  "epics": [
+    {
+      "id": "EPIC-FOUNDATION",
+      "name": "ワークスペース基盤",
+      "summary": "catalog、roadmap SoT、標準 workflow governance を提供する開発基盤。",
+      "feature_ids": ["F-WORKSPACE-BOOTSTRAP"],
+      "business_requirement_ids": [],
+      "priority": "E-P0",
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "2-epic-カタログ縦糸--6-epic"}
+    },
+    {
+      "id": "EPIC-VIABILITY",
+      "name": "生存・統治正本",
+      "summary": "資産状態、Viability 制約、DRIFTED を観測・評価する。",
+      "feature_ids": ["F-VIABILITY-POLICY-CORE", "F-CRYPTO-PORTFOLIO-DASHBOARD"],
+      "business_requirement_ids": ["BR-1", "BR-7"],
+      "priority": "E-P0",
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "2-epic-カタログ縦糸--6-epic"}
+    },
+    {
+      "id": "EPIC-WORLD-MODEL",
+      "name": "世界モデル観測",
+      "summary": "境界変数と制約を観測し、世界モデルを更新する。",
+      "feature_ids": ["F-WORLD-MODEL-OBSERVE"],
+      "business_requirement_ids": ["BR-4"],
+      "priority": "E-P1",
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "2-epic-カタログ縦糸--6-epic"}
+    },
+    {
+      "id": "EPIC-OPPORTUNITY",
+      "name": "機会生成・評価",
+      "summary": "機会を生成し Convexity と counterfactual を評価する。",
+      "feature_ids": ["F-OPPORTUNITY-ENGINE", "F-AIRDROP-CLAIM-TRACKER", "F-YIELD-COMPARE"],
+      "business_requirement_ids": ["BR-1", "BR-4"],
+      "priority": "E-P1",
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "2-epic-カタログ縦糸--6-epic"}
+    },
+    {
+      "id": "EPIC-GUARDIAN",
+      "name": "リスク検知・退避",
+      "summary": "RiskSignal を検知し停止・退避判断へ接続する。",
+      "feature_ids": ["F-GUARDIAN-RISKSIGNAL"],
+      "business_requirement_ids": ["BR-3", "BR-6"],
+      "priority": "E-P1",
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "2-epic-カタログ縦糸--6-epic"}
+    },
+    {
+      "id": "EPIC-SETTLEMENT",
+      "name": "実行・承認",
+      "summary": "承認付き実行と settlement pipeline を統治する。",
+      "feature_ids": ["F-EXECUTION-APPROVE"],
+      "business_requirement_ids": ["BR-2", "BR-3", "BR-5"],
+      "priority": "E-P3",
+      "md_ref": {"path": "docs/4.common/3.capability-requirements/00-capability-requirements.md", "anchor": "2-epic-カタログ縦糸--6-epic"}
+    }
+  ],
+  "traceability": {
+    "hil_approved_at": "2026-08-22",
+    "theme_id": "crypto-wealth-os"
+  }
+}

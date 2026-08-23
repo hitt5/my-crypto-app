@@ -1,0 +1,113 @@
+{
+  "node_id": "F-WORKSPACE-BOOTSTRAP-DD01-LOOP-CATALOG-CONCEPT-SYNC",
+  "type": "task",
+  "name": "Synchronize LOOP catalog concept and governance boundaries",
+  "description": "Project the HIL-approved dodoAI LOOP catalog model into the crypto product Concept, requirements architecture map, and repository instructions without inventing the absent project-local catalog or schema.",
+  "gate": "Concept, Charter, and AGENTS agree that LOOP is an AGN declaration/governance node, each run is a WF/DAG instance, OODA plus Improve ownership is mandatory, and absent catalog artifacts remain an explicit bootstrap blocker.",
+  "spec_refs": {
+    "project_concept": "docs/1.concept/03-approach.md",
+    "project_requirements_map": "docs/0.charter/07-requirements-architecture-map.md",
+    "project_rules": "AGENTS.md",
+    "upstream_loop_concept": "/Users/hitoshimurakami/myApps/dodoai/docs/1.concept/1.core-concept/08-agentic-ooda-operations.md",
+    "upstream_requirements_map": "/Users/hitoshimurakami/myApps/dodoai/docs/0.charter/07-requirements-architecture-map.md"
+  },
+  "feature": "F-WORKSPACE-BOOTSTRAP",
+  "layer": "execution",
+  "truth_type": "observed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [
+    "governance"
+  ],
+  "created_at": "2026-08-22T21:22:03+09:00",
+  "updated_at": "2026-08-22T12:26:30+00:00",
+  "task_id": "F-WORKSPACE-BOOTSTRAP-DD01-LOOP-CATALOG-CONCEPT-SYNC",
+  "phase": "DD01",
+  "issue_refs": [
+    ".dodoai/issue/20260822_TASK_F-WORKSPACE-BOOTSTRAP_loop-catalog-concept-sync_in-progress.md"
+  ],
+  "done_criteria": [
+    "docs/1.concept/03-approach.md defines LOOP, WF, and Operation responsibilities and the OODA plus Improve ownership registration gate",
+    "docs/0.charter/07-requirements-architecture-map.md points LOOP ownership to the project-local Concept section and records the schema-first HIL boundary without dangling upstream section labels",
+    "AGENTS.md and its ClineRules index projection route maturity, ownership, tier, and no-invention rules for project-local LOOP registration",
+    "No loops.json, loop schema, Feature, FR, or UC is invented while the project-local catalog contract is absent",
+    "git diff --check, focused reference assertions, JSON parse checks, and roadmap.sync_gate are recorded truthfully"
+  ],
+  "size": "S",
+  "success_probability": 0.9,
+  "max_ticks": 4,
+  "changed_files": [
+    ".clinerules/00-INDEX.md",
+    ".dodoai/evidence/rules-charter-sync.jsonl",
+    ".dodoai/issue/20260822_TASK_F-WORKSPACE-BOOTSTRAP_loop-catalog-concept-sync_in-progress.md",
+    "AGENTS.md",
+    "docs/0.charter/07-requirements-architecture-map.md",
+    "docs/1.concept/03-approach.md",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-loop-catalog-concept-sync.json",
+    "docs/99.sdt/agn/99.rules/charter-catalog.json",
+    "docs/99.sdt/art/doc_graph/development-charter/chunks.json",
+    "docs/99.sdt/art/doc_graph/development-charter/graph.json",
+    "docs/99.sdt/art/doc_graph/development-charter/sources.json"
+  ],
+  "evidence": [
+    "agn.route_next: adaptive; explicit F-WORKSPACE-BOOTSTRAP target, standard WF catalog absent",
+    "dodoAI reference Concept 08 v1.3.0 and requirements architecture map v1.1.0 inspected",
+    "project-local operations.json, loops.json, loop-schema-v1.json, and LOOP MD view are absent",
+    "task_graph.acquire_edit_lease: success=true, required=false; ready -> running transition succeeded",
+    "focused git diff --check and jq parse checks: PASS",
+    "DocGraph regeneration: development-charter, 7 documents, 126 chunks",
+    "rules.charter_sync: applied; 279 rules, docgraph_source_drift=0",
+    "rules.audit: charter source_drift=0; four pre-existing delivery findings remain",
+    "agn.sdt_contract_test: no findings for this task; three pre-existing errors remain in task-dd01-terminology-resolution-guidance.json",
+    "dodoAI ClineRules integrity test: 29 passed; project-local L1/L2 inventory and LOOP route assertions passed",
+    "roadmap.sync_gate: stale_task_status=0 and roadmap_drift=0; missing_milestone=1, epic_orphan=1, cap_unbound=1",
+    "runtime/UI reload or restart: not performed",
+    "sovereign.hook_gate: decision=not_applicable, block=false, required_operations=[]"
+  ],
+  "blocking_findings": [
+    "operations.json and Agent catalog are absent, so Operation and Agent remain unresolved",
+    "LOOP catalog, schema, and MD view are absent; no loop can be registered or placed into standing operation yet",
+    "rules.audit retains four pre-existing delivery findings: three managed sections missing and dodo-code render target unmapped",
+    "task-dd01-terminology-resolution-guidance.json retains three pre-existing SDT contract errors",
+    "roadmap.sync_gate is non-green because F-WORKSPACE-BOOTSTRAP lacks a roadmap milestone, owning EPIC, and capability binding"
+  ],
+  "updated_by": "codex-root",
+  "priority": "P0",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "draft",
+        "to": "ready",
+        "at": "2026-08-22T21:22:03+09:00",
+        "by": "codex-root",
+        "reason": "User requested the dodoAI LOOP catalog model to be reflected in this repository."
+      },
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T12:22:47.041227+00:00",
+        "by": "codex-root",
+        "reason": "User requested the HIL-approved dodoAI LOOP catalog model to be reflected in the project Concept, Charter, and AGENTS projection."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "codex-root",
+      "overridden_at": "2026-08-22T12:22:47.041227+00:00",
+      "source": "manual",
+      "reason": "User requested the HIL-approved dodoAI LOOP catalog model to be reflected in the project Concept, Charter, and AGENTS projection."
+    }
+  },
+  "deliverables": [
+    "docs/1.concept/03-approach.md (CONTRACT: project-local LOOP governance semantics)",
+    "docs/0.charter/07-requirements-architecture-map.md",
+    "AGENTS.md",
+    ".clinerules/00-INDEX.md (TEST: fallback routing projection for LOOP governance)"
+  ],
+  "schema": "sdt-node-v3.0",
+  "overridden_by": "codex-root",
+  "overridden_at": "2026-08-22T12:22:47.041227+00:00",
+  "override_reason": "User requested the HIL-approved dodoAI LOOP catalog model to be reflected in the project Concept, Charter, and AGENTS projection."
+}
