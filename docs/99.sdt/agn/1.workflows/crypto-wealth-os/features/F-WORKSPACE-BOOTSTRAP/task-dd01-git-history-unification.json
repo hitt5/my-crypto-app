@@ -1,0 +1,71 @@
+{
+  "node_id": "F-WORKSPACE-BOOTSTRAP-DD01-GIT-HISTORY-UNIFICATION-20260823",
+  "type": "task",
+  "name": "Unify unrelated Git histories without content loss",
+  "description": "Preserve the complete feat/hitt5_822_1 tree while integrating origin/develop through a normal merge, then verify ancestry, path retention, exact remote SHA, PR checks, and the final develop merge.",
+  "gate": "The feature branch contains both original root histories, no pre-merge feature paths are lost, the exact pushed SHA is verified, the PR is merged normally into develop, and local/remote status is reported truthfully.",
+  "spec_refs": {
+    "project_rules": "AGENTS.md",
+    "project_concept": "docs/1.concept/00-overview.md",
+    "roadmap": "docs/2.sdt-design/01-development-roadmap.md"
+  },
+  "feature": "F-WORKSPACE-BOOTSTRAP",
+  "layer": "execution",
+  "truth_type": "observed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [
+    "governance",
+    "git-remote"
+  ],
+  "created_at": "2026-08-23T10:00:32+09:00",
+  "updated_at": "2026-08-23T01:01:16.576479+00:00",
+  "task_id": "F-WORKSPACE-BOOTSTRAP-DD01-GIT-HISTORY-UNIFICATION-20260823",
+  "phase": "DD01",
+  "issue_refs": [
+    ".dodoai/issue/20260823_TASK_F-WORKSPACE-BOOTSTRAP_git-history-unification_in-progress.md"
+  ],
+  "done_criteria": [
+    "origin/develop and the pre-merge feat/hitt5_822_1 head are recorded and remain reachable as the two parents of the integration merge",
+    "every path present in the pre-merge feature tree remains present with identical blob or an explicitly reviewed conflict resolution",
+    "origin/develop is an ancestor of the final feature head and GitHub can compare the feature with develop",
+    "local HEAD, upstream tracking ref, remote feature ref, and PR head SHA are equal before merge",
+    "all registered non-neutral checks for the exact PR head are complete and successful or a concrete external gate is reported",
+    "the PR is merged normally into develop without force push or administrator bypass",
+    "TaskGraph, Issue view, roadmap.sync_gate, final branch status, and zero non-ignored untracked files are recorded truthfully"
+  ],
+  "size": "M",
+  "success_probability": 0.9,
+  "max_ticks": 6,
+  "changed_files": [],
+  "evidence": [
+    "bootstrap: project 43e2f654-cdd7-4572-b921-962bea2f0820",
+    "git fetch: origin/develop=69cab385d445c225b66ebca4357650d8b399b113; origin/feat/hitt5_822_1=5e9e6c03e3d1211c6562d131db3acd2b500a8bf9",
+    "git merge-base: no merge base; unrelated histories confirmed",
+    "gh pr list: no existing PR for feat/hitt5_822_1",
+    "task_graph.acquire_edit_lease: success=true, required=false"
+  ],
+  "blocking_findings": [
+    "operations.json and Agent catalog are absent, so Operation and Agent selection cannot be performed without guessing"
+  ],
+  "updated_by": "codex-root",
+  "priority": "P0",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-23T10:02:00+09:00",
+        "by": "codex-root",
+        "reason": "User explicitly requested a content-preserving merge of the unrelated feature and develop histories."
+      }
+    ],
+    "status_source": "manual"
+  },
+  "deliverables": [
+    "merge commit on feat/hitt5_822_1 with both histories as parents",
+    "GitHub PR from feat/hitt5_822_1 to develop",
+    "TaskGraph and Issue evidence for content preservation"
+  ],
+  "schema": "sdt-node-v3.0"
+}
