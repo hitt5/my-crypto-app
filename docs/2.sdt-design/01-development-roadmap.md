@@ -7,7 +7,7 @@ tags: [crypto-wealth-os, roadmap, design, personal-scope]
 # 01 — 開発ロードマップ（Concept 準拠）
 
 > **テーマ**: dodo Crypto Wealth OS / **theme_id**: `crypto-wealth-os` / **profile**: `crypto` / **作成**: 2026-08-22
-> **正本関係**: 実装順の正本は [`../1.concept/03-approach.md`](../1.concept/03-approach.md)（不可逆性の低い順①〜⑪・ステップ S1〜S7）。同ファイル v0.5.0 で全体フローは **OODA×WF 実行モデル**（運用ループの WF 写像・評価成果物の SDT+MD 双対 HARD 原則）へ改訂済み — 各 Feature の観測/評価系はこの WF 写像と双対原則に準拠すること。本書はそれを **Feature 系列 + 本体/カスタム分担**へ写像した設計 view。**実装優先度（5軸判定基準・P0〜P4 キュー）の正本は [`../1.concept/2.strategy/01-implementation-priority.md`](../1.concept/2.strategy/01-implementation-priority.md)** — 本書 §2 の Feature 順は同書の優先度に追随する。矛盾したら Concept を正とし HIL へ。
+> **正本関係**: 実装順の正本は [`../1.concept/03-approach.md`](../1.concept/03-approach.md)（不可逆性の低い順①〜⑪・ステップ S1〜S7）。同ファイル v0.5.0 で全体フローは **OODA×WF 実行モデル**（運用ループの WF 写像・評価成果物の SDT+MD 双対 HARD 原則）へ改訂済み — 各 Feature の観測/評価系はこの WF 写像と双対原則に準拠すること。本書はそれを **Feature 系列 + 本体/カスタム分担**へ写像した設計 view。**実装優先度（5軸判定基準・P0〜P4 キュー）の正本は [`../3.strategy/01-implementation-priority.md`](../3.strategy/01-implementation-priority.md)** — 本書 §2 の Feature 順は同書の優先度に追随する。**EPIC / CAP 単位の優先度・成熟ロードマップは [`../3.strategy/02-epic-cap-priority-roadmap.md`](../3.strategy/02-epic-cap-priority-roadmap.md)、EPIC / CAP / FR の定義カタログは [`../4.common/3.capability-requirements/00-capability-requirements.md`](../4.common/3.capability-requirements/00-capability-requirements.md)（JSON-first）**。矛盾したら Concept を正とし HIL へ。
 > **Product Form**: single-owner / local-first のパーソナル dodo Custom App（CR-8）。Stage 1 Observe を完成させるまで実行系（署名・取引）には触れない。
 > **同フォルダの正本**: SDT データモデル = [`02-data-model.md`](02-data-model.md)（1.concept/04 から移設）/ SCO 方針（語彙の正準化） = [`03-sco-policy.md`](03-sco-policy.md)。
 
@@ -16,14 +16,14 @@ tags: [crypto-wealth-os, roadmap, design, personal-scope]
 | 項目 | 状態 |
 |---|---|
 | Concept（1.concept 00〜07） | ✅ 記入済（v0.5 根本改訂・**H1 再承認待ち**） |
-| 共通要件（3.common BR/SR/NFR） | ✅ 展開済 |
+| 共通要件（4.common CR/BR/SR/NFR） | ✅ 展開済 |
 | `F-WORKSPACE-BOOTSTRAP` | running（catalog / roadmap SoT 未初期化 — 既知負債） |
 | `F-CRYPTO-PORTFOLIO-DASHBOARD`（実装順①） | running（Observe MVP 実装済・pytest 16 passed・live dispatch / 実値設定が残） |
 | 実装順②以降 | 未着手 |
 
 ## 2. Feature ロードマップ（実装順 = 不可逆性の低い順）
 
-Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する。**着手順は上から**（優先度 P0〜P4 の正本 = [`../1.concept/2.strategy/01-implementation-priority.md`](../1.concept/2.strategy/01-implementation-priority.md)）。各 Feature の着手時に A02（6 層要件セット）→ A03 → DD01–03 の正規フローを踏む。
+Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する。**着手順は上から**（優先度 P0〜P4 の正本 = [`../3.strategy/01-implementation-priority.md`](../3.strategy/01-implementation-priority.md)）。各 Feature の着手時に A02（6 層要件セット）→ A03 → DD01–03 の正規フローを踏む。
 
 | 順 | Concept 実装順 | Feature（候補 ID） | Stage | 優先度 | 概要 | 前提 |
 |---|---|---|---|---|---|---|
@@ -43,7 +43,7 @@ Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する�
 - 「Swap 実行」「Yield 最適化」単体を主価値とする Feature を新設しない（07-why-not-simple §6）。
 - 新 Feature の A02 Step 0 で所有 EPIC / CAP を catalog に定義する（現状 catalog 未初期化 — `F-WORKSPACE-BOOTSTRAP` の解消が全 Feature の共通負債）。
 - **評価系成果物（Convexity 評価・校正・Gate 判定等）は SDT(JSON)+MD の双対で設計する**（Concept 03 §評価成果物の双対表現 — HARD）。運用ループは標準 WF（`workflow.catalog_upsert` 登録）として実装し、アドホック実行を定常運転にしない。標準 WF カタログの初期化は `F-WORKSPACE-BOOTSTRAP` の解消範囲に含める。
-- 優先度（P0〜P4）の変更は `1.concept/2.strategy/01-implementation-priority.md` を先に更新し、本書を同一変更で追随させる（片側のみの更新禁止）。
+- 優先度（P0〜P4）の変更は `3.strategy/01-implementation-priority.md` を先に更新し、本書を同一変更で追随させる（片側のみの更新禁止）。
 
 ## 3. DODO 本体 vs 本プロジェクト（カスタム）の実装分担
 
@@ -92,7 +92,7 @@ Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する�
 
 ## 4. 直近のアクション（順序）
 
-> 正本: [`../1.concept/2.strategy/01-implementation-priority.md`](../1.concept/2.strategy/01-implementation-priority.md) §3 の P0 キュー。
+> 正本: [`../3.strategy/01-implementation-priority.md`](../3.strategy/01-implementation-priority.md) §3 の P0 キュー。
 
 1. `F-CRYPTO-PORTFOLIO-DASHBOARD` の完了: portfolio.json 実値設定（HIL・ユーザー作業）→ live dispatch / manifest_lint → Issue close（P0-1）
 2. `F-WORKSPACE-BOOTSTRAP` の catalog / roadmap SoT 初期化（TaskGraph 負債の解消 — 全 Feature 共通の前提）（P0-2）
@@ -106,7 +106,8 @@ Concept `03-approach.md` の実装順①〜⑪を Feature 系列へ写像する�
 
 | バージョン | 日付 | 内容 |
 |---|---|---|
+| v0.2.2 | 2026-08-22 | 3.strategy へのパス移動に追随（旧 1.concept/2.strategy 参照を修正）。EPIC/CAP 優先度ロードマップ（3.strategy/02）と EPIC/CAP/FR カタログ（4.common/3）への参照を追加 |
 | v0.2.1 | 2026-08-22 | 同フォルダに `02-data-model.md`（1.concept/04 から移設）・`03-sco-policy.md`（SCO 方針）を新設したことを反映（ヘッダへ正本参照を追加） |
-| v0.2.0 | 2026-08-22 | 実装優先度の正本を `1.concept/2.strategy/01-implementation-priority.md` へ新設したことに追随: §2 に優先度列（P0〜P4）を追加、§4 を P0 キュー参照へ接続、片側更新禁止の規律を追加 |
+| v0.2.0 | 2026-08-22 | 実装優先度の正本を `3.strategy/01-implementation-priority.md` へ新設したことに追随: §2 に優先度列（P0〜P4）を追加、§4 を P0 キュー参照へ接続、片側更新禁止の規律を追加 |
 | v0.1.1 | 2026-08-22 | Concept 03-approach v0.5.0（OODA×WF 実行モデル・評価 SDT+MD 双対 HARD）へ追随。規律へ双対原則・標準 WF 登録を追加 |
 | v0.1.0 | 2026-08-22 | 初版。Concept 03-approach の実装順を Feature 系列へ写像し、DODO 本体/カスタム分担（境界原則・判定手順）を正本化 |

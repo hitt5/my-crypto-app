@@ -14,7 +14,7 @@ This folder is home. Treat it that way.
 - `docs/2.sdt-design/02-data-model.md` ⭐ — SDT データモデル（3 空間・不変条件。旧 `1.concept/04-data-model.md` から移設）
 - `docs/2.sdt-design/03-sco-policy.md` — SCO 方針（語彙の正準化 — Core SCO 写像 + Domain SCO Package）
 - `docs/1.concept/05-multi-agent.md` — Agent 構成と Gate
-- `docs/3.common/0.common-requirements/00-common-requirements.md` — **共通要件（CR-1〜CR-9 正本）。全 EPIC/Feature に横断適用。CR-1 は鍵分離、CR-8 はパーソナル Custom App スコープ、CR-9 は生存原理を所有する。BR/SR/NFR 展開は `docs/3.common/`**
+- `docs/4.common/0.common-requirements/00-common-requirements.md` — **共通要件（CR-1〜CR-9 正本）。全 EPIC/Feature に横断適用。CR-1 は鍵分離、CR-8 はパーソナル Custom App スコープ、CR-9 は生存原理を所有する。BR/SR/NFR 展開は `docs/4.common/`**
 
 Concept と矛盾する実装・要件を作らない。矛盾に気づいたら HIL（ユーザー裁定）へ。
 
@@ -47,7 +47,7 @@ Concept と矛盾する実装・要件を作らない。矛盾に気づいたら
 
 - **`AGENTS.md` がリポジトリ指示の正本。** 利用不能なときだけ `.clinerules/00-CORE.md`（L0）+ `.clinerules/00-INDEX.md`（L1）を fallback として注入する。乖離したら AGENTS.md に従い、同一変更で ClineRules 投影を修復する。
 - `.clinerules-detail/`（L2）は本ファイル / L1 index が指したときだけ読むオンデマンド手順庫。先読み禁止。
-- **SoT ツリーは `docs/`**: Charter = `docs/0.charter/`、World Model = `docs/1.concept/0.world-model/`、SDT/AGN/ART = `docs/99.sdt/`、運用 = `docs/4.operation/`。❌ `dodoai-docs/` は投影ビュー — 手編集・新規文書作成禁止。
+- **SoT ツリーは `docs/`**: Charter = `docs/0.charter/`、World Model / Viability Model = `docs/1.concept/` + `docs/2.sdt-design/02-data-model.md`、SDT/AGN/ART = `docs/99.sdt/`。プロジェクト固有の運用 SoT は未初期化であり、存在しない `docs/4.operation/` を正本扱いしない。dodoAI 本体の運用文書はフレームワーク参照であり、このプロジェクトの live state ではない。❌ `dodoai-docs/` は投影ビュー — 手編集・新規文書作成禁止。
 
 ### Terminology Resolution（HARD）
 
@@ -63,15 +63,15 @@ Concept と矛盾する実装・要件を作らない。矛盾に気づいたら
 
 MCP 不通時は直読みせず **MCP Recovery Gate**: 1 回リトライ → stdio 設定 / runtime-slot resolver が返した endpoint の `/ready` 確認 → 同じ解決済み port の listener / `tmux ls` 確認 → owner gate を通る非破壊の起動/再起動 1 回 → `/ready` を 3–5 秒間隔で最大 ~45 秒ポーリング → 成功後に bootstrap を再試行。**8510 を MCP/Core の汎用 fallback として推測しない。**使い切った場合のみ read-only fallback（Evidence に経緯を記録）。詳細: `.clinerules/00-CORE.md` §MCP Recovery Gate。
 
-bootstrap 成功後、ローカル dodoAI workspace では **Tauri Startup Check をセッション中 1 回だけ**行う。サービス名・port・標準起動コマンドは `.dodoai/repo-context.json` の `active_services` から解決し、Desktop process/window、Vite、Provider、Core readiness、`dodo-tauri-dev` tmux（pane が実コマンドかも含む）を個別確認する。Desktop が背面/最小化されただけ、Tauri 所有 sidecar が cold start 中、または別 session の正当な owner がいる場合は再起動しない。**Desktop process 不在または必要 component の停止を確認し、競合 owner がいない場合だけ**、repo 標準の Tauri owner 経路を非破壊で 1 回起動/再起動し、全 component を 3–5 秒間隔・最大 ~45 秒再確認する。standalone Core を重ねて起動しない。復旧しなければ process/listener/tmux/log の Evidence と blocker を記録し、稼働を推測して先へ進まない。詳細: `.clinerules-detail/30-environment.md` §Tauri Startup Check。
+bootstrap 成功後、`.dodoai/repo-context.json` の `active_services` に Tauri/Desktop stack が宣言されている workspace だけ **Tauri Startup Check をセッション中 1 回**行う。`active_services` が空なら起動対象なしとして何も起動・再起動しない。宣言がある場合は service 名・port・標準起動コマンドをそこから解決し、Desktop process/window、Vite、Provider、Core readiness、owner tmux（pane が実コマンドかも含む）を個別確認する。Desktop が背面/最小化されただけ、Tauri 所有 sidecar が cold start 中、または別 session の正当な owner がいる場合は再起動しない。**Desktop process 不在または必要 component の停止を確認し、競合 owner がいない場合だけ**、repo 標準の Tauri owner 経路を非破壊で 1 回起動/再起動し、全 component を 3–5 秒間隔・最大 ~45 秒再確認する。standalone Core を重ねて起動しない。復旧しなければ process/listener/tmux/log の Evidence と blocker を記録し、稼働を推測して先へ進まない。詳細: `.clinerules-detail/30-environment.md` §Tauri Startup Check。
 
 Then, in order:
 
 1. bootstrap が返す `AGENTS.md` を指示源として使う。`SOUL.md` / `USER.md` / memory は個人・セッション文脈が必要なときだけ読む。
 2. MCP inventory: `tools/list` 相当 + bounded `dodo_action_list(include_schema=false)`。スキーマは dispatch 直前に対象 Action だけ取得。
-3. **Ops Status は必要時のみ**: 通常の coding / review / 文書作業では `autoloop.status` を dispatch しない。明示要求・AutoLoop/OODA/CRON/soak 自体の現在値・完了条件が運用状態を要求する場合のみ実行し、実行時は `Ops Status:` を 1 行記載、同一 task では観測結果を再利用。手順 SoT: `.clinerules-detail/20-navigation.md`。Soak の SoT: `docs/4.operation/autonomous-execution-loop/`（§Soak Operations 参照）。
+3. **Ops Status は必要時のみ**: 通常の coding / review / 文書作業では `autoloop.status` を dispatch しない。明示要求・AutoLoop/OODA/CRON/soak 自体の現在値・完了条件が運用状態を要求する場合のみ実行し、実行時は `Ops Status:` を 1 行記載、同一 task では観測結果を再利用。手順 SoT: `.clinerules-detail/20-navigation.md`。project-local Soak catalog が未初期化なら dodoAI 本体の状態を本プロジェクトの状態として転記しない。
 4. Issue / Feature ID / 具体的意図があれば `agn.route_next` を dispatch し、`mode` / `session_instruction` に従う。
-5. `docs/99.sdt/agn/5.operations/operations.json` から Operation を選び、宣言 `attributes.agent` に `agent.context_pack` を dispatch。作業開始メッセージに `Operation: <id> | Agent: <id>` を記載。Agent を推測しない・全 Agent 定義を読まない。
+5. `docs/99.sdt/agn/5.operations/operations.json` が存在する場合だけ、そこから Operation を選び、宣言 `attributes.agent` に `agent.context_pack` を dispatch。作業開始メッセージに `Operation: <id> | Agent: <id>` を記載する。catalog が未初期化なら Agent を推測せず、`Operation: unresolved (catalog absent) | Agent: unresolved` と blocker を記録して、明示されたユーザー意図の範囲だけを現 runtime Agent で進める。
 6. `active_issue_summary` と bounded 候補からタスクを選び、選定後にのみ当該 Issue ファイルを読む。
 
 ## Per-Work TaskGraph Lifecycle Gate（HARD — 作業ごとに必須）
@@ -100,11 +100,39 @@ Don't ask permission. Just do it.
 
 - 世界モデル層の操作は **Intervention**（dodo Core の `action_key` とは階層が異なる）。SDT Graph Bundle の正規名は `sdt.graph_bundle`（旧称 alias は Charter §1.2）。
 - P25/P26/P27 は advisory — 「機械検証済み」と誤報告しない。
-- 正本: 条文 = `docs/0.charter/01-development-charter.md`、概念 = `docs/1.concept/0.world-model/`。
+- 正本: 条文 = `docs/0.charter/01-development-charter.md`、プロダクト概念 = `docs/1.concept/00-overview.md` + `docs/2.sdt-design/02-data-model.md`。
 
 ## OKF Markdown Standard
 
 Markdown の新規作成・実質更新時は先頭に YAML front matter を付ける。全体必須は `type` のみ。実行結果（Action / MCP / Agent / workflow / job / test / build / deploy / audit）では `execution_id` も必須（基盤発行 ID 優先、再試行は新 ID + `parent_execution_id`）。`title` / `tags` / `timestamp` 等は根拠があれば推奨 — 推測して埋めない。機械処理を壊す対象には無理に付けない。正本と例: `.clinerules/00-CORE.md` §OKF。
+
+## Document Writing Standard（MD 品質 — 文書作成・更新時に常時適用）
+
+**文書は「読み手が知らないこと」だけで構成する。** 量は品質ではない — 情報密度が品質。
+
+### 必須要素
+
+- YAML front matter（OKF 準拠、§OKF Markdown Standard）を先頭に付ける。
+- SoT / SDT / 関連文書への参照は**冒頭 3 行以内または該当記述のインライン**に置く。文末に「関連リンク」「参考資料」章を作って参照を溜めない。
+
+### 構成
+
+- 冒頭 3 行以内に文書の結論・判断・SoT 参照先を書く。「本文書は〜を説明する」型の自己紹介文を書かない。
+- テンプレ章の禁止: 「概要」「背景」「目的」「まとめ」「今後の展望」は、その章にしか書けない固有情報がある場合のみ設ける。
+- 1 情報 1 箇所: 同じ内容を本文とまとめで反復しない。既存文書の内容は転記せず参照する。
+- 見出しは 3 段（`###`）まで。章の数は内容が要求する数だけ — 埋め草で対称性を作らない。
+
+### 文体
+
+- 断定で書く。「〜が望ましいと考えられます」等の無情報ヘッジ文を書かない。不確実な内容は Fact / Belief / Hypothesis を明示する（WM-3）。
+- 1 文で済む内容を見出し+箇条書きに膨らませない。比較・列挙が 3 項目以上なら表または箇条書き。
+- 太字は 1 節 1–2 箇所まで。絵文字・装飾記号は使わない。
+- 数値・パス・コマンド・ID は具体値で書く。「適切に設定する」等の実行不能な記述を書かない。
+- 変動値（実測メトリクス等）を転記しない — 取得コマンド/Action を書く。
+
+### 検収（生成後に自己検査してから完了）
+
+① 各章を削除して情報が失われるか — 失われない章は削除 ② 各文が読み手の行動・判断を変えるか — 変えない文は削除 ③ 冒頭から結論に最短で到達できるか。
 
 ## DODO Reference Repository
 
@@ -136,7 +164,7 @@ L0 = `.clinerules/00-CORE.md`（利用不能時のみ注入）/ L1 = `.clinerule
 
 条文正本は Charter `02-development-flow.md` / `04-autonomous-loop.md`。
 
-1. **ADF Test Definition Gate（HARD）**: テスト層・Mock 境界を決める前に `docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.json` + MD view を読む。実際に変更する全 deploy unit の profile を合成する（主 deploy_unit だけで層を選ばない）。
+1. **ADF Test Definition Gate（HARD）**: テスト層・Mock 境界を決める前に `docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.json` + MD view を読む。実際に変更する全 deploy unit の profile を合成する（主 deploy_unit だけで層を選ばない）。この project-local contract が未生成なら DD01–03 の実装へ進まず、`F-WORKSPACE-BOOTSTRAP` の blocker として扱う。dodoAI 本体の contract をこのプロジェクトの deploy-unit profile と偽って代用しない。
 2. **上流 2 経路**: (A) Reverse（brownfield 既定）= コード → CallGraph → SDT 逆導出 → 文書投影 → drift HIL。(B) Forward = Intent → A02 → A03 → DD01–03。**MD + JSON 双対は HARD** — 片側のみで上流成果物を完了と呼ばない。
 3. **A02 = 6 層要件セット + 全体設計**（EPIC→FEATURE→UC / CAP→FR→MOD）。BR/SR/UC で止めない。**A02 完了は A03 のトリガ — 「A02 done」で停止禁止**（明示縮小時のみ例外）。`requirements-weave.json` は Feature 別（authored）と集約 catalog（derived・手編集禁止）の 2 種。
 4. **A02 Step 0（HARD）**: 所有 EPIC / CAP の存在を catalog で確認。無ければ Feature を切る前に EPIC / CAP を定義。迷ったら HIL。
@@ -149,7 +177,7 @@ L0 = `.clinerules/00-CORE.md`（利用不能時のみ注入）/ L1 = `.clinerule
 
 ## DD05 Server Validation Gate（HARD）
 
-DD04/DD05 は Feature 単位ゲート。`feature.json.attributes.deployment_validation` を読む: `local-only` = Track A（ST-E2E + ST-AI-Visual + ST-Human）、`required` = さらに Track B（サーバ deploy → `/ready` → smoke → **実 URL** Playwright → サーバログ証跡 → `evidence-dd05.json`）。localhost E2E はサーバ検証ではない。資格情報は `env://` のみ（P5）。DD05 失敗は non-done のまま Finding として接続。SoT: Charter `02-development-flow.md` §DD05・`.clinerules-detail/11-completion-gate.md`。
+Track B（Release Validation）は `feature.json.release_status` で分岐する。全 Feature は Track A（ST-E2E-HL/HD + ST-AI-Visual + ST-Human）を通す。`unreleased` は Track B 対象外、`released` はリリース面への deploy / 配布 → `/ready` → smoke → **リリース先実 URL** のブラウザ E2E → 実行ログ/lease/soak → `evidence-dd05.json` が必要。localhost E2E はリリース検証ではない。資格情報は `env://` のみ（P5）。対象外 / 未計測 / FAIL を区別し、Track B FAIL を稼働保証済みと報告しない。SoT: Charter `02-development-flow.md` §DD05・`06-quality-gate.md` §4 Check 5・`.clinerules-detail/11-completion-gate.md`。
 
 ## Completion Gate（P20 — HARD）
 
@@ -176,22 +204,26 @@ DD04/DD05 は Feature 単位ゲート。`feature.json.attributes.deployment_vali
 
 詳細: `.clinerules-detail/11-completion-gate.md`。
 
+## Closed Loop = WF（要点）
+
+閉ループ（観測が次の判断へ戻るループ）は WF として定式化する。正準構造は **閉ループ = WF / 1 周 = DAG インスタンス / SDT = 状態空間** の 3 層分離。ADF（A02→A03→DD01–05→Evidence→優先度再導出）自体が第一適用対象。グラフへの巡回エッジ、Decide（HIL）/ Improve（Skill 改訂）の WF ノード化は禁止。WF 化してよいのは Act（介入）と検証手順のみ。プロダクト側の閉ループは `docs/1.concept/03-approach.md`、フレームワーク命題は dodoAI reference repository の `docs/1.concept/1.core-concept/08-agentic-ooda-operations.md` §4.2、手順は本 Charter `04-autonomous-loop.md` §0.1 を正とする。
+
+**LOOP Catalog（AGN 第一級ノード）**: 閉ループを常設運用する前に project-local `docs/99.sdt/agn/4.loops/loops.json`（schema `docs/99.sdt/agn/0.schema/loop-schema-v1.json` / MD view `docs/99.sdt/agn/4.loops/index.md`）へ宣言する。LOOP は宣言・統治ノードであり、OODA 4 フェーズ + Improve の所有者、成熟度 E0-E2、空転検出定義、接地 references を持つ。実行体でも要件軸でもないため FR/UC/変動値を書かず、Operation の `tier` は心拍だけを表し、所属ループは LOOP 側が宣言する。成熟度の昇格は HIL、降格は機械即時。catalog/schema が未初期化なら「未登録」のまま blocker とし、JSON を推測作成しない。project-local 命題正本 = `docs/1.concept/03-approach.md` §LOOP Catalog、フレームワーク正本 = dodoAI reference repository の `docs/1.concept/1.core-concept/08-agentic-ooda-operations.md` §4.3、接続 = Charter `07-requirements-architecture-map.md` §2 #12。
+
 ## Capability Routing / OODA / TaskGraph SoT / Two-Plane（要点）
 
-- **Capability Routing**: CP は `cp.estimate` が機械導出（自己申告上書き禁止）。`cp.route` がレーン決定。CP8+ / High risk / 判定不能は `human`。SoT: `docs/1.concept/1.core-concept/08-agentic-ooda-operations.md` §4.1・Charter `04-autonomous-loop.md` §2。
-- **OODA Report Discipline**: 全ループ記録に R-1 Scorecard / R-2 Success Probability / R-3 Calibration の 3 群必須（欠けたら未観測ループ）。新規 STREAM Issue は μ-cell 契約（schema: `docs/99.sdt/agn/0.schema/issue-stream-v1.schema.json`）。自動レポートは ART（`docs/99.sdt/art/operations/`）へ。条文 = Charter `04-autonomous-loop.md` §8、手順 = `docs/4.operation/13-ooda-scorecard-iteration.md`。
+- **Capability Routing**: CP は `cp.estimate` が機械導出（自己申告上書き禁止）。`cp.route` がレーン決定。CP8+ / High risk / 判定不能は `human`。フレームワーク命題は dodoAI reference repository の `docs/1.concept/1.core-concept/08-agentic-ooda-operations.md` §4.1、project-local 手順は Charter `04-autonomous-loop.md` §2。
+- **OODA Report Discipline**: 全ループ記録に R-1 Scorecard / R-2 Success Probability / R-3 Calibration の 3 群必須（欠けたら未観測ループ）。project-local schema / ART family が未初期化なら推測作成せず bootstrap blocker とする。条文 = Charter `04-autonomous-loop.md` §8。dodoAI 本体の実行記録を本プロジェクトの観測として転記しない。
 - **TaskGraph Dispatch SoT（P29）**: 機械ループの一次状態は task-graph ノード。Issue は人間可読 view + HIL 面。suffix 改名を SoT にする経路を新設しない。計画・監査結果も対の規律: MD だけに書かない / TaskGraph だけ更新して view を残さない / 「次は何？」は ready ノード + Issue view の対で提示。
-- **Two-Plane / Dual-Node**: 「両プレーンとも開発するが、同じ仕事は絶対にしない」。Local (Mac) = 品質・HITL・Merge 承認・SDT 書込主権。Dev2 (EC2) = スループット、`auto/server/*` のみ、資格情報は `env://` のみ。排他は単一 Priority Queue（`roadmap.derive` → `priority_cycle`）/ `stream.claim` token / Single Writer + `roadmap.sync_gate` / Mac 集中 Merge Gate。正本: `docs/4.operation/08-local-server-dual-node-development.md`。
+- **Two-Plane / Dual-Node**: この project に server plane が明示登録されるまでは Local single-writer とする。登録後も「両プレーンとも開発するが、同じ仕事は絶対にしない」。Local (Mac) = 品質・HITL・Merge 承認・SDT 書込主権、Dev2 = スループット、資格情報は `env://` のみ。排他は単一 Priority Queue / claim token / Single Writer + `roadmap.sync_gate`。詳細は dodoAI reference repository の `docs/4.operation/08-local-server-dual-node-development.md` をフレームワーク参照とし、live owner/lease は Core で観測する。
 
 ## Soak Operations（計画・実行・評価の SoT）
 
-**Soak（長時間自律実行の耐久検証）が何か・どう回すか迷ったら、先に `docs/4.operation/autonomous-execution-loop/` を読む。** リポジトリ検索で "soak" を探し回らない。
+**Soak（長時間自律実行の耐久検証）は、project-local Operation / LOOP / metrics catalog が初期化された後だけ運用する。** 未初期化の本リポジトリでは dodoAI 本体の soak 文書を手順の参考にしても、その変動値・状態・Evidence を本プロジェクトの実績として転記しない。
 
-- **入口・ロードマップ・依頼プロンプト**: `docs/4.operation/autonomous-execution-loop/README.md`（入場 Gate P0-a/P0-b・較正窓手順を所有）。
-- **3軸トラッキング索引**: 同 `index.md`（時間 = `axis1-time-soak-log.md` / 障害注入 = `axis2` / 環境 = `axis3`）。
-- **OODA 実行記録**: 同 `ooda-log/YYYY-MM-DD-*.md`（1事象1ファイル。Plan → Result の対で残す）。
-- **指標定義 SoT**: `docs/99.sdt/metrics/operations/soak-ooda-metrics.json`（+ MD view）— 読み書きは MCP Action で行う: 現状把握 = `soak.metrics_overview` / 目標更新 = `soak.metrics_update`（HIL）/ 窓宣言 = `soak.window_preregister` / 窓実行 = `soak.window_supervise` / 判定 = `autonomy.soak_evaluate`。
-- **実測 Evidence（captured ART）**: `docs/99.sdt/art/operations/soak/*.json`。SDT JSON の直読み・直編集は禁止（MCP 経由）。
+- **フレームワーク参照**: dodoAI reference repository の `docs/4.operation/autonomous-execution-loop/`（入場 Gate、3 軸、OODA 記録形式）。
+- **project-local 指標定義 SoT**: 初期化後の `docs/99.sdt/metrics/operations/soak-ooda-metrics.json`（+ MD view）。読み書きは MCP Action で行う: 現状把握 = `soak.metrics_overview` / 目標更新 = `soak.metrics_update`（HIL）/ 窓宣言 = `soak.window_preregister` / 窓実行 = `soak.window_supervise` / 判定 = `autonomy.soak_evaluate`。
+- **project-local 実測 Evidence（captured ART）**: 初期化後の `docs/99.sdt/art/operations/soak/*.json`。SDT JSON の直読み・直編集は禁止（MCP 経由）。
 - 規律: 窓は preregister → supervise → evaluate の順。invalid（測定無効）を pass/fail に丸めない。変動値をこのフォルダ外の文書へ転記しない（取得コマンド/Action を書く）。
 
 ## Memory
@@ -215,10 +247,11 @@ MCP の「使い所」正本は `MCP_USAGE_GUIDE.md`。
 
 - **Port ownership（HARD）**: `8510` は Tauri desktop control gateway の専有 port であり、Codex / Claude / CLI / health probe / plugin host / dodo-coder の汎用 Core 既定値ではない。開発 Core は `8521..8529` の固定 pool だけを使い、`dodo_core.shared.runtime_slot_resolver` / `dodo slot acquire` が workspace sticky lease を解決する。`.mcp.json` に `DODO_CORE_MCP_URL=:8510` を直書きしない。例外は Tauri control を明示した経路だけ。
 - 設定: `.mcp.json` の stdio launcher は `DODO_CORE_SLOT_MODE=workspace` で resolver を通す。Action は `dodo_action_dispatch` の `action_key` で選ぶ。直 REST は Cockpit UI 実装か文書化された fallback のみ。
+- **Web Search**: 最新・変動する外部情報、または出典付き調査が必要なら `websearch.query` を適宜使う。通常は `dodo_action_list(query="websearch", include_schema=true)` で発見して `dodo_action_dispatch(action_key="websearch.query", payload=...)` で実行する。`answer` は provider model の統合文であり、`citations` / `search_queries` / `search_count` を併読する。Action 成功を真実性の証明にせず、高リスク判断と provider 間不一致は一次資料で再検証する。資格情報は resolver の `env://` / Keychain 間接参照だけを使い payload に渡さない。
 - Recovery / stop / reclaim は `/ready` の `owner_kind` / `pid` / `workspace_fingerprint` と `instances.json` の lease が一致する listener にだけ行う。owner が別・欠落・未検証なら touch/kill/reuse せず blocker として報告する。
 - SDT スキャンは Action で: `sdt.khop_traverse` / `sdt.semantic_search` / `callgraph.uc_reverse_lookup` 等（graph JSON を直読みしない）。コード編集前は `callgraph.focus`、未知モジュールは `callgraph.digest`。
 - High/critical risk Action は明示的ユーザー意図と Gate/Evidence 文脈が必須。
-- Operation/CRON/Action の選定はカタログ優先: `docs/99.sdt/agn/5.operations/operation-list.md` / `process_catalog.list`。
+- Operation/CRON/Action の選定はカタログ優先: `docs/99.sdt/agn/5.operations/operations.json`（初期化後）/ `docs/99.sdt/art/operations/operation-list.md` / `process_catalog.list`。
 - **LN URI**: `ln://` を `read_file` に渡さない — `ln_registry.resolve` で解決。リンク切れは `sdt.ln_link_heal_plan` → `sdt.ln_link_autoheal`（dry_run 先行）。`ln-registry.json` を手編集しない。
 - **DODO CODE V2 native Coding**: V2 のコーディングは resolver が返した Core native API（`POST /api/coding/sessions` → turns → traces で観測）。`:8511` 直呼び禁止・具体的 `issue_ref` 必須。Tauri UI が control gateway を使う場合だけ 8510 を明示する。Issue ドリフト検知時は即キャンセル。
 - Action/schema/gateway 変更時は解決済み endpoint の owner を確認し、User Runtime Reload Approval Gate の承認後にその owner 経路だけを再起動して `dodo_action_list` で確認する（Registry は起動時構築）。

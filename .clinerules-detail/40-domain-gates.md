@@ -136,7 +136,7 @@ SDT には人間が操作してよいものと、機械生成で触ってはい�
 |---|---|---|
 | Q1 | `definition` が単独で「何であるか」を説明し、`invariants` を 1 つ以上持つ | ✅ `promotion_bar_unmet` |
 | Q2 | `discriminator` に「既存のどの canonical とも、この点で違う」を明記（衝突は merge 候補） | ✅ `promotion_bar_unmet` / `edge_voice_duplicate` |
-| Q3 | World Model 十要素のいずれか 1 つに分類される（**WM-1 / P25** — 条文正本: Charter `docs/0.charter/01-development-charter.md`、概念正本: `docs/1.concept/0.world-model/`） | ✅ `world_element_unanchored`（十要素 enum 検証込み） |
+| Q3 | World Model 十要素のいずれか 1 つに分類される（**WM-1 / P25** — 条文正本: Charter `docs/0.charter/01-development-charter.md`、project 概念: `docs/2.sdt-design/02-data-model.md`、ADF 語彙: dodoAI reference repository） | ✅ `world_element_unanchored`（十要素 enum 検証込み） |
 | Q4 | 実 SDT/AGN インスタンスまたは具体的な適用予定から参照される見込みがある | ✅ `promotion_bar_unmet`（`evidence` の実測インスタンス件数） |
 
 **Q3 が客観基準である理由**: 「これは真に新しい概念か」は主観的で Agent ごとに答えが揺れる。
@@ -172,6 +172,16 @@ FR anchor と同じ ratchet 形状で、**`proposed` 以上は blocking / `draft
 コーディング前に `ui.component_catalog` を dispatch し、UI 部品の SoT の現在状態を確認する。
 `semantic_review` の duplicate / `hil_required` / 推奨 canonical target を Evidence に残す。
 
+Figma の Atomic Design コンポーネントをソースへ反映する場合は、`figma-atomic-design-import`
+Skill をロードする。Figma はファイル全体・ページ全体ではなく、正式化済みコンポーネントの
+**セクション単位**で読み、仕様テキスト（用途・構成要素・仕様）と実コンポーネント本体
+（variant / state / size / token）を分けて確認する。T2-B の旧配置・重複・import 整理は、
+対象コンポーネントの Figma 反映と同じ単位で実施する。
+
+JSON manifest で画面を新規作成・編集する場合は、`nocode-screen-compose` Skill をロードし、
+書き込みは `custom_ui.manifest_edit` Action（`dry_run=true` → `ok=true` 確認 → 本書き込み）を
+必ず通す。手で manifest を直接編集して完了扱いにしてはならない。
+
 reusable component は**登録先すべて**に反映する（実パスは `repo-context.json` の `key_paths` と
 UI Catalog Feature の JSON を参照。本文にパスを列挙しない）。
 
@@ -182,6 +192,8 @@ UI Catalog Feature の JSON を参照。本文にパスを列挙しない）。
 停止条件:
 
 - Action が無い / schema が取れない場合は、直接編集で進める前に **Operation/Action/Skill の欠落**として扱う
+- Figma Atomic Design 反映で `figma-atomic-design-import` を通せない場合は **入口 Gate 未達**として扱う
+- JSON manifest 画面作成で `nocode-screen-compose` / `custom_ui.manifest_edit` を通せない場合は **入口 Gate 未達**として扱う
 - JSON にあるが frontend catalog に無い component は「登録済み」とみなさない
 - catalog にあるが component 実体が無いものは完了扱いしない
 - Page-local JSX を reusable UI として扱わない（Atoms/Molecules/Organisms/Templates の適切な階層へ置く）
@@ -196,7 +208,7 @@ UI Catalog Feature の JSON を参照。本文にパスを列挙しない）。
 → `gc`（参照ゼロを 2 段階検証 → trash 退避で可逆削除）
 → `reconcile`（登録用 Skill 経由で正規化）
 
-正本: `docs/4.operation/autonomous-execution-loop/01-autonomous-execution-loop.md`
+framework reference: dodoAI reference repository の `docs/4.operation/autonomous-execution-loop/01-autonomous-execution-loop.md`。project-local Operation / LOOP / metrics catalog が未初期化なら運用状態を推測しない。
 プロセス一覧: `process_catalog.list`
 
 ❌ `rm` を使う（**trash 退避**が必須）／catalog の同期更新を省く／CRON レポート MD を新規作成（Charter O9）

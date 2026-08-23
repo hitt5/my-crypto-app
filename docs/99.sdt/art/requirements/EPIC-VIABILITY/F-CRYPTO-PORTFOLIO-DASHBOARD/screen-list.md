@@ -15,6 +15,7 @@ tags: [crypto-wealth-os, epic-viability, screen-list, ed15, personal-scope]
 | 自律段階 | Stage 1 Observe（read-only） |
 | JSON SoT | `screen-list.json` |
 | ADF 正本 | ED15 `46-screen-list.md` |
+| 全画面ロードマップ | [`../../../../3.strategy/03-screen-roadmap.md`](../../../../3.strategy/03-screen-roadmap.md)（OPS / LOOP / DOMAIN 構成の正本。本 ED15 は DOM-1 / OPS-1 前身のみ所有） |
 
 ## 1. 目的
 

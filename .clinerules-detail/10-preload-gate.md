@@ -85,8 +85,20 @@ Harness に結線されていないテストや、プロンプトのみの誘導
 
 `.dodoai/custom_ui/*/manifest.json`、Custom UI block、block catalog を新規・変更する場合はコード編集前に次を実行する。
 
-1. `custom_ui.design_guide` を対象 `block_types` と bounded `limit<=50` で dispatch し、JSON catalog の prop / children / data-source contract を取得する。
-2. 変更対象 manifest path だけを `custom_ui.manifest_lint` の `mode="strict"` で検査する。最大 20 manifest / 200 findings を超える作業は分割する。
-3. 既存 manifest 全体は `mode="compatibility"` で別に観測する。warning を変更対象の PASS と相殺せず、未返済 debt は Finding / STREAM に残す。
+1. JSON manifest で画面を新規作成・編集する場合は `nocode-screen-compose` Skill をロードし、書き込み Action は `custom_ui.manifest_edit` に固定する。
+2. `custom_ui.design_guide` を対象 `block_types` と bounded `limit<=50` で dispatch し、JSON catalog の prop / children / data-source contract を取得する。
+3. 変更対象 manifest path だけを `custom_ui.manifest_lint` の `mode="strict"` で検査する。最大 20 manifest / 200 findings を超える作業は分割する。
+4. 既存 manifest 全体は `mode="compatibility"` で別に観測する。warning を変更対象の PASS と相殺せず、未返済 debt は Finding / STREAM に残す。
+5. 実書き込み前に `custom_ui.manifest_edit` を `dry_run=true` で実行し、`ok=true` / `error_count=0` を確認する。
 
 TypeScript 内へ block type の第二リストを作らない。正本は `frontend/src/modules/custom-ui/domain/block-catalog.json`、TypeScript はその read-only view とする。
+
+### Figma Atomic Design import
+
+Figma の Atomic Design コンポーネントをソースへ反映する場合はコード編集前に次を実行する。
+
+1. `figma-atomic-design-import` Skill をロードする。
+2. Figma は正式化済みコンポーネントのセクション URL だけを読み、ファイル全体・ページ全体を一括 import しない。
+3. セクション内で仕様テキスト、実コンポーネント本体、説明用 Frame、サンプルを見分ける。
+4. `ui.component_catalog` と粒度分類標準を確認し、既存 dodo-ui 実体・旧配置・重複・import の照合結果を Evidence に残す。
+5. 反映は 1 コンポーネント単位で行い、T2-B の整理（旧配置・重複・import 差し替え）は対象コンポーネントの Figma 反映と同じ単位で実施する。

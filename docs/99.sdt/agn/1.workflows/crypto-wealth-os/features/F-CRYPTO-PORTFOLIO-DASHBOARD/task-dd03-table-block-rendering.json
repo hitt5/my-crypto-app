@@ -80,13 +80,12 @@
     "Bare Python test invocation is invalid without the canonical dodoAI workspace on PYTHONPATH; configured run passed 17 tests.",
     "Project Operation/Agent catalogs, SDT layout contract, ADF test definition, and roadmap graph are not initialized.",
     "custom_ui.manifest_lint does not inspect .dodoai/personal/custom_ui directly; real-path run returned checked_manifests=0.",
-    "Tauri live dispatch returns HTTP 404 for personal.crypto_portfolio_valuation; table data remains unavailable until runtime registry activation.",
-    "roadmap.sync_gate is not green: stale_task_status=3, missing_milestone=1, epic_orphan=1, cap_unbound=1, phase_contains_missing=1."
+    "The historical HTTP 404 is resolved: current Tauri live project-scoped hydration returns HTTP 200 and populated rows; see evidence-dd03-dashboard-live-data.json.",
+    "roadmap.sync_gate is not green: stale_task_status=2, missing_milestone=1, epic_orphan=1, cap_unbound=1, phase_contains_missing=0."
   ],
   "remaining_work": [
-    "Activate the personal crypto Actions in the user-visible runtime after explicit reload/restart approval, then verify populated rows.",
     "Add personal-scope manifest lint coverage so the real path yields checked_manifests=1.",
-    "Initialize the owning EPIC/CAP/roadmap and missing DD01/DD02 nodes, then rerun roadmap.sync_gate."
+    "Initialize the missing DD01 scaffold record, owning EPIC/CAP bindings, and roadmap milestone, then rerun roadmap.sync_gate."
   ],
   "attributes": {
     "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",

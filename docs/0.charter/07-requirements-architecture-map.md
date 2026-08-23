@@ -116,7 +116,7 @@ timestamp: 2026-08-02T00:00:00Z
 | 9 | 実装事実 SQ/AC | 実際に何が動いているか（Implemented Truth） | 初期化後の `docs/99.sdt/art/context/`（CallGraph 由来・生成物） |
 | 10 | Evidence | それを何が裏づけるか | `docs/99.sdt/art/test-results/` + schema 宣言後の Evidence family |
 | 11 | 運用 | どう回すか | project-local Operation catalog は未初期化。Core の live state を観測し、推測 runbook を作らない |
-| 12 | LOOP（閉ループ統治） | どの閉ループが存在し、各フェーズを誰が所有するか | `docs/1.concept/03-approach.md` + 初期化後の `docs/99.sdt/agn/4.loops/loops.json` |
+| 12 | LOOP（閉ループ統治） | どの閉ループが存在し、各フェーズを誰が所有するか | `docs/1.concept/03-approach.md` §LOOP Catalog（命題）+ 初期化後の `docs/99.sdt/agn/4.loops/loops.json`（catalog） |
 
 ### 2.1 機械可読カタログ（件数・ID の SoT）
 
@@ -128,7 +128,7 @@ timestamp: 2026-08-02T00:00:00Z
 | Capability（`attributes.fr_ids` に所有 FR） | `docs/99.sdt/art/catalog/source/capability-catalog/capability-catalog.json` |
 | Strategy | `docs/99.sdt/art/catalog/source/strategy-catalog/strategy-catalog.json` |
 | Charter 条項 | `charter-catalog.json`（`rules.charter_sync` が生成） |
-| LOOP（AGN 第一級・閉ループ統治） | `docs/99.sdt/agn/4.loops/loops.json`（schema `agn/0.schema/loop-schema-v1.json`） |
+| LOOP（AGN 第一級・閉ループ統治） | `docs/99.sdt/agn/4.loops/loops.json`（schema `docs/99.sdt/agn/0.schema/loop-schema-v1.json` + MD view `docs/99.sdt/agn/4.loops/index.md`） |
 
 上記 catalog が未生成なら件数を推測せず、`F-WORKSPACE-BOOTSTRAP` の blocker とする。
 
@@ -203,7 +203,7 @@ Implemented Truth を `UC-` prefix / `C:WorkUnit` へ投影してはならない
 | **EPIC** | `epic-catalog.json`（Schema First + HIL 昇格） | 同上 |
 | **Capability** | `capability-catalog.json`（Schema First + HIL 昇格） | 同上 |
 | **FR** | Capability が所有（`attributes.fr_ids`） | カタログ更新。Feature 側からは宣言できない |
-| **LOOP** | `agn/4.loops/loops.json`（Schema First + HIL 昇格） | OODA 全フェーズの所有者を宣言できることが登録条件。FR/UC は所有させない（08 文書 §4.3） |
+| **LOOP** | `agn/4.loops/loops.json`（Schema First + HIL 昇格） | OODA 4 フェーズ + Improve の所有者を宣言できることが登録条件。FR/UC・変動値は所有させず、`tier` で所属を表さない（`docs/1.concept/03-approach.md` §LOOP Catalog） |
 | **Feature** | EPIC catalog + `docs/98.dodoai-custom-spec/{FEATURE_ID}/` + TaskGraph | ✅ owning EPIC / CAP が登録済みの場合だけ追加してよい |
 | **UC** | Feature が所有 | ✅ 追加してよい。**受入基準を必ず持たせる** |
 | **DFR** | Module が所有 | Module 詳細設計で定義する |
@@ -346,5 +346,5 @@ World Model 十要素を各層が「分かりやすくするため」自前で�
 
 | Version | Date | Changes |
 | --- | --- | --- |
-| 1.1.0 | 2026/08/22 | LOOP 層を追加 — 閉ループ統治を AGN 第一級 catalog（`agn/4.loops/loops.json`）として §2 / §2.1 / §4 に接続。命題の正本は `1.core-concept/08` §4.3（HIL 裁定） |
+| 1.1.0 | 2026/08/22 | LOOP 層を追加 — 閉ループ統治を AGN 第一級 catalog（`agn/4.loops/loops.json`）として §2 / §2.1 / §4 に接続。命題の project-local 正本は `docs/1.concept/03-approach.md` §LOOP Catalog（dodoAI reference §4.3 の HIL 裁定を投影） |
 | 1.0.0 | 2026/08/02 | 初版。World Model 〜 Evidence の接続、所有者境界、判断フロー、アンチパターン 2 件を確定 |

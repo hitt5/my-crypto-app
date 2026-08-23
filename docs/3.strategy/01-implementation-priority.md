@@ -9,7 +9,7 @@ tags: [crypto-wealth-os, strategy, priority, implementation-order, adf, epic, ca
 > **テーマ**: dodo Crypto Wealth OS / **theme_id**: `crypto-wealth-os` / **profile**: `crypto` / **作成**: 2026-08-22
 > **位置づけ**: [`README.md`](README.md)（3.strategy 索引）配下の**実装優先度の正本**。概念的な実装順（不可逆性の低い順①〜⑪）は [`../1.concept/03-approach.md`](../1.concept/03-approach.md) が所有し、本書はそれを**決定論的に再適用可能な判定基準**と**Feature 単位の優先度キュー**へ具体化する。
 > **ADF パス（HARD）**: 本書の優先度は **ADF 要件アーキテクチャの上に載る** — 縦糸 `BR → SR → UC` / 横糸 `CAP ─owns→ FR`。**EPIC / CAP / FR の正本カタログは [`../4.common/3.capability-requirements/00-capability-requirements.md`](../4.common/3.capability-requirements/00-capability-requirements.md)（JSON-first: AGN catalog ノード `task-epic-catalog-crypto-wealth-os` / `task-cap-catalog-crypto-wealth-os` — 2026-08-22 `agn.node_upsert` 登録済み）**。EPIC / CAP に接続されていない Feature を本書のキューへ入れてはならない（A02 Step 0）。
-> **追随関係**: [`../2.sdt-design/01-development-roadmap.md`](../2.sdt-design/01-development-roadmap.md)（設計 view）は本書へ追随する。矛盾したら 03-approach → 本書 → roadmap の順を正とし、解消できなければ HIL。
+> **追随関係**: [`../2.sdt-design/01-development-roadmap.md`](../2.sdt-design/01-development-roadmap.md)（設計 view）は本書へ追随する。EPIC / CAP 単位の優先度・成熟ロードマップは [`02-epic-cap-priority-roadmap.md`](02-epic-cap-priority-roadmap.md) が所有する。矛盾したら 03-approach → 本書 → 02（EPIC/CAP 順）→ roadmap の順を正とし、解消できなければ HIL。
 
 ## 0. ADF パス（要件アーキテクチャとの接続）
 

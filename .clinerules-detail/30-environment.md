@@ -22,6 +22,7 @@ tags: [clinerules, l2, environment, mcp-recovery, dual-node]
 | CRON / scheduler プロセス一覧 | `process_catalog.list` |
 | ワークスペース構成 | `.dodoai/repo-context.json` の `workspace` |
 | MCP 接続設定 | `.mcp.json` |
+| ローカル開発 Core の endpoint / owner | runtime-slot resolver + `instances.json`（`dodo slot acquire/list` 経由） |
 | 上流参照リポジトリ（ADF / Codex 等）の場所 | `.dodoai/repo-context.json` の `canonical_knowledge.resources` |
 
 ❌ 「ポートは XXXX」と本文に書く / スクリプト名を推測で書く / 一覧を本文に複製する
@@ -41,16 +42,25 @@ dodoAI の外にある参照専用リポジトリは、**複製せず参照で�
 ❌ 上流由来の CallGraph や成果物を dodoAI の SDT へ複製し、正本を二重化する
 
 
+## Tauri Startup Check（`active_services` 宣言時のみ）
+
+`dodo_project_bootstrap` 成功後、`.dodoai/repo-context.json` の `active_services` に Tauri/Desktop stack が宣言されている workspace だけセッション中 1 回実施する。`active_services` が空なら起動対象なしとして何も起動・再起動しない。
+
+1. Desktop process を確認し、window の有無・前面/背面・最小化を区別する。
+2. Vite、Provider health、Core readiness、owner tmux を個別確認し、tmux は pane command まで確認する。
+3. Tauri sidecar の cold start 中や別 session の正当な owner がいる場合は停止・奪取しない。
+4. Desktop process 不在または必要 component の停止が確認でき、競合 owner がいない場合だけ `active_services` が示す owner 経路を非破壊で 1 回起動/再起動する。standalone Core を重ねない。
+5. 起動後は全 component を 3〜5 秒間隔で最大 45 秒再確認する。復旧しなければ process/listener/tmux/log と ownership blocker を Evidence に残す。
+
 ## MCP Recovery Gate（接続不能時）
 
 **MCP が落ちていても、即座に直読みへ降りてはならない。** 順に試す。
 
 1. 2〜3 秒待って同じ MCP call を **1 回だけ**再試行
 2. `/ready` を確認する（`/health` は liveness のみで不十分）
-3. sidecar の listener を確認する（ポート番号は `repo-context.json` の `active_services` から取る）
+3. MCP stdio / runtime-slot resolver が返した endpoint の listener と `/ready` owner を確認する。Tauri control endpoint を generic fallback として推測しない
 4. `tmux ls` を確認する
-5. listener 不在または stale の場合のみ、**非破壊の起動/再起動を 1 回**行う
-   （既存の `dodo-core-8510*` tmux セッション、または repo 標準の起動経路）
+5. listener 不在または stale の場合のみ、同じ workspace lease の owner 経路で **非破壊の起動/再起動を 1 回**行う。owner が別・欠落・未検証なら停止・再利用せず blocker とする
    - `--ensure-sidecar` は既存 tmux セッションが無くても detached sidecar を cold start する。
      **したがって tmux セッションの不在それ自体は失敗の兆候ではない**
 6. cold boot（FastAPI + SQLAlchemy + 全 Action registry の import）は 10 秒を超えることが普通なので、
@@ -71,9 +81,9 @@ Cockpit / AI Chat が古い状態を表示する場合は Vite/Tauri の dev セ
 
 ## 環境の位置付け（Two-Plane / Dual-Node）
 
-正本: `docs/4.operation/08-local-server-dual-node-development.md`
-Control Plane: `docs/4.operation/02-agentic-dev-control-plane.md`
-期間計画: `docs/4.operation/12-two-plane-soak-plan-202608.md`
+framework reference: dodoAI reference repository の `docs/4.operation/08-local-server-dual-node-development.md`
+Control Plane reference: 同 `docs/4.operation/02-agentic-dev-control-plane.md`
+project-local server plane が未登録なら Local single-writer とし、upstream の live state を転記しない。
 
 原則: **両方の面が開発する。ただし同じ仕事はしない。**
 
@@ -100,6 +110,10 @@ Control Plane: `docs/4.operation/02-agentic-dev-control-plane.md`
 ## Git ブランチ衛生
 
 - `develop` / `main` / `master` 上で直接 commit・merge commit を作らない（Charter P1）
+- CI 修復や「ローカル変更を全部 push」では、現在 checkout と既存 local commit を正本にする。既存 commit の直上へ修正を重ね、未 commit のローカル変更も同じ依頼の commit / push に含める
+- ユーザーの明示要求なしに、退避目的の別 clone / worktree / 一時 branch / snapshot ref / patch 転送を作らない。別 checkout の HEAD 一致を現在 checkout の追跡確認の代用にしない
+- Task / Issue / Evidence は現在 checkout 中の同一 worktree に作り、作成直後に明示 path だけを stage する。MCP / Action へ別 checkout の `workspace_root` を渡して正本 worktree に Agent 生成の `??` を残すことを禁止する
+- push 直前と直後に現在 checkout の `git status --short` を確認し、ユーザー変更が対象 commit に入ったこと、Agent 生成の未追跡ファイルが 0 件であることを確認する
 - 保護ブランチに居るまま pull を頼まれたら、まず作業ブランチを作って切り替えてから merge/rebase する
 - 保護ブランチ上に誤って commit したら、直ちに作業ブランチへ退避し、保護ブランチを `origin/<branch>` へ戻す
 - 統合は作業ブランチ + PR で行う（明示指示がある場合を除く）

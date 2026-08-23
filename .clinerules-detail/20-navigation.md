@@ -65,7 +65,7 @@ GET /priority/queue → 先頭候補を取得
 
 OODA の周回記録（自動レポート・手動 OODA ログの両方）は **3 必須フィールド**を含むレポートで回す。
 どれかを欠く記録はその周回が「観測されなかった」ものとして扱う（WM-4）。
-条項正本 = `docs/0.charter/04-autonomous-loop.md` §8、手順正本 = `docs/4.operation/13-ooda-scorecard-iteration.md`。
+条項正本 = `docs/0.charter/04-autonomous-loop.md` §8、framework 手順 = dodoAI reference repository の `docs/4.operation/13-ooda-scorecard-iteration.md`。project-local Operation / LOOP / metrics catalog が未初期化なら運用開始しない。
 
 | # | 必須フィールド | 要点 |
 |---|---|---|

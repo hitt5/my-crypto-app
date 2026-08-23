@@ -106,6 +106,20 @@ Stage 3  Autopilot 限定された範囲だけ自律執行（Policy・回転数�
 - WF の各周回は TaskGraph ノードとして状態（ready/running/done/failed）を持ち、dispatch と observe を対で記録する（WM-4）。ループの一次状態は TaskGraph、人間可読 view は Issue/MD（P29 と同型）
 - WF 自体の評価は `workflow.effectiveness_eval`（遵守率・効率・精度）で行い、WF 定義の改訂へ接続する（ループのループ）
 
+## LOOP Catalog — 閉ループを AGN の第一級ノードとして統治する
+
+dodoAI reference repository の `docs/1.concept/1.core-concept/08-agentic-ooda-operations.md` §4.3 に従い、常設する閉ループは WF の一覧ではなく **LOOP という宣言・統治ノード**で束ねる。閉ループの正準構造は `閉ループ = WF / 1 周 = 非巡回 DAG インスタンス / SDT = 状態空間` であり、LOOP 自体は実行体ではない。
+
+| 概念 | このプロジェクトでの責務 | 所有しないもの |
+|---|---|---|
+| **LOOP** | OODA 4 フェーズ + Improve の所有者、成熟度（E0/E1/E2）、空転検出定義、接地 reference を宣言する | WF 実行状態、FR/UC、周回数・成功率・verdict 等の変動値 |
+| **WF** | 1 周の実行型を非巡回 DAG として定義する | ループ全体の統治、Decide（HIL）・Improve（Skill 改訂）の自動化 |
+| **Operation** | Orient / Act のフェーズ実装を担う | ループ所属の正本。`tier` は心拍（いつ動くか）だけを表す |
+
+登録時は Observe / Orient / Decide / Act / Improve の所有者をすべて宣言する。Decide と Improve は LOOP から参照するだけで WF ノードにはしない。成熟度の昇格は HIL、降格は機械即時とし、逆導出した成熟度は Belief として `maturity_basis` に明示する（WM-3）。
+
+project-local SoT は `docs/99.sdt/agn/4.loops/loops.json`、schema は `docs/99.sdt/agn/0.schema/loop-schema-v1.json`、MD view は `docs/99.sdt/agn/4.loops/index.md` とする（WM-5）。現時点では 3 点とも未初期化なので、運用ループ候補は**未登録**であり常設運用できない。`F-WORKSPACE-BOOTSTRAP` で schema と catalog の生成経路が確定するまで JSON を推測作成しない。
+
 ## 評価成果物の双対表現（SDT + MD — HARD）
 
 **評価は SDT 化と MD のセットにしないとループとしてワークしない。** 評価成果物（Convexity 評価・Gate 判定・予測校正 forecast error・増分利益・ΔΩ・IG・Canary 昇格判定）は、次の双対で保持する（WM-5）:
@@ -150,6 +164,7 @@ Stage 3  Autopilot 限定された範囲だけ自律執行（Policy・回転数�
 
 | バージョン | 日付 | 内容 |
 |---|---|---|
+| v0.6.0 | 2026-08-22 | LOOP Catalog を追加 — 閉ループを AGN の宣言・統治ノードとして正準化し、LOOP / WF / Operation の責務、OODA + Improve 所有者 Gate、E0-E2、`tier` 境界、未初期化 catalog の blocker を確定 |
 | v0.5.0 | 2026-08-22 | **全体フローを OODA×WF 実行モデルへ改訂**: 直列フェーズ消化を廃し「ループを回せる状態を作る整備順」へ再定義（Phase 3/4 = Loop Run / Loop Eval の定常運転）。運用ループ①〜⑥の WF 写像（OODA・実行 Action・書き戻し先）を新設。評価成果物の SDT(JSON)+MD 双対表現を HARD 原則として新設（片肺禁止）。H1 再承認対象に含む |
 | v0.4.0 | 2026-08-22 | **根本改訂**: 三要素（World Model / Viability Model / Agentic Settlement）の閉ループを中核に再構成。Opportunity を W.M.×V.M. の差分生成として定義。運用原則 8 箇条を追加。実装順を不可逆性基準に変更。ステップ分解を三要素へ再写像 |
 | v0.3.0 | 2026-08-22 | crypto.md を元に運用ループ・3 段階自律度・ステップ分解を記入 |

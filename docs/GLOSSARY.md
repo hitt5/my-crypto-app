@@ -14,18 +14,18 @@ tags: [glossary, crypto-wealth-os, terminology]
 
 | 用語 | 正式名称 | 定義 | 正本 |
 |---|---|---|---|
-| **BR** | Business Requirement（ビジネス要件） | 事業背景・ゴールから導出される要件。要件 ID は `BR-n`。新設・変更は HIL 裁定必須 | [`3.common/1.business-requirements/`](3.common/1.business-requirements/02-business-requirement.md) |
-| **SR** | System Requirement（システム要件） | BR を実現するためのシステム要件。要件 ID は `SR-XXX-n`（XXX = 領域コード: KEY / POL / EXE / EVD / VIA） | [`3.common/2.system-requirements/`](3.common/README.md) |
-| **NFR** | Non-Functional Requirement（非機能要件） | セキュリティ・規制・スコープ等の非機能要件。要件 ID は `NFR-XXX-n`（SEC / REG / SCOPE） | [`3.common/2.system-requirements/nfr/`](3.common/README.md) |
+| **BR** | Business Requirement（ビジネス要件） | 事業背景・ゴールから導出される要件。要件 ID は `BR-n`。新設・変更は HIL 裁定必須 | [`4.common/1.business-requirements/`](4.common/1.business-requirements/02-business-requirement.md) |
+| **SR** | System Requirement（システム要件） | BR を実現するためのシステム要件。要件 ID は `SR-XXX-n`（XXX = 領域コード: KEY / POL / EXE / EVD / VIA） | [`4.common/2.system-requirements/`](4.common/README.md) |
+| **NFR** | Non-Functional Requirement（非機能要件） | セキュリティ・規制・スコープ等の非機能要件。要件 ID は `NFR-XXX-n`（SEC / REG / SCOPE） | [`4.common/2.system-requirements/nfr/`](4.common/README.md) |
 | **UC** | Use Case（ユースケース） | Feature 固有の利用シナリオと受入基準。BR → SR → UC の順で定義する。UC と FR は同一フォルダに混在させない | AGENTS.md §Requirements Model |
 | **CAP** | Capability（能力） | システム能力の単位。**FR は CAP が所有**し、Feature/UC は `references(satisfies)` で参照のみ | `docs/0.charter/07-requirements-architecture-map.md` |
 | **FR** | Functional Requirement（機能要件） | CAP が所有する機能要件。欠落 FR は `fr_gap` で記録。新設は HIL 裁定必須 | 同上 |
 | **Mod** | Module（モジュール） | 実装単位。定義順は BR → SR → UC → CAP → Mod が先、コードは後 | 同上 |
 | **EPIC** | — | Feature をまとめる最上位の要件グループ。JSON-first SoT（`docs/99.sdt/art/catalog/source/`） | AGENTS.md §Requirements Model |
 | **Feature** | — | EPIC 配下の機能単位（例: `F-CRYPTO-PORTFOLIO-DASHBOARD`）。`feature.json` + `task-dd*.json` で TaskGraph 管理する | `docs/99.sdt/agn/1.workflows/` |
-| **CR** | Common Requirement（共通要件） | 全 EPIC / Feature に横断適用される共通要件 CR-1〜CR-9。正本は `3.common/0.common-requirements/`、同フォルダ内で BR/SR/NFR へ展開 | [`3.common/0.common-requirements/00-common-requirements.md`](3.common/0.common-requirements/00-common-requirements.md) |
+| **CR** | Common Requirement（共通要件） | 全 EPIC / Feature に横断適用される共通要件 CR-1〜CR-9。正本は `4.common/0.common-requirements/`、同フォルダ内で BR/SR/NFR へ展開 | [`4.common/0.common-requirements/00-common-requirements.md`](4.common/0.common-requirements/00-common-requirements.md) |
 | **HIL** | Human-in-the-Loop | 人間（ユーザー本人）による裁定・承認。BR/SR/NFR/CAP/FR 新設、Policy 変更、不可逆 Action、スコープ拡張等で必須 | [`1.concept/00-overview.md`](1.concept/00-overview.md) §HIL ゲート |
-| **HARD / SOFT** | — | HARD = 違反したら実装・実行を拒否する要件 / SOFT = 逸脱時に Finding として記録する要件 | [`3.common/README.md`](3.common/README.md) §記法 |
+| **HARD / SOFT** | — | HARD = 違反したら実装・実行を拒否する要件 / SOFT = 逸脱時に Finding として記録する要件 | [`4.common/README.md`](4.common/README.md) §記法 |
 | **SoT** | Source of Truth（正本） | 唯一の正とするデータ・文書。docs/ ツリーが SoT、`dodoai-docs/` は投影ビュー | AGENTS.md §Instruction Source of Truth |
 | **SDT** | — | ART + AGN で構成される機械可読の設計・実行記録ツリー（`docs/99.sdt/`）。ART が正本 SoT、AGN は ART を意味で接続する因果グラフ | `docs/99.sdt/README.md` |
 | **SCO** | Semantic Canonical Ontology（意味の正準オントロジー） | SDT の項目と ADF 文書の項目が共通参照する「意味のマスター」。呼称や project 固有語を同じ正準概念へ接続し、ART / AGN / ADF 間で意味を一貫させる。project **scope** の略ではない。新しい正準概念を推測で追加せず、既存概念への写像を優先する | dodoAI `/Users/hitoshimurakami/myApps/dodoai/ADF/docs/ja/glossary.md` §SCO / `docs/99.sdt/agn/0.schema/ontology/` |

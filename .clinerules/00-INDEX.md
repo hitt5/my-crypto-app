@@ -35,7 +35,9 @@
 | **層の関係が分からない / どこに書けばよいか迷った / 新しい BR・SR・FR・CAP を作ってよいか** | Charter `07-requirements-architecture-map.md` |
 | World Model → Strategy → BR → EPIC/UC → CAP/FR → Code → Evidence の接続を確認したい | Charter `07-requirements-architecture-map.md` §1 |
 | 縦糸（UC）と横糸（FR）のどちらに書くか判断したい | Charter `07-requirements-architecture-map.md` §3 / §5 |
+| 閉ループ / LOOP / WF / Operation の責務・登録条件を確認したい | `docs/1.concept/03-approach.md` §LOOP Catalog + Charter `07-requirements-architecture-map.md` §2 #12 / §4 |
 | セッション開始 / MCP 接続設定 | `.clinerules/00-CORE.md` §STEP 0 |
+| セッション開始時に `active_services` 宣言済みの Tauri / Desktop stack が落ちている | `.clinerules-detail/30-environment.md` §Tauri Startup Check |
 | MCP が繋がらない / connection refused / bootstrap 失敗 | `.clinerules-detail/30-environment.md` §MCP Recovery Gate |
 | 新規 Action が `Action not found` になる | `.clinerules-detail/30-environment.md` §Action Registry が stale な場合 |
 | **コード変更の前**（Preload / CallGraph 影響調査 — HARD GATE） | `.clinerules-detail/10-preload-gate.md` |
@@ -43,7 +45,7 @@
 | **完了報告 / DD Phase 完了 / HANDOFF `_done` の前**（HARD GATE） | `.clinerules-detail/11-completion-gate.md` |
 | テスト層 / 旧 L 番号 / Mock 境界 / DD Phase 配置を決める | `.clinerules-detail/11-completion-gate.md` §Test Definition Gate |
 | 仕様適合を実査したい / status を追認してよいか迷った | `.clinerules-detail/11-completion-gate.md` §Check 1 |
-| DD05 サーバーデプロイ検証 / 実 URL ブラウザ E2E | `.clinerules-detail/11-completion-gate.md` §DD04/DD05 |
+| DD05 Release Validation / リリース先実 URL ブラウザ E2E | `.clinerules-detail/11-completion-gate.md` §DD04/DD05 |
 | ロードマップ / タスクグラフ status 同期（P20） | `.clinerules-detail/11-completion-gate.md` §Check 4 |
 | 次に何をやるべきか / 優先度キュー / 「次のタスクは？」 | `.clinerules-detail/20-navigation.md` |
 | セッション開始時の改善状況把握 / 「OODA回して」「改善の続き」 | `.clinerules-detail/20-navigation.md` §Ops Status |
@@ -51,7 +53,7 @@
 | Operation / Agent の選定 | `.clinerules-detail/20-navigation.md` §Operation / Agent の選定 |
 | 開発環境の起動 / サービス・ポートを知りたい | `.clinerules-detail/30-environment.md` §事実の取得先 |
 | Dev2 / サーバー面 / Two-Plane / どちらのノードで作業するか | `.clinerules-detail/30-environment.md` §環境の位置付け |
-| Git ブランチ運用 / 保護ブランチに commit してしまった | `.clinerules-detail/30-environment.md` §Git ブランチ衛生 |
+| Git ブランチ運用 / CI 修復 / ローカル変更一括 push / Agent 生成の未追跡ファイル | `.clinerules-detail/30-environment.md` §Git ブランチ衛生 |
 | Issue / HANDOFF の作成と命名 | `.clinerules-detail/30-environment.md` §作業管理 |
 | Clean Architecture / DD01 Scaffold / P28 / LCOM4 | `.clinerules-detail/40-domain-gates.md` §1 |
 | SDT/AGN/ART データの生成・補修（schema 束縛） | `.clinerules-detail/40-domain-gates.md` §2 |
@@ -65,7 +67,7 @@
 | **ルール自体を変更する時** | `.clinerules-detail/00-README.md` + `40-domain-gates.md` §5 |
 | 禁止事項の条文確認（P1–P27） | `.clinerules/00-CORE.md` §絶対禁止 → 正本は Charter `01-development-charter.md` |
 | Feature / UC / FR / CAP / Module の所有関係 | Charter `07-requirements-architecture-map.md` §3 → 正本は `adf/.../09-requirements-model.md` |
-| DD01→DD05 反復 / A02・A03 Gate の定義 | Charter `04-iteration-protocol.md` |
+| DD01→DD05 反復 / A02・A03 Gate の定義 | Charter `02-development-flow.md` |
 | テスト定義・層選択 | SDT `docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.json` + ADF `adf/docs/ja/3.process/5.test/`。数値閾値は Charter `01-development-charter.md` §3 |
 | ファイル移動で `ln://` / spec_refs が解決できない | `.clinerules-detail/10-preload-gate.md` §Step 3 |
 

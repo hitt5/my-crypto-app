@@ -149,14 +149,18 @@ Custom UI manifest / block / catalog の変更は、通常の Completion Gate �
 - 既存全 manifest の `mode="compatibility"` 結果を別に記録し、warning があれば conformance を `PARTIAL` のままにする。
 - CSS hard-coded color / inline style はこの lint の PASS に含めない。別の測定済み STREAM が未完なら完了へ格上げしない。
 
-## DD04 / DD05（Feature 単位）
+## DD04 / DD05（Feature 単位）— リリース連動
 
-`feature.json` の `attributes.deployment_validation` を読んで分岐する。
+Track B（Release Validation）は**リリース有無**で分岐する（条文 = Charter 06 §4 Check 5 / 02 §5）。
+`feature.json` の `release_status` を読む。旧 `deployment_validation: local-only / required` は deprecated — 環境がローカルであることを免除条件にしない。
 
-| 値 | 必要な検証 |
+| 状態 | 必要な検証 |
 |---|---|
-| `local-only` | Track A のみ（ST-E2E-HL/HD + ST-AI-Visual + ST-Human） |
-| `required` | Track A + **Track B**（サーバー面へ deploy → `/ready` → server smoke → **デプロイ先実 URL** へのブラウザ E2E → サーバー実行ログ/lease/soak 確認 → `evidence-dd05.json`） |
+| 共通（全 Feature） | Track A（ST-E2E-HL/HD + ST-AI-Visual + ST-Human） |
+| `release_status: unreleased` | Track B は**対象外**。デプロイ検証・稼働証跡の欠如を理由に Feature done をブロックしない。「未リリース（対象外）」と記録し「未計測」と混同しない |
+| `release_status: released` | Track A + **Track B**（リリース面へ deploy / 配布 → `/ready` → smoke → **リリース先実 URL** へのブラウザ E2E → 実行ログ/lease/soak 確認 → `evidence-dd05.json`） |
 
-localhost への E2E は**サーバー検証ではない**。認証情報・エンドポイントは `env://` 論理参照のみ（P5）。
-DD05 FAIL は done にせず、Task Graph の依存と Finding に戻して Roadmap/Priority を再評価する。
+- Feature Complete = DD04 + DD05 Track A PASS。Track B は Feature Complete の前提ではなく、**リリース済み Feature の稼働保証**として別軸で判定する。
+- localhost への E2E は**リリース検証ではない**。認証情報・エンドポイントは `env://` 論理参照のみ（P5）。
+- リリース済みで Track B FAIL の Feature は稼働保証済みと扱わず、Task Graph の依存と Finding に戻して Roadmap/Priority を再評価する。
+- 状態は 3 値を区別する: **対象外**（未リリース）/ **未計測**（対象だが測定パイプ未整備 — blocker として可視化）/ **FAIL**（リリース済みで証跡なし）。invalid を fail に丸めない。
