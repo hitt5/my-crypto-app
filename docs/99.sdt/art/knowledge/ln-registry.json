@@ -112,7 +112,7 @@
     "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification": {
       "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification",
       "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification.json",
-      "content_hash": "50bd5791dd9c1bb283a75d275e77321bce85eaf821d5755a6d31493d4cfa3b96",
+      "content_hash": "308016c70c2a850df4715b0a22afa7b455853e59c7b4b264a63da15084945016",
       "category": "agn",
       "node_id": "F-WORKSPACE-BOOTSTRAP",
       "sub": "task-dd01-git-history-unification",
@@ -351,6 +351,14 @@
       "new_hash": "50bd5791dd9c1bb283a75d275e77321bce85eaf821d5755a6d31493d4cfa3b96",
       "verdict": "updated",
       "changed_at": "2026-08-23T01:01:16.577515+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification.json",
+      "new_hash": "308016c70c2a850df4715b0a22afa7b455853e59c7b4b264a63da15084945016",
+      "verdict": "updated",
+      "changed_at": "2026-08-23T01:02:50.255523+00:00"
     }
   ]
 }

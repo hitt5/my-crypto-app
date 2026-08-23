@@ -37,6 +37,17 @@ TaskGraph SoT: `docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPAC
 - `task_graph.acquire_edit_lease` returned `success=true`, `required=false`; no release token exists.
 - Runtime/UI reload or restart is not required and will not be performed.
 
+## Integration evidence
+
+- Checkpoint commit: `8aa4668dc52ebaeab2644ef59db9b4a2a8f5a977`.
+- Integration merge: `e3db65b9ef0196a242a8916e7876bc0b18e785d9`.
+- Merge parents: `8aa4668dc52ebaeab2644ef59db9b4a2a8f5a977` and `69cab385d445c225b66ebca4357650d8b399b113`.
+- Checkpoint tree and integration tree are both `f012dbc417a629dc2db9d300bc7ceab47c1c83a2`; integrating the develop root changed no feature content.
+- Both original root histories are ancestors of the integration merge.
+- `git diff --check`, conflict-marker scan, and `jq empty` for the task/LN registry: PASS.
+- `roadmap.sync_gate`: `stale_task_status=0`, `roadmap_drift=0`; existing `missing_milestone=1`, `epic_orphan=1`, `cap_unbound=1` remain.
+
 ## Known blocker
 
 - `docs/99.sdt/agn/5.operations/operations.json` is absent, so Operation and Agent are unresolved rather than guessed.
+- Existing workspace SDT findings remain outside this Git merge: one missing deliverable set in `task-dd01-sdt-contract-bootstrap.json` and three findings in `task-dd01-terminology-resolution-guidance.json`.
