@@ -1,0 +1,61 @@
+{
+  "schema": "scaffold-template.v1",
+  "template_id": "frontend-shared-module",
+  "language": "typescript",
+  "description": "ADF v2 Clean Architecture scaffold for reusable frontend shared modules.",
+  "compatible_base_dirs": [
+    "frontend/src/shared"
+  ],
+  "layer_roles": {
+    "domain": "domain",
+    "application": "application",
+    "infrastructure": "infrastructure",
+    "interfaces": "presentation"
+  },
+  "placements": {
+    "repository_port": "application",
+    "repository_adapter": "infrastructure",
+    "entry": "presentation"
+  },
+  "default_variables": {},
+  "directories": [
+    {
+      "path": "domain"
+    },
+    {
+      "path": "application"
+    },
+    {
+      "path": "infrastructure"
+    },
+    {
+      "path": "presentation"
+    }
+  ],
+  "forbidden_paths": [
+    "api",
+    "repository"
+  ],
+  "files": [
+    {
+      "path": "index.ts",
+      "template": "files/index.ts.tmpl"
+    },
+    {
+      "path": "domain/index.ts",
+      "template": "files/layer-index.ts.tmpl"
+    },
+    {
+      "path": "application/index.ts",
+      "template": "files/layer-index.ts.tmpl"
+    },
+    {
+      "path": "infrastructure/index.ts",
+      "template": "files/layer-index.ts.tmpl"
+    },
+    {
+      "path": "presentation/index.ts",
+      "template": "files/layer-index.ts.tmpl"
+    }
+  ]
+}

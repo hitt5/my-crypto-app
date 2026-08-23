@@ -1,0 +1,85 @@
+{
+  "node_id": "F-WORKSPACE-BOOTSTRAP-DD01-GIT-HISTORY-UNIFICATION-20260823",
+  "type": "task",
+  "name": "Unify unrelated Git histories without content loss",
+  "description": "Preserve the complete feat/hitt5_822_1 tree while integrating origin/develop through a normal merge, then verify ancestry, path retention, exact remote SHA, PR checks, and the final develop merge.",
+  "gate": "The feature branch contains both original root histories, no pre-merge feature paths are lost, the exact pushed SHA is verified, the PR is merged normally into develop, and local/remote status is reported truthfully.",
+  "spec_refs": {
+    "project_rules": "AGENTS.md",
+    "project_concept": "docs/1.concept/00-overview.md",
+    "roadmap": "docs/2.sdt-design/01-development-roadmap.md"
+  },
+  "feature": "F-WORKSPACE-BOOTSTRAP",
+  "layer": "execution",
+  "truth_type": "observed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [
+    "governance",
+    "git-remote"
+  ],
+  "created_at": "2026-08-23T10:00:32+09:00",
+  "updated_at": "2026-08-23T01:02:50.254392+00:00",
+  "task_id": "F-WORKSPACE-BOOTSTRAP-DD01-GIT-HISTORY-UNIFICATION-20260823",
+  "phase": "DD01",
+  "issue_refs": [
+    ".dodoai/issue/20260823_TASK_F-WORKSPACE-BOOTSTRAP_git-history-unification_in-progress.md"
+  ],
+  "done_criteria": [
+    "origin/develop and the pre-merge feat/hitt5_822_1 head are recorded and remain reachable as the two parents of the integration merge",
+    "every path present in the pre-merge feature tree remains present with identical blob or an explicitly reviewed conflict resolution",
+    "origin/develop is an ancestor of the final feature head and GitHub can compare the feature with develop",
+    "local HEAD, upstream tracking ref, remote feature ref, and PR head SHA are equal before merge",
+    "all registered non-neutral checks for the exact PR head are complete and successful or a concrete external gate is reported",
+    "the PR is merged normally into develop without force push or administrator bypass",
+    "TaskGraph, Issue view, roadmap.sync_gate, final branch status, and zero non-ignored untracked files are recorded truthfully"
+  ],
+  "size": "M",
+  "success_probability": 0.9,
+  "max_ticks": 6,
+  "changed_files": [
+    ".dodoai/issue/20260823_TASK_F-WORKSPACE-BOOTSTRAP_git-history-unification_in-progress.md",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification.json",
+    "docs/99.sdt/art/knowledge/ln-registry.json"
+  ],
+  "evidence": [
+    "bootstrap: project 43e2f654-cdd7-4572-b921-962bea2f0820",
+    "git fetch: origin/develop=69cab385d445c225b66ebca4357650d8b399b113; origin/feat/hitt5_822_1=5e9e6c03e3d1211c6562d131db3acd2b500a8bf9",
+    "git merge-base before integration: no merge base; unrelated histories confirmed",
+    "gh pr list before integration: no existing PR for feat/hitt5_822_1",
+    "task_graph.acquire_edit_lease: success=true, required=false",
+    "checkpoint commit: 8aa4668dc52ebaeab2644ef59db9b4a2a8f5a977",
+    "integration merge: e3db65b9ef0196a242a8916e7876bc0b18e785d9; parents=8aa4668dc52ebaeab2644ef59db9b4a2a8f5a977,69cab385d445c225b66ebca4357650d8b399b113",
+    "tree preservation: checkpoint tree=f012dbc417a629dc2db9d300bc7ceab47c1c83a2 and integration tree=f012dbc417a629dc2db9d300bc7ceab47c1c83a2",
+    "both original roots are ancestors of integration HEAD",
+    "git diff --check origin/develop...HEAD: PASS",
+    "conflict marker scan: 0",
+    "jq empty task and LN registry: PASS",
+    "agn.sdt_contract_test initial: 9 issues; 5 introduced by deliverable labels on this task, repaired before push; 4 pre-existing workspace issues remain to recheck",
+    "roadmap.sync_gate: stale_task_status=0, roadmap_drift=0; missing_milestone=1, epic_orphan=1, cap_unbound=1"
+  ],
+  "blocking_findings": [
+    "operations.json and Agent catalog are absent, so Operation and Agent selection cannot be performed without guessing",
+    "pre-existing F-WORKSPACE-BOOTSTRAP SDT contract findings remain outside this Git merge task",
+    "pre-existing roadmap debt remains: missing_milestone=1, epic_orphan=1, cap_unbound=1"
+  ],
+  "updated_by": "codex-root",
+  "priority": "P0",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-23T10:02:00+09:00",
+        "by": "codex-root",
+        "reason": "User explicitly requested a content-preserving merge of the unrelated feature and develop histories."
+      }
+    ],
+    "status_source": "manual"
+  },
+  "deliverables": [
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification.json (CONTRACT: Git history unification and preservation criteria)",
+    ".dodoai/issue/20260823_TASK_F-WORKSPACE-BOOTSTRAP_git-history-unification_in-progress.md (TEST: merge ancestry, tree preservation, exact-SHA and PR evidence)"
+  ],
+  "schema": "sdt-node-v3.0"
+}

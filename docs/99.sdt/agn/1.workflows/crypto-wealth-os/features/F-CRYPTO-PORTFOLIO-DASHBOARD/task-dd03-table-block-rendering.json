@@ -1,0 +1,155 @@
+{
+  "schema": "sdt-node-v3.0",
+  "id": "T-CRYPTO-PORTFOLIO-DASHBOARD-TABLE-RENDER-20260822",
+  "node_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-TABLE-RENDER-20260822",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-TABLE-RENDER-20260822",
+  "type": "integration-task",
+  "name": "Render Crypto Wealth dashboard tables",
+  "description": "Replace unsupported Custom UI table blocks with the canonical data-table contract and verify wallet, asset, allocation drift, and price tick sections render from their declared data sources.",
+  "summary": "Repair four unsupported dashboard table blocks without changing read-only portfolio semantics.",
+  "gate": "All four blocks use canonical data-table/rows_field, focused manifest tests pass, live page has zero unsupported-block fallbacks, and governance gates are recorded truthfully.",
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "layer": "execution",
+  "truth_type": "designed",
+  "status": "running",
+  "phase": "DD03",
+  "depends_on": [],
+  "test_layers": [
+    "ITa-Harness-FE",
+    "ST-E2E",
+    "ST-AI-Visual"
+  ],
+  "deploy_unit": "personal-custom-ui",
+  "issue_refs": [
+    ".dodoai/issue/20260822_TASK_F-CRYPTO-PORTFOLIO-DASHBOARD_table-block-rendering_in-progress.md"
+  ],
+  "spec_refs": {
+    "sr": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "iuc": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "screen_design": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md"
+  },
+  "done_criteria": [
+    {
+      "check": "jq/manifest contract check",
+      "expect": "four intended blocks have type=data-table, rows_field, and no type=table/items_field remains"
+    },
+    {
+      "check": "focused Custom UI manifest regression test",
+      "expect": "0 failed"
+    },
+    {
+      "check": "custom_ui.manifest_lint mode=strict",
+      "expect": "error_count=0, or an explicit personal-scope linter incompatibility remains recorded and task stays non-done"
+    },
+    {
+      "check": "live browser dashboard proof",
+      "expect": "zero unsupported-block fallback messages and four table sections render"
+    },
+    {
+      "check": "roadmap.sync_gate feature=F-CRYPTO-PORTFOLIO-DASHBOARD",
+      "expect": "result recorded; ok=true required for done"
+    }
+  ],
+  "size": "S",
+  "success_probability": 0.9,
+  "success_probability_rationale": "The canonical block catalog directly identifies table as unknown and data-table/rows_field as the supported contract; live proof may require user-approved runtime reload if the manifest is cached.",
+  "max_ticks": 3,
+  "changed_files": [
+    ".dodoai/issue/20260822_TASK_F-CRYPTO-PORTFOLIO-DASHBOARD_table-block-rendering_in-progress.md",
+    ".dodoai/personal/custom_actions/tests/test_crypto_actions.py",
+    ".dodoai/personal/custom_ui/crypto-wealth/manifest.json",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering.json",
+    "docs/99.sdt/art/knowledge/ln-registry.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-table-block-rendering.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-table-block-rendering.md"
+  ],
+  "test_evidence": [
+    "manifest jq contract: true",
+    "focused manifest regression: 1 passed in 0.02s",
+    "configured full personal crypto suite: 17 passed in 0.09s",
+    "strict content lint in canonical temporary placement: checked=1 errors=0 warnings=0",
+    "live Tauri registry: manifest 1.0.1 with four data-table blocks",
+    "headless live dashboard: unsupported=0 tables=4"
+  ],
+  "evidence_refs": [
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-table-block-rendering.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-table-block-rendering.md"
+  ],
+  "findings": [
+    "Bare Python test invocation is invalid without the canonical dodoAI workspace on PYTHONPATH; configured run passed 17 tests.",
+    "Project Operation/Agent catalogs, SDT layout contract, ADF test definition, and roadmap graph are not initialized.",
+    "custom_ui.manifest_lint does not inspect .dodoai/personal/custom_ui directly; real-path run returned checked_manifests=0.",
+    "The historical HTTP 404 is resolved: current Tauri live project-scoped hydration returns HTTP 200 and populated rows; see evidence-dd03-dashboard-live-data.json.",
+    "roadmap.sync_gate is not green: stale_task_status=2, missing_milestone=1, epic_orphan=1, cap_unbound=1, phase_contains_missing=0."
+  ],
+  "remaining_work": [
+    "Add personal-scope manifest lint coverage so the real path yields checked_manifests=1.",
+    "Initialize the missing DD01 scaffold record, owning EPIC/CAP bindings, and roadmap milestone, then rerun roadmap.sync_gate."
+  ],
+  "attributes": {
+    "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+    "phase": "DD03",
+    "issue_refs": [
+      ".dodoai/issue/20260822_TASK_F-CRYPTO-PORTFOLIO-DASHBOARD_table-block-rendering_in-progress.md"
+    ],
+    "spec_refs": {
+      "sr": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+      "uc": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md"
+    },
+    "done_criteria": [
+      {
+        "check": "manifest block contract",
+        "expect": "4 canonical data-table blocks"
+      },
+      {
+        "check": "live UI",
+        "expect": "no unsupported-block fallbacks"
+      },
+      {
+        "check": "completion gates",
+        "expect": "strict lint and roadmap sync recorded"
+      }
+    ],
+    "size": "S",
+    "success_probability": 0.9,
+    "max_ticks": 3
+  },
+  "created_at": "2026-08-22T05:12:42.166Z",
+  "updated_by": "codex-root-crypto-table-20260822",
+  "updated_at": "2026-08-22T05:20:09.603358+00:00",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T05:13:01.259149+00:00",
+        "by": "codex-root-crypto-table-20260822",
+        "reason": "Canonical Custom UI catalog confirms table is unsupported and data-table/rows_field is required; begin bounded manifest repair."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "codex-root-crypto-table-20260822",
+      "overridden_at": "2026-08-22T05:13:01.259149+00:00",
+      "source": "manual",
+      "reason": "Canonical Custom UI catalog confirms table is unsupported and data-table/rows_field is required; begin bounded manifest repair."
+    },
+    "activityHistory": [
+      {
+        "id": "activity:2026-08-22T05:13:15.586208+00:00:update",
+        "kind": "update",
+        "at": "2026-08-22T05:13:15.586208+00:00",
+        "by": "codex-root-crypto-table-20260822",
+        "fields": [
+          "issue_refs"
+        ]
+      }
+    ]
+  },
+  "overridden_by": "codex-root-crypto-table-20260822",
+  "overridden_at": "2026-08-22T05:13:01.259149+00:00",
+  "override_reason": "Canonical Custom UI catalog confirms table is unsupported and data-table/rows_field is required; begin bounded manifest repair."
+}

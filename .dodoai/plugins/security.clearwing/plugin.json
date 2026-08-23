@@ -1,0 +1,98 @@
+{
+  "id": "security.clearwing",
+  "version": "1.0.0",
+  "name": "Clearwing Security Scanner",
+  "author": "dodoai",
+  "license": "MIT",
+  "description": "Autonomous vulnerability scanner powered by Clearwing (Lazarus AI).",
+  "dodoai_version": ">=0.3.0",
+  "dependencies": [],
+  "capabilities_required": [
+    "action.register",
+    "process.spawn",
+    "network.outbound",
+    "fs.write"
+  ],
+  "risk_level": "high",
+  "tags": [
+    "security",
+    "vulnerability",
+    "sourcehunt",
+    "pentest"
+  ],
+  "provides": {
+    "actions": [
+      {
+        "key": "clearwing.sourcehunt",
+        "entry": "actions/sourcehunt.py",
+        "version": "1.0.0"
+      },
+      {
+        "key": "clearwing.ingest",
+        "entry": "actions/ingest_findings.py",
+        "version": "1.0.0"
+      },
+      {
+        "key": "clearwing.scan",
+        "entry": "actions/network_scan.py",
+        "version": "1.0.0"
+      },
+      {
+        "key": "clearwing.nday",
+        "entry": "actions/nday.py",
+        "version": "1.0.0"
+      }
+    ],
+    "ingestion": [
+      {
+        "id": "clearwing_findings",
+        "entry": "ingestion/finding_ingester.py"
+      }
+    ],
+    "event_hooks": [
+      {
+        "event": "clearwing.finding.created",
+        "handler": "hooks/on_finding.py"
+      }
+    ],
+    "runtime_adapters": [],
+    "verification": [],
+    "providers": [],
+    "ui_extensions": []
+  },
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "clearwing_path": {
+        "type": "string",
+        "default": "clearwing",
+        "description": "Clearwing CLI path"
+      },
+      "default_depth": {
+        "type": "string",
+        "enum": [
+          "quick",
+          "standard",
+          "deep"
+        ],
+        "default": "standard"
+      },
+      "default_budget_usd": {
+        "type": "number",
+        "default": 10.0
+      },
+      "auto_task_gen": {
+        "type": "boolean",
+        "default": false
+      },
+      "cron_enabled": {
+        "type": "boolean",
+        "default": true
+      },
+      "cron_schedule": {
+        "type": "string",
+        "default": "0 3 * * *"
+      }
+    }
+  }
+}

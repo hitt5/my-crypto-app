@@ -1,0 +1,784 @@
+{
+  "name": "Personal Crypto Portfolio Dashboard",
+  "theme_id": "crypto-wealth-os",
+  "deploy_unit": "personal-custom-ui",
+  "deployment_validation": "local-only",
+  "priority": "P0",
+  "phase": "A03",
+  "uc_ids": [
+    "UC-1",
+    "UC-2",
+    "UC-3",
+    "UC-4"
+  ],
+  "fr_ids": [
+    "FR-OBS-1",
+    "FR-OBS-2",
+    "FR-VIA-3",
+    "FR-EVD-1",
+    "FR-EVD-5"
+  ],
+  "capability_refs": [
+    "CAP-ONCHAIN-OBSERVE",
+    "CAP-VIABILITY-EVAL",
+    "CAP-EVIDENCE-LEDGER"
+  ],
+  "epic_id": "EPIC-VIABILITY",
+  "satisfies": [
+    "BR-1",
+    "BR-7"
+  ],
+  "fr_gap": [
+    "FR-OBS-x (local testnet control / test funding) is not yet owned by CAP-ONCHAIN-OBSERVE in the JSON-first catalog — recorded as fr_gap pending HIL (FR additions require HIL per AGENTS.md §Requirements Model). Implementation exists under personal scope: crypto_testnet_ctl / crypto_testnet_fund."
+  ],
+  "target_module": ".dodoai/personal",
+  "spec_refs": {
+    "sr": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "iuc": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "uc_catalog": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "fr_catalog": "docs/4.common/3.capability-requirements/00-capability-requirements.md",
+    "network_policy": "docs/2.sdt-design/04-network-policy.md",
+    "screen_list": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.json",
+    "screen_design": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json"
+  },
+  "dd_progress": {
+    "DD01": "done",
+    "DD02": "running",
+    "DD03": "running",
+    "feature_complete": "running"
+  },
+  "depends_on": [],
+  "schema": "sdt-node-v3.0",
+  "id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "type": "feature",
+  "description": "Personal/local-first Crypto Wealth dashboard for read-only holdings, configured watchlist symbols, multi-source valuation, price history, allocation and DRIFTED visibility.",
+  "summary": "本人の保有/watch-only銘柄、価格履歴、資産配分、観測品質、DRIFTEDを一画面で把握するPersonal Custom App Feature。",
+  "gate": "A02 ED15/ED16 MD+JSON and A03 conformance precede DD implementation; then SR-1〜SR-11 conformance, strict manifest lint, focused tests, live UI proof and roadmap.sync_gate are required.",
+  "status": "running",
+  "truth_type": "designed",
+  "layer": "product",
+  "attributes": {
+    "name": "Personal Crypto Portfolio Dashboard",
+    "theme_id": "crypto-wealth-os",
+    "deploy_unit": "personal-custom-ui",
+    "deployment_validation": "local-only",
+    "priority": "P0",
+    "phase": "A03",
+    "uc_ids": [
+      "UC-1",
+      "UC-2",
+      "UC-3",
+      "UC-4"
+    ],
+    "fr_ids": [
+      "FR-OBS-1",
+      "FR-OBS-2",
+      "FR-VIA-3",
+      "FR-EVD-1",
+      "FR-EVD-5"
+    ],
+    "capability_refs": [
+      "CAP-ONCHAIN-OBSERVE",
+      "CAP-VIABILITY-EVAL",
+      "CAP-EVIDENCE-LEDGER"
+    ],
+    "epic_id": "EPIC-VIABILITY",
+    "satisfies": [
+      "BR-1",
+      "BR-7"
+    ],
+    "target_module": ".dodoai/personal",
+    "spec_refs": {
+      "sr": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+      "uc": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+      "index": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+      "network_policy": "docs/2.sdt-design/04-network-policy.md",
+      "screen_list": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.json",
+      "screen_design": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json"
+    },
+    "dd_progress": {
+      "DD01": "done",
+      "DD02": "running",
+      "DD03": "running",
+      "feature_complete": "running"
+    },
+    "depends_on": [],
+    "epic": "EPIC-VIABILITY",
+    "epic_ref": "EPIC-VIABILITY",
+    "phase_gates": {
+      "A02": {
+        "status": "done",
+        "evidence": "ADF ED15/ED16 MD+JSON authored and validated against EPIC-VIABILITY and canonical CAP-owned FR; user HIL recorded."
+      },
+      "A03": {
+        "status": "done",
+        "checked_at": "2026-08-22T12:46:43.864510+00:00",
+        "checks": {
+          "schema_self_conformance": {
+            "ok": true,
+            "error_code": "",
+            "total_scanned": 3,
+            "declaration_rate": 1.0,
+            "error_count": 0,
+            "warning_count": 2,
+            "summary": {
+              "duration_ms": 5,
+              "parse_failures": 0,
+              "contract_pattern": "(no pattern declared)",
+              "contract_rules_evaluated": 4,
+              "findings_total": 2
+            }
+          },
+          "authoring_validate": {
+            "ok": true,
+            "total_scanned": 34,
+            "error_count": 0,
+            "warning_count": 0,
+            "unclassified_count": 0,
+            "summary": {
+              "by_combination": {
+                "human/source": 12,
+                "mixed/source": 12,
+                "generator/derived": 7,
+                "agent/captured": 3
+              },
+              "policy_version": "1.0.0",
+              "rule_count": 98,
+              "declared_rate": 1.0
+            }
+          },
+          "placement_conformance": {
+            "ok": true,
+            "error_code": "",
+            "total_scanned": 34,
+            "declared_coverage": 0.411765,
+            "error_count": 0,
+            "warning_count": 34,
+            "schema_validated": 0,
+            "schema_violated": 0,
+            "schema_unresolved": 14,
+            "schema_validation_rate": 0.0,
+            "summary": {
+              "duration_ms": 48.794,
+              "declaration_count": 44,
+              "validate_schema": true
+            },
+            "enforcement": "advisory"
+          },
+          "ontology_validate": {
+            "ok": true,
+            "summary": {
+              "profiles_checked": 0,
+              "mapping_terms_checked": 0,
+              "concepts": 44,
+              "roles": 44,
+              "phase_meanings": 5,
+              "truths": 5,
+              "violations": 24,
+              "critical_findings": 0,
+              "fr_entries_checked": 0,
+              "fr_entries_anchored": 0,
+              "anchor_enforced_features": 0,
+              "advisory_findings": 274,
+              "reverse_graphs_checked": 0,
+              "implemented_truth_as_workunit": 0,
+              "id_prefix_truth_mismatch": 0,
+              "sco_entries_checked": 98,
+              "sco_canonical_entries": 0,
+              "sco_promotion_ready": 1,
+              "sco_lifecycle_counts": {
+                "draft": 81,
+                "proposed": 17
+              },
+              "sco_unmet_bars": {
+                "Q1": 78,
+                "Q2": 100,
+                "Q3": 63,
+                "Q4": 57
+              },
+              "sco_world_element_counts": {
+                "Entity": 18,
+                "Goal": 2,
+                "Intervention": 6,
+                "State": 9,
+                "unanchored": 63
+              },
+              "sco_promotion_advisory": 274,
+              "domain_packages_checked": 0,
+              "domain_concepts_checked": 0,
+              "domain_roles_checked": 0,
+              "anchor_missing": 0,
+              "anchor_unresolved": 0,
+              "unapproved_frozen": 0,
+              "shadow_ontology": 0,
+              "truncated": false
+            },
+            "global_ok": false,
+            "relevant_violation_count": 0,
+            "ignored_other_feature_violation_count": 0,
+            "ignored_global_promotion_violation_count": 24
+          },
+          "agn_schema_check": {
+            "success": true,
+            "total_files": 6,
+            "total_issues": 0,
+            "summary": "走査ファイル数: 6\n問題 検出: 0 件 (fix=False)"
+          },
+          "task_graph_exists": true
+        },
+        "missing": [],
+        "checked_by": "a03.cron-advancer"
+      },
+      "DD01_SCAFFOLD": {
+        "status": "done",
+        "checked_at": "2026-08-22T12:48:16.365802+00:00",
+        "checks": {
+          "feature_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+          "module": "crypto-wealth",
+          "verify": {
+            "ok": true,
+            "feature_name": "crypto-wealth",
+            "base_dir": ".dodoai/personal/custom_ui",
+            "template_id": "personal-custom-ui-module",
+            "language": "typescript-json-manifest",
+            "template_fingerprint": "12b7da6144242833ceee79219987eabeba7a159629515ee9c7aaffafcf6c6169",
+            "module_fingerprint": "9c0c8b9618b45a523e6225bc339673ea89cc3f6f9aa9a4b91d16989ba08318f8",
+            "checks": [
+              {
+                "check_id": "SC-01",
+                "check_name": "Template Structure",
+                "passed": true,
+                "details": [
+                  "Template personal-custom-ui-module (typescript-json-manifest) required paths are present"
+                ]
+              },
+              {
+                "check_id": "SC-02",
+                "check_name": "Module Exports",
+                "passed": true,
+                "details": [
+                  "TypeScript module has no root barrel; public entry points remain explicit"
+                ]
+              },
+              {
+                "check_id": "SC-03",
+                "check_name": "Cross-Feature Imports",
+                "passed": true,
+                "details": [
+                  "No forbidden cross-module imports"
+                ]
+              },
+              {
+                "check_id": "SC-04",
+                "check_name": "Domain Purity",
+                "passed": true,
+                "details": [
+                  "No domain dir"
+                ]
+              }
+            ],
+            "markdown": "# Scaffold Verification — `crypto-wealth`\n\n| Check | Status | Details |\n|-------|--------|---------|\n| SC-01 Template Structure | ✅ | Template personal-custom-ui-module (typescript-json-manifest) required paths are present |\n| SC-02 Module Exports | ✅ | TypeScript module has no root barrel; public entry points remain explicit |\n| SC-03 Cross-Feature Imports | ✅ | No forbidden cross-module imports |\n| SC-04 Domain Purity | ✅ | No domain dir |\n\n**✅ SCAFFOLD VERIFIED**",
+            "template_variables": {}
+          },
+          "cohesion": {
+            "ok": true,
+            "feature_name": "crypto-wealth",
+            "metrics": [
+              {
+                "metric": "LCOM4 (max)",
+                "value": 1.0,
+                "threshold": 2.0,
+                "passed": true,
+                "details": "Max LCOM4=1 across 0 classes"
+              },
+              {
+                "metric": "Entity Count",
+                "value": 0.0,
+                "threshold": 15.0,
+                "passed": true,
+                "details": "0 entities in domain/"
+              },
+              {
+                "metric": "Cross-Feature Imports",
+                "value": 0.0,
+                "threshold": 0.0,
+                "passed": true,
+                "details": "0 direct cross-feature imports"
+              },
+              {
+                "metric": "Domain External Deps",
+                "value": 0.0,
+                "threshold": 0.0,
+                "passed": true,
+                "details": "0 external deps in domain/"
+              }
+            ],
+            "class_cohesion": [],
+            "markdown": "# Domain Cohesion — `crypto-wealth`\n\n| Metric | Value | Threshold | Status |\n|--------|-------|-----------|--------|\n| LCOM4 (max) | 1 | ≤ 2 | ✅ |\n| Entity Count | 0 | ≤ 15 | ✅ |\n| Cross-Feature Imports | 0 | ≤ 0 | ✅ |\n| Domain External Deps | 0 | ≤ 0 | ✅ |\n\n**✅ COHESION OK**"
+          },
+          "layer_check": {
+            "ok": true,
+            "total_files": 0,
+            "violations": [],
+            "markdown": "✅ Layer Dependency Check PASSED — 0 files scanned, 0 violations."
+          },
+          "module_boundary": {
+            "ok": true,
+            "total_files": 0,
+            "violations": [],
+            "markdown": "✅ Module Boundary Check PASSED — 0 files scanned, 0 violations."
+          },
+          "invariant_derive": {
+            "ok": true,
+            "invariant_count": 6,
+            "applied": true,
+            "output_path": "docs/99.sdt/agn/0.schema/contracts/architecture/ArchitectureInvariantCapModDerived.contract.json",
+            "diagnostics": [],
+            "invariants": [
+              {
+                "id": "AI-DB-001",
+                "principle": "Domain layer must not access DB directly",
+                "source_ref": "CAP-DATA-MANAGEMENT:FR-PERSISTENCE-PORT",
+                "rule_type": "forbidden_dependency",
+                "scope": [
+                  "dodo_core/module/**/domain/**"
+                ],
+                "severity": "high",
+                "on_violation": "block",
+                "evolution_policy": "fixed",
+                "deploy_unit": "core",
+                "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                "forbidden_from": [
+                  "dodo_core/module/**/domain/**"
+                ],
+                "forbidden_to": [
+                  "dodo_core/shared/db/**",
+                  "sqlalchemy",
+                  "sqlite3"
+                ]
+              },
+              {
+                "id": "AI-FS-001",
+                "principle": "All filesystem access via Workspace allowlist",
+                "source_ref": "CAP-DATA-MANAGEMENT:FR-FILESYSTEM-PORT",
+                "rule_type": "mandatory_chokepoint",
+                "scope": [
+                  "dodo_core/module/**"
+                ],
+                "severity": "critical",
+                "on_violation": "require_hil",
+                "evolution_policy": "fixed",
+                "deploy_unit": "core",
+                "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                "protected_sinks": [
+                  "os.open",
+                  "open",
+                  "pathlib.Path.open",
+                  "shutil.copy",
+                  "shutil.move",
+                  "shutil.rmtree",
+                  "os.remove",
+                  "os.unlink"
+                ],
+                "required_gateway": [
+                  "dodo_core/module/twin/**",
+                  "dodo_core/module/workspace/**"
+                ],
+                "allowed_direct_callers": [
+                  "dodo_core/module/twin/**",
+                  "dodo_core/module/workspace/**"
+                ]
+              },
+              {
+                "id": "AI-LAYER-001",
+                "principle": "Domain layer must not depend on infrastructure or external libraries",
+                "source_ref": "F-ARCH-CONTRACT-EXTRACT:capability-module.md",
+                "rule_type": "forbidden_dependency",
+                "scope": [
+                  "dodo_core/module/**/domain/**"
+                ],
+                "severity": "high",
+                "on_violation": "block",
+                "evolution_policy": "fixed",
+                "deploy_unit": "core",
+                "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                "forbidden_from": [
+                  "dodo_core/module/**/domain/**"
+                ],
+                "forbidden_to": [
+                  "dodo_core/module/**/infrastructure/**",
+                  "sqlalchemy",
+                  "requests"
+                ]
+              },
+              {
+                "id": "AI-LLM-001",
+                "principle": "Domain layer must access LLM providers through LlmPort only",
+                "source_ref": "CAP-AGENT-MANAGEMENT:FR-LLM-PORT",
+                "rule_type": "forbidden_dependency",
+                "scope": [
+                  "dodo_core/module/**/domain/**"
+                ],
+                "severity": "high",
+                "on_violation": "block",
+                "evolution_policy": "fixed",
+                "deploy_unit": "core",
+                "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                "forbidden_from": [
+                  "dodo_core/module/**/domain/**"
+                ],
+                "forbidden_to": [
+                  "openai",
+                  "anthropic",
+                  "dodo_core/infrastructure/llm/**"
+                ]
+              },
+              {
+                "id": "AI-SECRET-001",
+                "principle": "Secret / Keychain access via Capability API only",
+                "source_ref": "CAP-IDENTITY-ACCESS:credential_operation_policy",
+                "rule_type": "mandatory_chokepoint",
+                "scope": [
+                  "dodo_core/module/**"
+                ],
+                "severity": "critical",
+                "on_violation": "require_hil",
+                "evolution_policy": "fixed",
+                "deploy_unit": "core",
+                "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                "protected_sinks": [
+                  "keyring.get_password",
+                  "keyring.set_password",
+                  "keyring.delete_password"
+                ],
+                "required_gateway": [
+                  "dodo_core/module/security/**"
+                ],
+                "allowed_direct_callers": [
+                  "dodo_core/module/security/**"
+                ]
+              },
+              {
+                "id": "AI-TENANT-001",
+                "principle": "Tenant persistence must flow through TenantContext-aware repositories",
+                "source_ref": "CAP-MULTI-TENANCY:FR-TENANT-ISOLATION",
+                "rule_type": "mandatory_chokepoint",
+                "scope": [
+                  "dodo_core/module/**"
+                ],
+                "severity": "critical",
+                "on_violation": "require_hil",
+                "evolution_policy": "fixed",
+                "deploy_unit": "core",
+                "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                "protected_sinks": [
+                  "sqlite3",
+                  "sqlalchemy",
+                  "dodo_core/shared/db/**"
+                ],
+                "required_gateway": [
+                  "**/TenantContext",
+                  "**/tenant_context*"
+                ],
+                "allowed_direct_callers": [
+                  "dodo_core/module/**/repository/**"
+                ]
+              }
+            ],
+            "markdown": "# arch.invariant_derive — PASS\n\n- invariants: 6\n- diagnostics: 0 (0 error)\n- applied: True\n"
+          },
+          "invariant_check": {
+            "ok": true,
+            "contract_count": 1,
+            "invariant_count": 6,
+            "diagnostics": [],
+            "findings": [],
+            "markdown": "# arch.invariant_check — PASS\n\n- contracts: 1\n- invariants: 6\n- diagnostics: 0 (0 error)\n- findings: 0"
+          },
+          "module_checks": {
+            "crypto-wealth": {
+              "feature_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+              "module": "crypto-wealth",
+              "verify": {
+                "ok": true,
+                "feature_name": "crypto-wealth",
+                "base_dir": ".dodoai/personal/custom_ui",
+                "template_id": "personal-custom-ui-module",
+                "language": "typescript-json-manifest",
+                "template_fingerprint": "12b7da6144242833ceee79219987eabeba7a159629515ee9c7aaffafcf6c6169",
+                "module_fingerprint": "9c0c8b9618b45a523e6225bc339673ea89cc3f6f9aa9a4b91d16989ba08318f8",
+                "checks": [
+                  {
+                    "check_id": "SC-01",
+                    "check_name": "Template Structure",
+                    "passed": true,
+                    "details": [
+                      "Template personal-custom-ui-module (typescript-json-manifest) required paths are present"
+                    ]
+                  },
+                  {
+                    "check_id": "SC-02",
+                    "check_name": "Module Exports",
+                    "passed": true,
+                    "details": [
+                      "TypeScript module has no root barrel; public entry points remain explicit"
+                    ]
+                  },
+                  {
+                    "check_id": "SC-03",
+                    "check_name": "Cross-Feature Imports",
+                    "passed": true,
+                    "details": [
+                      "No forbidden cross-module imports"
+                    ]
+                  },
+                  {
+                    "check_id": "SC-04",
+                    "check_name": "Domain Purity",
+                    "passed": true,
+                    "details": [
+                      "No domain dir"
+                    ]
+                  }
+                ],
+                "markdown": "# Scaffold Verification — `crypto-wealth`\n\n| Check | Status | Details |\n|-------|--------|---------|\n| SC-01 Template Structure | ✅ | Template personal-custom-ui-module (typescript-json-manifest) required paths are present |\n| SC-02 Module Exports | ✅ | TypeScript module has no root barrel; public entry points remain explicit |\n| SC-03 Cross-Feature Imports | ✅ | No forbidden cross-module imports |\n| SC-04 Domain Purity | ✅ | No domain dir |\n\n**✅ SCAFFOLD VERIFIED**",
+                "template_variables": {}
+              },
+              "cohesion": {
+                "ok": true,
+                "feature_name": "crypto-wealth",
+                "metrics": [
+                  {
+                    "metric": "LCOM4 (max)",
+                    "value": 1.0,
+                    "threshold": 2.0,
+                    "passed": true,
+                    "details": "Max LCOM4=1 across 0 classes"
+                  },
+                  {
+                    "metric": "Entity Count",
+                    "value": 0.0,
+                    "threshold": 15.0,
+                    "passed": true,
+                    "details": "0 entities in domain/"
+                  },
+                  {
+                    "metric": "Cross-Feature Imports",
+                    "value": 0.0,
+                    "threshold": 0.0,
+                    "passed": true,
+                    "details": "0 direct cross-feature imports"
+                  },
+                  {
+                    "metric": "Domain External Deps",
+                    "value": 0.0,
+                    "threshold": 0.0,
+                    "passed": true,
+                    "details": "0 external deps in domain/"
+                  }
+                ],
+                "class_cohesion": [],
+                "markdown": "# Domain Cohesion — `crypto-wealth`\n\n| Metric | Value | Threshold | Status |\n|--------|-------|-----------|--------|\n| LCOM4 (max) | 1 | ≤ 2 | ✅ |\n| Entity Count | 0 | ≤ 15 | ✅ |\n| Cross-Feature Imports | 0 | ≤ 0 | ✅ |\n| Domain External Deps | 0 | ≤ 0 | ✅ |\n\n**✅ COHESION OK**"
+              },
+              "layer_check": {
+                "ok": true,
+                "total_files": 0,
+                "violations": [],
+                "markdown": "✅ Layer Dependency Check PASSED — 0 files scanned, 0 violations."
+              },
+              "module_boundary": {
+                "ok": true,
+                "total_files": 0,
+                "violations": [],
+                "markdown": "✅ Module Boundary Check PASSED — 0 files scanned, 0 violations."
+              },
+              "invariant_derive": {
+                "ok": true,
+                "invariant_count": 6,
+                "applied": true,
+                "output_path": "docs/99.sdt/agn/0.schema/contracts/architecture/ArchitectureInvariantCapModDerived.contract.json",
+                "diagnostics": [],
+                "invariants": [
+                  {
+                    "id": "AI-DB-001",
+                    "principle": "Domain layer must not access DB directly",
+                    "source_ref": "CAP-DATA-MANAGEMENT:FR-PERSISTENCE-PORT",
+                    "rule_type": "forbidden_dependency",
+                    "scope": [
+                      "dodo_core/module/**/domain/**"
+                    ],
+                    "severity": "high",
+                    "on_violation": "block",
+                    "evolution_policy": "fixed",
+                    "deploy_unit": "core",
+                    "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                    "forbidden_from": [
+                      "dodo_core/module/**/domain/**"
+                    ],
+                    "forbidden_to": [
+                      "dodo_core/shared/db/**",
+                      "sqlalchemy",
+                      "sqlite3"
+                    ]
+                  },
+                  {
+                    "id": "AI-FS-001",
+                    "principle": "All filesystem access via Workspace allowlist",
+                    "source_ref": "CAP-DATA-MANAGEMENT:FR-FILESYSTEM-PORT",
+                    "rule_type": "mandatory_chokepoint",
+                    "scope": [
+                      "dodo_core/module/**"
+                    ],
+                    "severity": "critical",
+                    "on_violation": "require_hil",
+                    "evolution_policy": "fixed",
+                    "deploy_unit": "core",
+                    "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                    "protected_sinks": [
+                      "os.open",
+                      "open",
+                      "pathlib.Path.open",
+                      "shutil.copy",
+                      "shutil.move",
+                      "shutil.rmtree",
+                      "os.remove",
+                      "os.unlink"
+                    ],
+                    "required_gateway": [
+                      "dodo_core/module/twin/**",
+                      "dodo_core/module/workspace/**"
+                    ],
+                    "allowed_direct_callers": [
+                      "dodo_core/module/twin/**",
+                      "dodo_core/module/workspace/**"
+                    ]
+                  },
+                  {
+                    "id": "AI-LAYER-001",
+                    "principle": "Domain layer must not depend on infrastructure or external libraries",
+                    "source_ref": "F-ARCH-CONTRACT-EXTRACT:capability-module.md",
+                    "rule_type": "forbidden_dependency",
+                    "scope": [
+                      "dodo_core/module/**/domain/**"
+                    ],
+                    "severity": "high",
+                    "on_violation": "block",
+                    "evolution_policy": "fixed",
+                    "deploy_unit": "core",
+                    "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                    "forbidden_from": [
+                      "dodo_core/module/**/domain/**"
+                    ],
+                    "forbidden_to": [
+                      "dodo_core/module/**/infrastructure/**",
+                      "sqlalchemy",
+                      "requests"
+                    ]
+                  },
+                  {
+                    "id": "AI-LLM-001",
+                    "principle": "Domain layer must access LLM providers through LlmPort only",
+                    "source_ref": "CAP-AGENT-MANAGEMENT:FR-LLM-PORT",
+                    "rule_type": "forbidden_dependency",
+                    "scope": [
+                      "dodo_core/module/**/domain/**"
+                    ],
+                    "severity": "high",
+                    "on_violation": "block",
+                    "evolution_policy": "fixed",
+                    "deploy_unit": "core",
+                    "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                    "forbidden_from": [
+                      "dodo_core/module/**/domain/**"
+                    ],
+                    "forbidden_to": [
+                      "openai",
+                      "anthropic",
+                      "dodo_core/infrastructure/llm/**"
+                    ]
+                  },
+                  {
+                    "id": "AI-SECRET-001",
+                    "principle": "Secret / Keychain access via Capability API only",
+                    "source_ref": "CAP-IDENTITY-ACCESS:credential_operation_policy",
+                    "rule_type": "mandatory_chokepoint",
+                    "scope": [
+                      "dodo_core/module/**"
+                    ],
+                    "severity": "critical",
+                    "on_violation": "require_hil",
+                    "evolution_policy": "fixed",
+                    "deploy_unit": "core",
+                    "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                    "protected_sinks": [
+                      "keyring.get_password",
+                      "keyring.set_password",
+                      "keyring.delete_password"
+                    ],
+                    "required_gateway": [
+                      "dodo_core/module/security/**"
+                    ],
+                    "allowed_direct_callers": [
+                      "dodo_core/module/security/**"
+                    ]
+                  },
+                  {
+                    "id": "AI-TENANT-001",
+                    "principle": "Tenant persistence must flow through TenantContext-aware repositories",
+                    "source_ref": "CAP-MULTI-TENANCY:FR-TENANT-ISOLATION",
+                    "rule_type": "mandatory_chokepoint",
+                    "scope": [
+                      "dodo_core/module/**"
+                    ],
+                    "severity": "critical",
+                    "on_violation": "require_hil",
+                    "evolution_policy": "fixed",
+                    "deploy_unit": "core",
+                    "baseline_frozen_at": "2026-08-22T12:48:16.363039+00:00",
+                    "protected_sinks": [
+                      "sqlite3",
+                      "sqlalchemy",
+                      "dodo_core/shared/db/**"
+                    ],
+                    "required_gateway": [
+                      "**/TenantContext",
+                      "**/tenant_context*"
+                    ],
+                    "allowed_direct_callers": [
+                      "dodo_core/module/**/repository/**"
+                    ]
+                  }
+                ],
+                "markdown": "# arch.invariant_derive — PASS\n\n- invariants: 6\n- diagnostics: 0 (0 error)\n- applied: True\n"
+              },
+              "invariant_check": {
+                "ok": true,
+                "contract_count": 1,
+                "invariant_count": 6,
+                "diagnostics": [],
+                "findings": [],
+                "markdown": "# arch.invariant_check — PASS\n\n- contracts: 1\n- invariants: 6\n- diagnostics: 0 (0 error)\n- findings: 0"
+              }
+            }
+          }
+        },
+        "missing": [],
+        "checked_by": "dd01_scaffold.cron-advancer"
+      },
+      "DD02": {
+        "status": "running",
+        "checked_at": "2026-08-22T12:56:34Z",
+        "evidence": "Screen visualization DD02 task is done with 26 focused tests and strict manifest lint; Feature-wide DD02 remains running because the independent local-testnet task is still running."
+      },
+      "DD03": {
+        "status": "running",
+        "checked_at": "2026-08-22T12:56:34Z",
+        "evidence": "DD03 screen error paths and direct local Action invocation passed; project-scoped Core registry dispatch remains pending explicit runtime reload approval, and other Feature DD03 tasks remain running."
+      }
+    }
+  },
+  "updated_by": "codex-root-dashboard-dd03-20260822",
+  "created_at": "2026-08-22T11:42:34.576198+00:00",
+  "updated_at": "2026-08-22T12:58:41.612124+00:00"
+}

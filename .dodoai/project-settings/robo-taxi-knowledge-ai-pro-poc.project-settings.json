@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "exported_at": "2026-06-11T20:18:10.440Z",
+  "source_project_id": "673ae8dc-c478-4473-99e1-49031aa14ddd",
+  "source_project_name": "robo-taxi-Knowledge AI Pro POC",
+  "settings": {
+    "repo_id": "robo-taxi-knowledge-ai-pro-poc",
+    "repo_path": "C:\\Users\\rj072857\\myApps\\Knowlege_AI_Pro-POC\\2.project\\1.sdv-robo-taxi",
+    "remote_url": null,
+    "branch": "main",
+    "sdt_path": "1.draft/99.sdt",
+    "docs_path": ".",
+    "display_order": 1000,
+    "icon_emoji": "K",
+    "screen_visibility_mode": null,
+    "callgraph_roots": {
+      "source_roots": []
+    },
+    "callgraph_targets": [],
+    "reference_repositories": [
+      {
+        "id": "robo-taxi-sdt",
+        "name": "robo-taxi SDT Workspace",
+        "repo_id": "robo-taxi-knowledge-ai-pro-poc",
+        "repo_path": "C:\\Users\\rj072857\\myApps\\Knowlege_AI_Pro-POC\\2.project\\1.sdv-robo-taxi",
+        "remote_url": null,
+        "default_branch": "main",
+        "role": "primary_sdt_workspace",
+        "enabled": true
+      }
+    ],
+    "db_connections": [],
+    "db_schema_sources": [],
+    "auth_config": null
+  }
+}

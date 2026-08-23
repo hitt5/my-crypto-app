@@ -1,0 +1,58 @@
+{
+  "id": "notification.slack",
+  "version": "1.0.0",
+  "name": "Task Board Slack Notification",
+  "author": "dodoai",
+  "license": "MIT",
+  "description": "Sends Task Board domain events to Slack through a declarative webhook rule.",
+  "dodoai_version": ">=0.3.0",
+  "sdk_version": ">=1.0,<2.0",
+  "dependencies": [],
+  "capabilities_required": [
+    "event.subscribe",
+    "network.outbound",
+    "secret.access"
+  ],
+  "risk_level": "critical",
+  "tags": [
+    "notification",
+    "slack",
+    "task-board",
+    "configuration-only"
+  ],
+  "provides": {
+    "event_rules": [
+      {
+        "id": "task-board-to-slack",
+        "subscribe": "task_board.task.*",
+        "when": [
+          {
+            "field": "task_id",
+            "operator": "exists"
+          }
+        ],
+        "sink": {
+          "kind": "slack_webhook",
+          "url_ref": "keychain://SLACK_WEBHOOK_URL",
+          "method": "POST",
+          "content_type": "application/json",
+          "timeout_seconds": 10
+        },
+        "template": {
+          "ref": "templates/task_change.json",
+          "data": {}
+        }
+      }
+    ]
+  },
+  "config_schema": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+  },
+  "federation": {
+    "shareable": false,
+    "share_scope": "none",
+    "trust_required": "none"
+  }
+}

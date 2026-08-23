@@ -1,0 +1,110 @@
+{
+  "node_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD01-SCREEN-SCAFFOLD-20260822",
+  "type": "task",
+  "name": "DD01 scaffold and test skeleton for portfolio visualization",
+  "description": "Admit the ED16 dashboard implementation across personal Custom UI and Python personal Actions, selecting the frontend-custom-ui-module scaffold and defining cross-deploy test skeletons.",
+  "gate": "A03 done; frontend custom UI scaffold fingerprints and cross-deploy test skeleton contract recorded before DD02 implementation.",
+  "spec_refs": {
+    "screen_design": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json",
+    "feature_spec": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "test_definition": "docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.json",
+    "scaffold": ".dodoai/scaffolds/clean-architecture/frontend-custom-ui-module/scaffold.json"
+  },
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "layer": "execution",
+  "truth_type": "designed",
+  "status": "done",
+  "depends_on": [
+    "T-CRYPTO-PORTFOLIO-DASHBOARD-A02-SCREEN-DEFINITION-20260822"
+  ],
+  "test_layers": [
+    "UT-Schema",
+    "ITa-Workflow-FE",
+    "ITa-Harness-BE",
+    "QG-Governance"
+  ],
+  "created_at": "2026-08-22T12:48:00+00:00",
+  "updated_at": "2026-08-22T12:48:53.804779+00:00",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD01-SCREEN-SCAFFOLD-20260822",
+  "summary": "DD01 admission for the EPIC/CAP-aligned portfolio visualization.",
+  "phase": "DD01",
+  "priority": "P0",
+  "deploy_units": [
+    "personal-custom-ui",
+    "python-personal-actions"
+  ],
+  "issue_refs": [
+    ".dodoai/issue/task-planner-agent/DD01_STREAM_F-CRYPTO-PORTFOLIO-DASHBOARD_screen-scaffold_20260822_done.md"
+  ],
+  "done_criteria": [
+    "A03 phase gate is done",
+    "frontend-custom-ui-module scaffold exists in this project and a03.scaffold_gate stores fresh template/module fingerprints",
+    "DD01 cross-deploy test skeleton requirements cover UT-Schema, ITa-Workflow-FE, ITa-Harness-BE, and QG-Governance",
+    "TaskGraph and Issue view are synchronized"
+  ],
+  "size": "S",
+  "success_probability": 0.9,
+  "max_ticks": 3,
+  "changed_files": [
+    ".dodoai/scaffolds/clean-architecture/personal-custom-ui-module/scaffold.json",
+    ".dodoai/scaffolds/clean-architecture/personal-custom-ui-module/files/manifest.json.tmpl",
+    "docs/99.sdt/agn/0.schema/contracts/architecture/ArchitectureInvariantCapModDerived.contract.json",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json"
+  ],
+  "test_evidence": [
+    {
+      "check": "a03.sdt_agn_conformance_gate",
+      "result": "pass",
+      "details": "Feature advanced; authoring 34/34 classified and AGN schema issues 0."
+    },
+    {
+      "check": "a03.scaffold_gate",
+      "result": "pass",
+      "details": "personal-custom-ui-module verified with fresh template/module fingerprints and all six architecture checks green."
+    },
+    {
+      "check": "roadmap.sync_gate",
+      "result": "pass",
+      "details": "require_milestone=false compatibility waiver; all reported counts are zero, including EPIC/CAP bindings and stale task status."
+    }
+  ],
+  "evidence_refs": [
+    "/tmp/crypto-a03-admission-4.json",
+    "/tmp/crypto-dd01-scaffold-apply.json"
+  ],
+  "findings": [],
+  "remaining_work": [],
+  "updated_by": "codex-root-dashboard-dd03-20260822",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T12:46:12.382816+00:00",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "A03 conformance passed; begin DD01 scaffold and cross-deploy test skeleton admission."
+      },
+      {
+        "from": "running",
+        "to": "done",
+        "at": "2026-08-22T12:48:37.505440+00:00",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "A03 passed and DD01 personal Custom UI scaffold admission stored fresh fingerprints with all architecture checks green."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "running",
+      "to": "done",
+      "overridden_by": "codex-root-dashboard-dd03-20260822",
+      "overridden_at": "2026-08-22T12:48:37.505440+00:00",
+      "source": "manual",
+      "reason": "A03 passed and DD01 personal Custom UI scaffold admission stored fresh fingerprints with all architecture checks green."
+    }
+  },
+  "overridden_by": "codex-root-dashboard-dd03-20260822",
+  "overridden_at": "2026-08-22T12:48:37.505440+00:00",
+  "override_reason": "A03 passed and DD01 personal Custom UI scaffold admission stored fresh fingerprints with all architecture checks green.",
+  "completed_at": "2026-08-22T12:48:37.505440+00:00",
+  "schema": "sdt-node-v3.0"
+}

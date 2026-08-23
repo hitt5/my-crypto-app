@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dodoai.local/schema/rule-node-schema-v1.0.json",
+  "title": "AGN Rules Governance Rule Node",
+  "description": "Canonical schema for one entry in docs/99.sdt/agn/99.rules/rule-catalog.json. The schema keeps the implemented catalog contract (id, md_ref, render_targets, enabled) as the stable surface and adds DD01 governance metadata for traceability, evidence, triggers, and conflict policy.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "layer",
+    "category",
+    "enabled",
+    "md_ref",
+    "md_views",
+    "render_targets",
+    "applies_to",
+    "enforcement",
+    "source_ref",
+    "version",
+    "updated_at",
+    "traceability"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^rule-[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "description": "Canonical rule identifier consumed by rules.catalog_list, rules.render, and rules.audit."
+    },
+    "canonical_id": {
+      "type": "string",
+      "const": "C:GovernanceRule",
+      "description": "SCO concept used by Charter rule nodes."
+    },
+    "clause_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable clause identifier or Markdown heading anchor within md_ref."
+    },
+    "grounded_in": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "relation",
+          "document_ref"
+        ],
+        "properties": {
+          "relation": {
+            "type": "string",
+            "const": "R:grounded_in"
+          },
+          "document_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "section_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "chunk_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "machine_thresholds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "metric",
+          "operator",
+          "value"
+        ],
+        "properties": {
+          "metric": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operator": {
+            "type": "string",
+            "enum": [
+              "eq",
+              "ne",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ]
+          },
+          "value": {}
+        },
+        "additionalProperties": false
+      }
+    },
+    "rule_id": {
+      "type": "string",
+      "pattern": "^rule-[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "description": "Deprecated alias accepted only for migration tooling; new catalog entries must use id."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "layer": {
+      "type": "string",
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "charter",
+        "approved_md"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "P0",
+        "P1",
+        "P2",
+        "P3"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "draft",
+        "deprecated",
+        "archived"
+      ],
+      "default": "active"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "md_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Repository-relative approved Markdown source used by rules.audit."
+    },
+    "md_views": {
+      "type": "object",
+      "description": "Concrete Markdown delivery views generated or maintained for each agent runtime.",
+      "properties": {
+        "cline": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claude": {
+          "type": "string",
+          "minLength": 1
+        },
+        "codex": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dodo-code": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "cline",
+        "claude",
+        "codex"
+      ],
+      "additionalProperties": false
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Normative source reference. For MD-backed rules this should match md_ref."
+    },
+    "render_targets": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "cline",
+          "claude",
+          "codex",
+          "dodo-code",
+          "dodo-coder-hub",
+          "project.rules",
+          "mcp-bootstrap"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "applies_to": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Agent IDs, deploy units, rule surfaces, or workflow contexts that receive this rule."
+    },
+    "trigger": {
+      "type": "object",
+      "required": [
+        "when"
+      ],
+      "properties": {
+        "when": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "enforcement": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "gate",
+          "action_key"
+        ],
+        "properties": {
+          "gate": {
+            "type": "string",
+            "enum": [
+              "hard_gate",
+              "advisory",
+              "audit_only"
+            ]
+          },
+          "action_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "agent_scope": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "conflict_policy": {
+      "type": "object",
+      "required": [
+        "on_conflict"
+      ],
+      "properties": {
+        "on_conflict": {
+          "type": "string",
+          "enum": [
+            "fail_closed",
+            "prefer_higher_layer",
+            "prefer_newer_version",
+            "manual_review"
+          ]
+        },
+        "precedence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "traceability": {
+      "type": "object",
+      "required": [
+        "feature_id",
+        "fr_ids"
+      ],
+      "properties": {
+        "feature_id": {
+          "type": "string",
+          "pattern": "^F-[A-Z0-9-]+$"
+        },
+        "uc_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "fr_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^FR-[A-Z0-9-]+$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "dd_phase": {
+          "type": "string",
+          "const": "DD01"
+        }
+      },
+      "additionalProperties": false
+    },
+    "governance": {
+      "type": "object",
+      "description": "N/R/E classification. clause_class marks whether the clause states a norm (N) or merely carries facts owned by a catalog (R). enforcement_grade records how the clause is actually verified, so a clause with no real Action stops presenting itself as a HARD GATE.",
+      "required": [
+        "clause_class",
+        "enforcement_grade"
+      ],
+      "properties": {
+        "clause_class": {
+          "type": "string",
+          "enum": [
+            "N",
+            "R"
+          ]
+        },
+        "enforcement_grade": {
+          "type": "string",
+          "enum": [
+            "machine_enforced",
+            "audit_only",
+            "declarative"
+          ]
+        },
+        "reference_literals": {
+          "type": "array",
+          "description": "Drift-prone literals embedded in the clause body (repo paths, ports, inventory counts). These belong to a catalog, not to the Charter; each hit is a rewrite target.",
+          "items": {
+            "type": "object",
+            "required": [
+              "kind",
+              "value"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "physical_path",
+                  "port",
+                  "inventory_count"
+                ]
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "missing_action_keys": {
+          "type": "array",
+          "description": "Bound Action keys that do not exist in the Action Registry.",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

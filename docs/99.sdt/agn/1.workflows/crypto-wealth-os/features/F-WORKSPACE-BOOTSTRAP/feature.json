@@ -1,0 +1,35 @@
+{
+  "node_id": "F-WORKSPACE-BOOTSTRAP",
+  "type": "feature",
+  "name": "Workspace bootstrap",
+  "description": "Initialize my-crypto-app as a local-only personal dodoAI project and establish the governance catalogs, TaskGraph, and roadmap SDT required by subsequent Features.",
+  "gate": "All bootstrap tasks and governance gates pass.",
+  "spec_refs": {
+    "roadmap": "docs/2.sdt-design/01-development-roadmap.md",
+    "priority": "docs/3.strategy/01-implementation-priority.md"
+  },
+  "layer": "product",
+  "truth_type": "observed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [
+    "governance",
+    "live-mcp"
+  ],
+  "created_at": "2026-08-22T02:00:30.274701+00:00",
+  "updated_at": "2026-08-22T07:22:00.581263+00:00",
+  "deployment_validation": "local-only",
+  "scope": "repository-governance-and-local-project-registry",
+  "hil_approval": "user://2026-08-22/personal-project-initialization",
+  "dd_progress": {
+    "DD01": "running",
+    "feature_complete": "running"
+  },
+  "blocking_findings": [
+    "rules catalog is not initialized",
+    "EPIC and Capability catalogs are not initialized",
+    "SDT layout contract and ADF test-definition contract are absent"
+  ],
+  "updated_by": "codex-root",
+  "schema": "sdt-node-v3.0"
+}

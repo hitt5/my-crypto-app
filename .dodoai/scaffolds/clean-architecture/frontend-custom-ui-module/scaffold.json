@@ -1,0 +1,33 @@
+{
+  "schema": "scaffold-template.v1",
+  "template_id": "frontend-custom-ui-module",
+  "language": "typescript-react",
+  "description": "Project-local clean architecture contract for the established Custom UI module.",
+  "compatible_base_dirs": ["frontend/src/modules"],
+  "layer_roles": {
+    "domain": "domain",
+    "application": "application",
+    "infrastructure": "infrastructure",
+    "interfaces": "presentation"
+  },
+  "placements": {
+    "repository_port": "application",
+    "repository_adapter": "infrastructure",
+    "entry": "presentation"
+  },
+  "default_variables": {},
+  "directories": [
+    {"path": "domain"},
+    {"path": "application"},
+    {"path": "infrastructure"},
+    {"path": "presentation"},
+    {"path": "presentation/renderer"}
+  ],
+  "forbidden_paths": ["api", "repository"],
+  "files": [
+    {"path": "domain/types.ts", "template": "files/domain-types.ts.tmpl"},
+    {"path": "application/validate-manifest.ts", "template": "files/application-validator.ts.tmpl"},
+    {"path": "infrastructure/custom-ui-client.ts", "template": "files/infrastructure-client.ts.tmpl"},
+    {"path": "presentation/renderer/BlockRegistry.tsx", "template": "files/presentation-registry.tsx.tmpl"}
+  ]
+}

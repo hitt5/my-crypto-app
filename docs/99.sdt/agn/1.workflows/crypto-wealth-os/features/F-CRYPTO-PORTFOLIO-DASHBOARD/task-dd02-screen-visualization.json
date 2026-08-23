@@ -1,0 +1,108 @@
+{
+  "node_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD02-SCREEN-VISUALIZATION-20260822",
+  "type": "task",
+  "name": "DD02 implement portfolio symbols and charts",
+  "description": "Implement the ED16 happy path: asset overview and persisted price history Actions plus the dashboard manifest blocks for summary, price history, allocation, symbols, drift, and source health.",
+  "gate": "DD01_SCAFFOLD done; focused UT/ITa and strict manifest lint pass for happy paths.",
+  "spec_refs": {
+    "screen_design": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json",
+    "feature_spec": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "manifest": ".dodoai/personal/custom_ui/crypto-wealth/manifest.json"
+  },
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "layer": "execution",
+  "truth_type": "designed",
+  "status": "done",
+  "depends_on": [
+    "T-CRYPTO-PORTFOLIO-DASHBOARD-DD01-SCREEN-SCAFFOLD-20260822"
+  ],
+  "test_layers": [
+    "UT-Logic-BE",
+    "ITa-Workflow-FE",
+    "ITa-Harness-BE",
+    "IT-Boundary",
+    "QG-Governance"
+  ],
+  "created_at": "2026-08-22T12:50:00+00:00",
+  "updated_at": "2026-08-22T12:57:12.029226+00:00",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD02-SCREEN-VISUALIZATION-20260822",
+  "summary": "Happy-path implementation of the EPIC/CAP-aligned portfolio visualization.",
+  "phase": "DD02",
+  "priority": "P0",
+  "deploy_units": [
+    "personal-custom-ui",
+    "python-personal-actions"
+  ],
+  "issue_refs": [
+    ".dodoai/issue/task-planner-agent/DD02_STREAM_F-CRYPTO-PORTFOLIO-DASHBOARD_screen-visualization_20260822_done.md"
+  ],
+  "done_criteria": [
+    "personal.crypto_price_history returns persisted fact series, symbols, and table rows",
+    "personal.crypto_asset_overview returns held/watch-only symbols without fabricating holdings or zero valuations",
+    "manifest renders two chart blocks and the complete asset table defined by ED16",
+    "DD02 happy-path unit and integration tests pass",
+    "custom_ui.manifest_lint strict returns error_count=0"
+  ],
+  "size": "M",
+  "success_probability": 0.86,
+  "max_ticks": 5,
+  "changed_files": [
+    ".dodoai/personal/custom_actions/crypto_price_history/action.py",
+    ".dodoai/personal/custom_actions/crypto_price_history/action.json",
+    ".dodoai/personal/custom_actions/crypto_price_history/CONTRACT.md",
+    ".dodoai/personal/custom_actions/crypto_asset_overview/action.py",
+    ".dodoai/personal/custom_actions/crypto_asset_overview/action.json",
+    ".dodoai/personal/custom_actions/crypto_asset_overview/CONTRACT.md",
+    ".dodoai/personal/custom_actions/crypto_price_tick/action.py",
+    ".dodoai/personal/custom_actions/crypto_price_tick/CONTRACT.md",
+    ".dodoai/personal/custom_ui/crypto-wealth/manifest.json",
+    ".dodoai/personal/config/portfolio.sample.json",
+    ".dodoai/personal/custom_actions/tests/test_crypto_actions.py"
+  ],
+  "test_evidence": [
+    "pytest: 26 passed",
+    "ruff: 0 findings",
+    "custom_ui.manifest_lint strict: error_count=0 warning_count=0 via identical-byte canonical path workaround",
+    "direct local actions: two persisted Tick runs; 13 history points; ETH held + BTC/BNB watch-only"
+  ],
+  "evidence_refs": [
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-visualization.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-visualization.md"
+  ],
+  "findings": [
+    "custom_ui.manifest_lint does not accept the governed .dodoai/personal/custom_ui path; identical bytes pass strict lint at the canonical lint path"
+  ],
+  "remaining_work": [],
+  "updated_by": "codex-root-dashboard-dd03-20260822",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T12:49:53.316784+00:00",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "DD01 scaffold admission is green; begin ED16 happy-path Action and manifest implementation."
+      },
+      {
+        "from": "running",
+        "to": "done",
+        "at": "2026-08-22T12:56:34Z",
+        "by": "codex-root-dashboard-dd03-20260822",
+        "reason": "ED16 happy path, 26 focused tests, strict manifest lint, and local persisted-fact composition passed."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "codex-root-dashboard-dd03-20260822",
+      "overridden_at": "2026-08-22T12:49:53.316784+00:00",
+      "source": "manual",
+      "reason": "DD01 scaffold admission is green; begin ED16 happy-path Action and manifest implementation."
+    }
+  },
+  "overridden_by": "codex-root-dashboard-dd03-20260822",
+  "overridden_at": "2026-08-22T12:49:53.316784+00:00",
+  "override_reason": "DD01 scaffold admission is green; begin ED16 happy-path Action and manifest implementation.",
+  "schema": "sdt-node-v3.0"
+}

@@ -1,0 +1,352 @@
+{
+  "schema": "rule-catalog-v1.0",
+  "version": "1.2.0",
+  "render_targets": [
+    "cline",
+    "claude",
+    "codex",
+    "dodo-code"
+  ],
+  "md_view_defaults": {
+    "cline": "$rule.md_ref",
+    "claude": "CLAUDE.md",
+    "codex": "AGENTS.md",
+    "dodo-code": "AGENTS.md"
+  },
+  "rules": [
+    {
+      "id": "rule-mcp-first",
+      "title": "MCP first session bootstrap",
+      "summary": "Begin each session with bounded project bootstrap and Action inventory.",
+      "layer": "L0",
+      "category": "session",
+      "enabled": true,
+      "md_ref": ".clinerules/00-CORE.md",
+      "md_views": {
+        "cline": ".clinerules/00-CORE.md",
+        "claude": "CLAUDE.md",
+        "codex": "AGENTS.md",
+        "dodo-code": "AGENTS.md"
+      },
+      "render_targets": [
+        "cline",
+        "claude",
+        "codex",
+        "dodo-code"
+      ],
+      "applies_to": [
+        "all-agents"
+      ],
+      "enforcement": [
+        {
+          "gate": "hard_gate",
+          "action_key": "project.bootstrap"
+        }
+      ],
+      "source_ref": ".clinerules/00-CORE.md",
+      "version": "1.0.0",
+      "updated_at": "2026-08-22T11:56:45Z",
+      "traceability": {
+        "feature_id": "F-WORKSPACE-BOOTSTRAP",
+        "uc_ids": [],
+        "fr_ids": [],
+        "dd_phase": "DD01"
+      }
+    },
+    {
+      "id": "rule-routing-index",
+      "title": "Progressive ClineRules routing index",
+      "summary": "Route each trigger from the always-loaded index to exactly one current L2 procedure.",
+      "layer": "L1",
+      "category": "routing",
+      "enabled": true,
+      "md_ref": ".clinerules/00-INDEX.md",
+      "md_views": {
+        "cline": ".clinerules/00-INDEX.md",
+        "claude": "CLAUDE.md",
+        "codex": "AGENTS.md",
+        "dodo-code": "AGENTS.md"
+      },
+      "render_targets": [
+        "cline",
+        "claude",
+        "codex",
+        "dodo-code"
+      ],
+      "applies_to": [
+        "all-agents"
+      ],
+      "enforcement": [
+        {
+          "gate": "audit_only",
+          "action_key": "rules.audit"
+        }
+      ],
+      "source_ref": ".clinerules/00-INDEX.md",
+      "version": "1.0.0",
+      "updated_at": "2026-08-22T11:56:45Z",
+      "traceability": {
+        "feature_id": "F-WORKSPACE-BOOTSTRAP",
+        "uc_ids": [],
+        "fr_ids": [],
+        "dd_phase": "DD01"
+      }
+    },
+    {
+      "id": "rule-l2-contract",
+      "title": "L2 inclusion and anti-decay contract",
+      "summary": "Keep L2 limited to non-duplicated procedures and reject dangling paths, ghost Actions, and literal runtime facts.",
+      "layer": "L2",
+      "category": "governance",
+      "enabled": true,
+      "md_ref": ".clinerules-detail/00-README.md",
+      "md_views": {
+        "cline": ".clinerules-detail/00-README.md",
+        "claude": "CLAUDE.md",
+        "codex": "AGENTS.md",
+        "dodo-code": "AGENTS.md"
+      },
+      "render_targets": [
+        "cline",
+        "claude",
+        "codex",
+        "dodo-code"
+      ],
+      "applies_to": [
+        "rule-maintenance",
+        "all-agents"
+      ],
+      "enforcement": [
+        {
+          "gate": "hard_gate",
+          "action_key": "rules.audit"
+        }
+      ],
+      "source_ref": ".clinerules-detail/00-README.md",
+      "version": "1.0.0",
+      "updated_at": "2026-08-22T11:56:45Z",
+      "traceability": {
+        "feature_id": "F-WORKSPACE-BOOTSTRAP",
+        "uc_ids": [],
+        "fr_ids": [],
+        "dd_phase": "DD01"
+      }
+    },
+    {
+      "id": "rule-callgraph-preload",
+      "title": "CallGraph preload gate",
+      "summary": "Run CallGraph impact analysis and record a Preload Evidence Block before code changes.",
+      "layer": "L2",
+      "category": "development",
+      "enabled": true,
+      "md_ref": ".clinerules-detail/10-preload-gate.md",
+      "md_views": {
+        "cline": ".clinerules-detail/10-preload-gate.md",
+        "claude": "CLAUDE.md",
+        "codex": "AGENTS.md",
+        "dodo-code": "AGENTS.md"
+      },
+      "render_targets": [
+        "cline",
+        "claude",
+        "codex",
+        "dodo-code"
+      ],
+      "applies_to": [
+        "development"
+      ],
+      "enforcement": [
+        {
+          "gate": "hard_gate",
+          "action_key": "callgraph.focus"
+        }
+      ],
+      "source_ref": ".clinerules-detail/10-preload-gate.md",
+      "version": "1.0.0",
+      "updated_at": "2026-08-22T11:56:45Z",
+      "traceability": {
+        "feature_id": "F-WORKSPACE-BOOTSTRAP",
+        "uc_ids": [],
+        "fr_ids": [],
+        "dd_phase": "DD01"
+      }
+    },
+    {
+      "id": "rule-spec-conformance-completion",
+      "title": "Specification conformance before completion",
+      "summary": "Require current-checkout conformance, test evidence, and roadmap synchronization before completion claims.",
+      "layer": "L2",
+      "category": "governance",
+      "enabled": true,
+      "md_ref": ".clinerules-detail/11-completion-gate.md",
+      "md_views": {
+        "cline": ".clinerules-detail/11-completion-gate.md",
+        "claude": "CLAUDE.md",
+        "codex": "AGENTS.md",
+        "dodo-code": "AGENTS.md"
+      },
+      "render_targets": [
+        "cline",
+        "claude",
+        "codex",
+        "dodo-code"
+      ],
+      "applies_to": [
+        "development"
+      ],
+      "enforcement": [
+        {
+          "gate": "hard_gate",
+          "action_key": "test_evidence.audit"
+        },
+        {
+          "gate": "hard_gate",
+          "action_key": "roadmap.sync_gate"
+        }
+      ],
+      "source_ref": ".clinerules-detail/11-completion-gate.md",
+      "version": "1.0.0",
+      "updated_at": "2026-08-22T11:56:45Z",
+      "traceability": {
+        "feature_id": "F-WORKSPACE-BOOTSTRAP",
+        "uc_ids": [],
+        "fr_ids": [],
+        "dd_phase": "DD01"
+      }
+    },
+    {
+      "id": "rule-navigation",
+      "title": "Operations-first workflow navigation",
+      "summary": "Use Ops Status, adaptive routing, roadmap derivation, and the priority queue to select work.",
+      "layer": "L2",
+      "category": "navigation",
+      "enabled": true,
+      "md_ref": ".clinerules-detail/20-navigation.md",
+      "md_views": {
+        "cline": ".clinerules-detail/20-navigation.md",
+        "claude": "CLAUDE.md",
+        "codex": "AGENTS.md",
+        "dodo-code": "AGENTS.md"
+      },
+      "render_targets": [
+        "cline",
+        "claude",
+        "codex",
+        "dodo-code"
+      ],
+      "applies_to": [
+        "all-agents",
+        "autonomous-development"
+      ],
+      "enforcement": [
+        {
+          "gate": "hard_gate",
+          "action_key": "autoloop.status"
+        },
+        {
+          "gate": "hard_gate",
+          "action_key": "agn.route_next"
+        }
+      ],
+      "source_ref": ".clinerules-detail/20-navigation.md",
+      "version": "1.0.0",
+      "updated_at": "2026-08-22T11:56:45Z",
+      "traceability": {
+        "feature_id": "F-WORKSPACE-BOOTSTRAP",
+        "uc_ids": [],
+        "fr_ids": [],
+        "dd_phase": "DD01"
+      }
+    },
+    {
+      "id": "rule-environment",
+      "title": "Environment and recovery procedure",
+      "summary": "Resolve runtime facts from catalogs and follow the bounded MCP recovery and Git hygiene procedures.",
+      "layer": "L2",
+      "category": "environment",
+      "enabled": true,
+      "md_ref": ".clinerules-detail/30-environment.md",
+      "md_views": {
+        "cline": ".clinerules-detail/30-environment.md",
+        "claude": "CLAUDE.md",
+        "codex": "AGENTS.md",
+        "dodo-code": "AGENTS.md"
+      },
+      "render_targets": [
+        "cline",
+        "claude",
+        "codex",
+        "dodo-code"
+      ],
+      "applies_to": [
+        "all-agents",
+        "operations"
+      ],
+      "enforcement": [
+        {
+          "gate": "hard_gate",
+          "action_key": "project.bootstrap"
+        }
+      ],
+      "source_ref": ".clinerules-detail/30-environment.md",
+      "version": "1.0.0",
+      "updated_at": "2026-08-22T11:56:45Z",
+      "traceability": {
+        "feature_id": "F-WORKSPACE-BOOTSTRAP",
+        "uc_ids": [],
+        "fr_ids": [],
+        "dd_phase": "DD01"
+      }
+    },
+    {
+      "id": "rule-domain-gates",
+      "title": "Architecture, SDT, UI, and operations domain gates",
+      "summary": "Apply schema-first authoring and the relevant architecture, UI, or operations checks for the touched domain.",
+      "layer": "L2",
+      "category": "domain-governance",
+      "enabled": true,
+      "md_ref": ".clinerules-detail/40-domain-gates.md",
+      "md_views": {
+        "cline": ".clinerules-detail/40-domain-gates.md",
+        "claude": "CLAUDE.md",
+        "codex": "AGENTS.md",
+        "dodo-code": "AGENTS.md"
+      },
+      "render_targets": [
+        "cline",
+        "claude",
+        "codex",
+        "dodo-code"
+      ],
+      "applies_to": [
+        "development",
+        "frontend",
+        "sdt-maintenance",
+        "operations"
+      ],
+      "enforcement": [
+        {
+          "gate": "hard_gate",
+          "action_key": "sdt.authoring_validate"
+        },
+        {
+          "gate": "hard_gate",
+          "action_key": "arch.layer_check"
+        },
+        {
+          "gate": "hard_gate",
+          "action_key": "ui.component_catalog"
+        }
+      ],
+      "source_ref": ".clinerules-detail/40-domain-gates.md",
+      "version": "1.0.0",
+      "updated_at": "2026-08-22T11:56:45Z",
+      "traceability": {
+        "feature_id": "F-WORKSPACE-BOOTSTRAP",
+        "uc_ids": [],
+        "fr_ids": [],
+        "dd_phase": "DD01"
+      }
+    }
+  ]
+}

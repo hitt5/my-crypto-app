@@ -1,0 +1,142 @@
+[
+  {
+    "category": "charter",
+    "created_at": "2026-08-22T11:56:35.125958+00:00",
+    "hash_alg": "sha256-12",
+    "input_hash": "b1fe97eefd01",
+    "manifest_path": null,
+    "markdown_path": "docs/0.charter/01-development-charter.md",
+    "original_path": "docs/0.charter/01-development-charter.md",
+    "project": "my-crypto-app",
+    "slug": "01-development-charter",
+    "source_id": "src-b49d123d2ec45b82",
+    "status": "indexed",
+    "tags": [
+      "charter",
+      "governance"
+    ],
+    "title": "01-development-charter",
+    "updated_at": "2026-08-22T12:25:17.536214+00:00",
+    "workspace_id": "43e2f654-cdd7-4572-b921-962bea2f0820"
+  },
+  {
+    "category": "charter",
+    "created_at": "2026-08-22T11:56:35.151346+00:00",
+    "hash_alg": "sha256-12",
+    "input_hash": "9d5d4b144841",
+    "manifest_path": null,
+    "markdown_path": "docs/0.charter/02-development-flow.md",
+    "original_path": "docs/0.charter/02-development-flow.md",
+    "project": "my-crypto-app",
+    "slug": "02-development-flow",
+    "source_id": "src-8075998e8f0d547e",
+    "status": "indexed",
+    "tags": [
+      "charter",
+      "governance"
+    ],
+    "title": "02-development-flow",
+    "updated_at": "2026-08-22T12:25:17.567619+00:00",
+    "workspace_id": "43e2f654-cdd7-4572-b921-962bea2f0820"
+  },
+  {
+    "category": "charter",
+    "created_at": "2026-08-22T11:56:35.170079+00:00",
+    "hash_alg": "sha256-12",
+    "input_hash": "43cd9aa358a7",
+    "manifest_path": null,
+    "markdown_path": "docs/0.charter/03-mcp-and-runtime.md",
+    "original_path": "docs/0.charter/03-mcp-and-runtime.md",
+    "project": "my-crypto-app",
+    "slug": "03-mcp-and-runtime",
+    "source_id": "src-c1fbaf090d3859d0",
+    "status": "indexed",
+    "tags": [
+      "charter",
+      "governance"
+    ],
+    "title": "03-mcp-and-runtime",
+    "updated_at": "2026-08-22T12:25:17.591760+00:00",
+    "workspace_id": "43e2f654-cdd7-4572-b921-962bea2f0820"
+  },
+  {
+    "category": "charter",
+    "created_at": "2026-08-22T11:56:35.185220+00:00",
+    "hash_alg": "sha256-12",
+    "input_hash": "c9ba8c5b15c7",
+    "manifest_path": null,
+    "markdown_path": "docs/0.charter/04-autonomous-loop.md",
+    "original_path": "docs/0.charter/04-autonomous-loop.md",
+    "project": "my-crypto-app",
+    "slug": "04-autonomous-loop",
+    "source_id": "src-c9d421778a915234",
+    "status": "indexed",
+    "tags": [
+      "charter",
+      "governance"
+    ],
+    "title": "04-autonomous-loop",
+    "updated_at": "2026-08-22T12:25:17.642030+00:00",
+    "workspace_id": "43e2f654-cdd7-4572-b921-962bea2f0820"
+  },
+  {
+    "category": "charter",
+    "created_at": "2026-08-22T11:56:35.205482+00:00",
+    "hash_alg": "sha256-12",
+    "input_hash": "5bb22ac3cfc4",
+    "manifest_path": null,
+    "markdown_path": "docs/0.charter/05-entropy-governance.md",
+    "original_path": "docs/0.charter/05-entropy-governance.md",
+    "project": "my-crypto-app",
+    "slug": "05-entropy-governance",
+    "source_id": "src-870fad45d61c533c",
+    "status": "indexed",
+    "tags": [
+      "charter",
+      "governance"
+    ],
+    "title": "05-entropy-governance",
+    "updated_at": "2026-08-22T12:25:17.670963+00:00",
+    "workspace_id": "43e2f654-cdd7-4572-b921-962bea2f0820"
+  },
+  {
+    "category": "charter",
+    "created_at": "2026-08-22T11:56:35.229609+00:00",
+    "hash_alg": "sha256-12",
+    "input_hash": "50d0d71a8e69",
+    "manifest_path": null,
+    "markdown_path": "docs/0.charter/06-quality-gate.md",
+    "original_path": "docs/0.charter/06-quality-gate.md",
+    "project": "my-crypto-app",
+    "slug": "06-quality-gate",
+    "source_id": "src-ab9d89f47c565206",
+    "status": "indexed",
+    "tags": [
+      "charter",
+      "governance"
+    ],
+    "title": "06-quality-gate",
+    "updated_at": "2026-08-22T12:25:17.699122+00:00",
+    "workspace_id": "43e2f654-cdd7-4572-b921-962bea2f0820"
+  },
+  {
+    "category": "charter",
+    "created_at": "2026-08-22T11:56:35.289240+00:00",
+    "hash_alg": "sha256-12",
+    "input_hash": "07e43136e333",
+    "manifest_path": null,
+    "markdown_path": "docs/0.charter/07-requirements-architecture-map.md",
+    "original_path": "docs/0.charter/07-requirements-architecture-map.md",
+    "project": "my-crypto-app",
+    "slug": "07-requirements-architecture-map",
+    "source_id": "src-0ee0777e3039564e",
+    "status": "indexed",
+    "tags": [
+      "charter",
+      "governance"
+    ],
+    "title": "07-requirements-architecture-map",
+    "updated_at": "2026-08-22T12:25:17.736206+00:00",
+    "workspace_id": "43e2f654-cdd7-4572-b921-962bea2f0820"
+  }
+]

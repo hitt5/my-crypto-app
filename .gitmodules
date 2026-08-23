@@ -1,0 +1,12 @@
+[submodule "adf"]
+	path = adf
+	url = https://github.com/58web3/dodoai-agentic-dev-framework
+	branch = develop
+[submodule "dodoai-ai-agent-skill"]
+	path = dodoai-ai-agent-skill
+	url = https://github.com/58web3/dodoai-ai-agent-skill.git
+	branch = develop
+[submodule "dodoai-delivery-asset"]
+	path = dodoai-delivery-asset
+	url = https://github.com/58web3/dodoai-delivery-asset.git
+	branch = develop

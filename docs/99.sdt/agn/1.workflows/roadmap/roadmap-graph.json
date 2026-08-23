@@ -1,0 +1,423 @@
+{
+  "$schema": "roadmap-graph-v2.0-projected",
+  "id": "roadmap:dodoai",
+  "type": "roadmap",
+  "layer": "execution",
+  "name": "dodoAI Roadmap",
+  "summary": "GENERATED PROJECTION of roadmap-matrix.json. Do not hand-edit.",
+  "status": "running",
+  "truth_type": "derived",
+  "updated_at": "2026-08-22T07:19:18.998073+00:00",
+  "updated_by": "dodo_core.tools.roadmap_matrix_build",
+  "source_ref": "docs/99.sdt/agn/1.workflows/roadmap/roadmap-matrix.json",
+  "execution_id": "f8ae1733-e314-4c7c-a30b-65b36ca2a46e",
+  "metadata": {
+    "projected_from": "roadmap-matrix.json",
+    "matrix_fingerprint": "8e600e3ea66a8da70771694a7e7b84074ba6e6e996ec0fff2bc0b2d710589586",
+    "note": "Legacy consumers read this shape. The authoritative model is row=EPIC/CAP/work category x column=time.",
+    "roadmap_matrix": {
+      "columns": [
+        {
+          "id": "t0",
+          "label": "Released",
+          "description": "Observed done records only."
+        },
+        {
+          "id": "t1",
+          "label": "Now",
+          "description": "Running work with an existing SDT Feature or TaskGraph node."
+        },
+        {
+          "id": "t2",
+          "label": "Next",
+          "description": "Approved and unblocked work ready after the current P0 gate."
+        },
+        {
+          "id": "t3",
+          "label": "Later",
+          "description": "Planned work still blocked by dependencies or earlier priority waves."
+        },
+        {
+          "id": "t9",
+          "label": "HIL / Unscheduled",
+          "description": "Candidate Feature IDs or stage changes that still require HIL, A02, or catalog ownership."
+        }
+      ],
+      "rows": [
+        {
+          "id": "ROADMAP-00-WORKSPACE-BOOTSTRAP",
+          "kind": "governance",
+          "thread": "p0",
+          "name": "P0-2 Workspace bootstrap",
+          "summary": "Initialize catalog, Roadmap SDT, and standard workflow governance. Existing Feature: F-WORKSPACE-BOOTSTRAP.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 1,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-00-WORKSPACE-BOOTSTRAP",
+              "release_id": "priority-p0",
+              "column_id": "t1",
+              "state": "in_progress",
+              "note": "Current governance prerequisite."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-01-PORTFOLIO-DASHBOARD",
+          "kind": "feature_sequence",
+          "thread": "observe-p0",
+          "name": "1. Portfolio dashboard",
+          "summary": "Concept step 1 / P0. Existing Feature: F-CRYPTO-PORTFOLIO-DASHBOARD. Observe-only portfolio and position facts.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 1,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-01-PORTFOLIO-DASHBOARD",
+              "release_id": "priority-p0",
+              "column_id": "t1",
+              "state": "in_progress",
+              "note": "Existing Observe Feature."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-02-VIABILITY-POLICY",
+          "kind": "feature_candidate",
+          "thread": "observe-p0",
+          "name": "2. Viability policy core",
+          "summary": "Candidate F-VIABILITY-POLICY-CORE. Machine-checkable viability constraints, Policy, Wallet roles, RiskBudget, optionality, and DRIFTED detection. H1 and H2 remain required.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 0,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-02-VIABILITY-POLICY",
+              "release_id": "priority-p0",
+              "column_id": "t9",
+              "state": "hil_required",
+              "note": "Candidate exists in draft material, but workflow catalog ownership and H1/H2 are incomplete."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-03-WORLD-MODEL-OBSERVE",
+          "kind": "feature_candidate",
+          "thread": "observe-p1",
+          "name": "3. World model observation",
+          "summary": "Candidate F-WORLD-MODEL-OBSERVE. Boundary variables, Constraint Graph, and Source trust observations. H1 remains required.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 0,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-03-WORLD-MODEL-OBSERVE",
+              "release_id": "priority-p1",
+              "column_id": "t9",
+              "state": "hil_required",
+              "note": "Candidate only; H1 and A02 are required."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-04-OPPORTUNITY-ENGINE",
+          "kind": "feature_candidate",
+          "thread": "observe-p1",
+          "name": "4. Opportunity engine",
+          "summary": "Candidate F-OPPORTUNITY-ENGINE. Generate opportunities from World Model and Viability Model differences with Convexity and no-action counterfactual evaluation.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 0,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-04-OPPORTUNITY-ENGINE",
+              "release_id": "priority-p1",
+              "column_id": "t3",
+              "state": "planned",
+              "note": "Depends on Viability and World Model observation."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-05-GUARDIAN-RISKSIGNAL",
+          "kind": "feature_candidate",
+          "thread": "observe-p1",
+          "name": "5. Guardian RiskSignal",
+          "summary": "Candidate F-GUARDIAN-RISKSIGNAL. Deterministic RiskSignal detection and irreversibility classification without execution.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 0,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-05-GUARDIAN-RISKSIGNAL",
+              "release_id": "priority-p1",
+              "column_id": "t3",
+              "state": "planned",
+              "note": "Depends on Viability and World Model observation."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-06-AIRDROP-CLAIM",
+          "kind": "feature_candidate",
+          "thread": "observe-p2",
+          "name": "6. Airdrop and claim tracker",
+          "summary": "Candidate F-AIRDROP-CLAIM-TRACKER. Eligibility, deadlines, and claim detection without execution.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 0,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-06-AIRDROP-CLAIM",
+              "release_id": "priority-p2",
+              "column_id": "t3",
+              "state": "planned",
+              "note": "Depends on Opportunity evaluation."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-07-YIELD-COMPARE",
+          "kind": "feature_candidate",
+          "thread": "observe-p2",
+          "name": "7. Yield comparison",
+          "summary": "Candidate F-YIELD-COMPARE. Net return and distribution-based comparison; surface APY comparison is prohibited.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 0,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-07-YIELD-COMPARE",
+              "release_id": "priority-p2",
+              "column_id": "t3",
+              "state": "planned",
+              "note": "Depends on Opportunity evaluation."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-08-EXECUTION-APPROVE",
+          "kind": "feature_candidate",
+          "thread": "approve-p3",
+          "name": "8. Human-approved execution",
+          "summary": "Candidate F-EXECUTION-APPROVE. Fixed CR-3 pipeline and all gates. Requires H4 and Observe to Approve stage-promotion HIL.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 0,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-08-EXECUTION-APPROVE",
+              "release_id": "priority-p3",
+              "column_id": "t9",
+              "state": "hil_required",
+              "note": "Requires H4 and stage-promotion HIL."
+            }
+          ]
+        },
+        {
+          "id": "ROADMAP-09-AUTOPILOT",
+          "kind": "frozen_scope",
+          "thread": "autopilot-p4",
+          "name": "9. Limited autonomy through trading",
+          "summary": "Concept steps 8-11 remain frozen. No Feature is created until A02 and the explicit Autopilot stage-promotion HIL.",
+          "total_features": 0,
+          "done_features": 0,
+          "total_items": 0,
+          "done_items": 0,
+          "release_markers": [
+            {
+              "row_id": "ROADMAP-09-AUTOPILOT",
+              "release_id": "priority-p4",
+              "column_id": "t9",
+              "state": "frozen",
+              "note": "Frozen until explicit Autopilot HIL and A02."
+            }
+          ]
+        }
+      ],
+      "releases": [
+        {
+          "id": "priority-p0",
+          "name": "P0 — Foundation and current Observe MVP",
+          "state": "in_progress",
+          "target_date": null,
+          "summary": "Portfolio MVP completion, workspace governance initialization, H1, and Viability A02.",
+          "committed_rows": [
+            "ROADMAP-00-WORKSPACE-BOOTSTRAP",
+            "ROADMAP-01-PORTFOLIO-DASHBOARD",
+            "ROADMAP-02-VIABILITY-POLICY"
+          ],
+          "outstanding_rows": [
+            "ROADMAP-00-WORKSPACE-BOOTSTRAP",
+            "ROADMAP-01-PORTFOLIO-DASHBOARD"
+          ],
+          "shippable": false
+        },
+        {
+          "id": "priority-p1",
+          "name": "P1 — World Model and risk observation",
+          "state": "planned",
+          "target_date": null,
+          "summary": "Boundary observations, Opportunity evaluation, and Guardian RiskSignal.",
+          "committed_rows": [
+            "ROADMAP-03-WORLD-MODEL-OBSERVE",
+            "ROADMAP-04-OPPORTUNITY-ENGINE",
+            "ROADMAP-05-GUARDIAN-RISKSIGNAL"
+          ],
+          "outstanding_rows": [],
+          "shippable": true
+        },
+        {
+          "id": "priority-p2",
+          "name": "P2 — Operational alpha observation",
+          "state": "planned",
+          "target_date": null,
+          "summary": "Airdrop/claim tracking and Yield comparison, both without execution.",
+          "committed_rows": [
+            "ROADMAP-06-AIRDROP-CLAIM",
+            "ROADMAP-07-YIELD-COMPARE"
+          ],
+          "outstanding_rows": [],
+          "shippable": true
+        },
+        {
+          "id": "priority-p3",
+          "name": "P3 — Approve stage",
+          "state": "hil_required",
+          "target_date": null,
+          "summary": "Human-approved execution after explicit stage-promotion HIL.",
+          "committed_rows": [
+            "ROADMAP-08-EXECUTION-APPROVE"
+          ],
+          "outstanding_rows": [],
+          "shippable": true
+        },
+        {
+          "id": "priority-p4",
+          "name": "P4 — Autopilot frozen",
+          "state": "frozen",
+          "target_date": null,
+          "summary": "Limited autonomy and trading remain out of scope until explicit HIL and A02.",
+          "committed_rows": [
+            "ROADMAP-09-AUTOPILOT"
+          ],
+          "outstanding_rows": [],
+          "shippable": true
+        }
+      ],
+      "diagnostics": {
+        "feature_count": 2,
+        "row_count": 10,
+        "epic_rows": 0,
+        "capability_rows": 0,
+        "work_category_rows": 10,
+        "work_item_count": 0,
+        "unrouted_features": [
+          "F-CRYPTO-PORTFOLIO-DASHBOARD",
+          "F-WORKSPACE-BOOTSTRAP"
+        ],
+        "cycle_features": [],
+        "column_distribution": {
+          "t0": 0,
+          "t1": 2,
+          "t2": 0,
+          "t3": 0,
+          "t9": 0
+        }
+      }
+    }
+  },
+  "nodes": [
+    {
+      "id": "roadmap:phase-t0",
+      "type": "roadmap-phase",
+      "layer": "execution",
+      "name": "Released",
+      "summary": "Observed done records only.",
+      "status": "done",
+      "phase_order": 1
+    },
+    {
+      "id": "roadmap:phase-t1",
+      "type": "roadmap-phase",
+      "layer": "execution",
+      "name": "Now",
+      "summary": "Running work with an existing SDT Feature or TaskGraph node.",
+      "status": "running",
+      "phase_order": 2
+    },
+    {
+      "id": "roadmap:phase-t2",
+      "type": "roadmap-phase",
+      "layer": "execution",
+      "name": "Next",
+      "summary": "Approved and unblocked work ready after the current P0 gate.",
+      "status": "running",
+      "phase_order": 3
+    },
+    {
+      "id": "roadmap:phase-t3",
+      "type": "roadmap-phase",
+      "layer": "execution",
+      "name": "Later",
+      "summary": "Planned work still blocked by dependencies or earlier priority waves.",
+      "status": "running",
+      "phase_order": 4
+    },
+    {
+      "id": "roadmap:phase-t9",
+      "type": "roadmap-phase",
+      "layer": "execution",
+      "name": "HIL / Unscheduled",
+      "summary": "Candidate Feature IDs or stage changes that still require HIL, A02, or catalog ownership.",
+      "status": "running",
+      "phase_order": 5
+    },
+    {
+      "id": "roadmap:work-item-roadmap-00-workspace-bootstrap-feature-f-workspace-bootstrap",
+      "type": "roadmap-work-item",
+      "layer": "execution",
+      "name": "Workspace bootstrap",
+      "summary": "",
+      "status": "running",
+      "phase_order": 2,
+      "item_kind": "feature",
+      "work_category_ref": "ROADMAP-00-WORKSPACE-BOOTSTRAP",
+      "feature_ref": "F-WORKSPACE-BOOTSTRAP"
+    },
+    {
+      "id": "roadmap:work-item-roadmap-01-portfolio-dashboard-feature-f-crypto-portfolio-dashboard",
+      "type": "roadmap-work-item",
+      "layer": "execution",
+      "name": "Personal Crypto Portfolio Dashboard",
+      "summary": "",
+      "status": "running",
+      "phase_order": 2,
+      "item_kind": "feature",
+      "work_category_ref": "ROADMAP-01-PORTFOLIO-DASHBOARD",
+      "feature_ref": "F-CRYPTO-PORTFOLIO-DASHBOARD"
+    }
+  ],
+  "edges": [
+    {
+      "from": "roadmap:phase-t1",
+      "to": "roadmap:work-item-roadmap-00-workspace-bootstrap-feature-f-workspace-bootstrap",
+      "type": "contains"
+    },
+    {
+      "from": "roadmap:phase-t1",
+      "to": "roadmap:work-item-roadmap-01-portfolio-dashboard-feature-f-crypto-portfolio-dashboard",
+      "type": "contains"
+    }
+  ]
+}

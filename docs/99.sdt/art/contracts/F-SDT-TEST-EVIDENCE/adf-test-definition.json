@@ -1,0 +1,180 @@
+{
+  "schema": "dodo.sdt.testing.definition.v1",
+  "artifact_id": "ADF-TEST-DEFINITION",
+  "type": "contract",
+  "layer": "design",
+  "status": "active",
+  "owner_feature": "F-SDT-TEST-EVIDENCE",
+  "summary": "ADF のテスト分類、旧 L 番号 alias、Mock 境界、DD Phase 配置、deploy unit 選択を機械判定する契約。",
+  "md_ref": "docs/99.sdt/art/contracts/F-SDT-TEST-EVIDENCE/adf-test-definition.md",
+  "authorities": {
+    "taxonomy_and_phase": [
+      "adf/docs/ja/3.process/5.test/1.test-overview.md",
+      "adf/docs/ja/3.process/5.test/2.8-layer-test-overview.md",
+      "adf/docs/ja/3.process/5.test/4.8-layer-test-detailed.md"
+    ],
+    "numeric_thresholds": [
+      "docs/0.charter/01-development-charter.md#3"
+    ],
+    "project_profiles": [
+      "docs/5.test/00-overview.md",
+      "docs/5.test/03-backend-api-test-architecture.md",
+      "docs/5.test/04-frontend-workflow-test-architecture.md"
+    ]
+  },
+  "invariants": [
+    {
+      "id": "TD-001",
+      "statement": "旧 L 番号は互換 alias に限り、Evidence と新規テスト設計は canonical ADF test type を使用する。"
+    },
+    {
+      "id": "TD-002",
+      "statement": "ITa-Workflow-FE は UI workflow を mock BE で検証し、ITa-Harness-BE は自アプリを実起動して HTTP 往復を検証する。CT 系 ID は deprecated compatibility alias に限る。"
+    },
+    {
+      "id": "TD-003",
+      "statement": "テスト層は Feature の主 deploy_unit ではなく、実際に変更する全 deploy unit の profile を合成して選ぶ。"
+    },
+    {
+      "id": "TD-004",
+      "statement": "FE と BE/Core を同時変更した場合、FE profile の Evidence だけで DD02 または DD03 を完了にしない。"
+    },
+    {
+      "id": "TD-005",
+      "statement": "数値閾値は本契約へ複製せず Charter の参照から解決する。"
+    }
+  ],
+  "test_levels": [
+    {
+      "id": "UT",
+      "scope": "単一モジュールまたは関数内",
+      "test_types": [
+        {"id": "UT-Logic-FE", "purpose": "FE 純粋ロジック", "mock_policy": "not_applicable"},
+        {"id": "UT-Logic-BE", "purpose": "BE/Core ビジネスロジック", "mock_policy": "not_applicable"},
+        {"id": "UT-Schema", "purpose": "型・スキーマの静的契約", "mock_policy": "not_applicable"}
+      ]
+    },
+    {
+      "id": "ITa",
+      "scope": "同一 deploy unit 内の複数モジュール結合",
+      "test_types": [
+        {"id": "ITa-Workflow-FE", "purpose": "UI workflow・操作・画面遷移・API 呼出し", "mock_policy": "required"},
+        {"id": "ITa-Harness-BE", "purpose": "実起動した自アプリへの HTTP ビジネスプロセス", "mock_policy": "external_only"}
+      ]
+    },
+    {
+      "id": "IT",
+      "scope": "deploy unit 境界を跨ぐ結合",
+      "test_types": [
+        {"id": "IT-Boundary", "purpose": "実 DB・実 API・外部サービス境界", "mock_policy": "forbidden"},
+        {"id": "IT-Observability", "purpose": "FE-BE 契約と分散トレース", "mock_policy": "forbidden"}
+      ]
+    },
+    {
+      "id": "ST",
+      "scope": "ユーザー視点のシステム全体",
+      "test_types": [
+        {"id": "ST-E2E-HL", "purpose": "headless E2E", "mock_policy": "forbidden"},
+        {"id": "ST-E2E-HD", "purpose": "headed または実アプリ E2E", "mock_policy": "forbidden"},
+        {"id": "ST-AI-Visual", "purpose": "AI 視覚検証", "mock_policy": "forbidden"},
+        {"id": "ST-Human", "purpose": "人間の最終レビュー", "mock_policy": "not_applicable"}
+      ]
+    }
+  ],
+  "quality_gates": [
+    {"id": "QG-Governance", "purpose": "SDT・TaskGraph・Evidence 整合", "mock_policy": "not_applicable"},
+    {"id": "QG-LLM", "purpose": "LLM 出力・Tool・RAG・Workflow・Guardrail・Cost 評価", "mock_policy": "not_applicable"}
+  ],
+  "legacy_aliases": {
+    "L1": "UT-Logic-FE",
+    "L3": "UT-Logic-BE",
+    "L4m": "UT-Schema",
+    "L2": "ITa-Workflow-FE",
+    "L5": "ITa-Harness-BE",
+    "L4r": "IT-Boundary",
+    "L6": "IT-Observability",
+    "L7": "ST-E2E-HL",
+    "L8a": "ST-E2E-HD",
+    "L8b": "ST-AI-Visual",
+    "L8c": "ST-Human",
+    "L4s": "QG-Governance",
+    "L4-LLM": "QG-LLM"
+  },
+  "deprecated_type_aliases": {
+    "CT": "ITa",
+    "CT-Workflow-FE": "ITa-Workflow-FE",
+    "CT-Harness-BE": "ITa-Harness-BE",
+    "tests/ct_harness/": "tests/ita_harness/",
+    "test_*_ct.py": "test_*_ita.py"
+  },
+  "dd_phase_matrix": {
+    "DD01": {
+      "scope": "per-UC",
+      "requirements": [
+        {"test_type": "UT-Schema", "mode": "skeleton"},
+        {"test_type": "ITa-Workflow-FE", "mode": "skeleton"},
+        {"test_type": "ITa-Harness-BE", "mode": "skeleton"},
+        {"test_type": "QG-Governance", "mode": "full"}
+      ]
+    },
+    "DD02": {
+      "scope": "per-UC",
+      "requirements": [
+        {"test_type": "UT-Logic-FE", "mode": "happy_path"},
+        {"test_type": "UT-Logic-BE", "mode": "happy_path"},
+        {"test_type": "ITa-Workflow-FE", "mode": "happy_path"},
+        {"test_type": "ITa-Harness-BE", "mode": "happy_path"},
+        {"test_type": "IT-Boundary", "mode": "happy_path"},
+        {"test_type": "QG-Governance", "mode": "full"}
+      ]
+    },
+    "DD03": {
+      "scope": "per-UC",
+      "requirements": [
+        {"test_type": "UT-Logic-FE", "mode": "error_path"},
+        {"test_type": "UT-Logic-BE", "mode": "error_path"},
+        {"test_type": "ITa-Workflow-FE", "mode": "error_path"},
+        {"test_type": "ITa-Harness-BE", "mode": "error_path"},
+        {"test_type": "IT-Boundary", "mode": "error_path"}
+      ]
+    },
+    "DD04": {
+      "scope": "per-Feature",
+      "requirements": [
+        {"test_type": "IT-Observability", "mode": "full"},
+        {"test_type": "QG-Governance", "mode": "full"},
+        {"test_type": "QG-LLM", "mode": "full"}
+      ]
+    },
+    "DD05": {
+      "scope": "per-Feature",
+      "requirements": [
+        {"test_type": "ST-E2E-HL", "mode": "system_validation"},
+        {"test_type": "ST-E2E-HD", "mode": "system_validation"},
+        {"test_type": "ST-AI-Visual", "mode": "system_validation"},
+        {"test_type": "ST-Human", "mode": "system_validation"}
+      ]
+    }
+  },
+  "deploy_unit_selection": {
+    "basis": "all_touched_deploy_units",
+    "primary_deploy_unit_only_forbidden": true,
+    "profiles": {
+      "react-frontend": {
+        "DD01": ["UT-Schema", "ITa-Workflow-FE", "QG-Governance"],
+        "DD02": ["UT-Logic-FE", "ITa-Workflow-FE", "QG-Governance"],
+        "DD03": ["UT-Logic-FE", "ITa-Workflow-FE"]
+      },
+      "python-monolith": {
+        "DD01": ["UT-Schema", "ITa-Harness-BE", "QG-Governance"],
+        "DD02": ["UT-Logic-BE", "ITa-Harness-BE", "IT-Boundary", "QG-Governance"],
+        "DD03": ["UT-Logic-BE", "ITa-Harness-BE", "IT-Boundary"]
+      },
+      "cross-deploy-boundary": {
+        "DD01": ["UT-Schema", "ITa-Workflow-FE", "ITa-Harness-BE", "QG-Governance"],
+        "DD02": ["UT-Logic-FE", "UT-Logic-BE", "ITa-Workflow-FE", "ITa-Harness-BE", "IT-Boundary", "QG-Governance"],
+        "DD03": ["UT-Logic-FE", "UT-Logic-BE", "ITa-Workflow-FE", "ITa-Harness-BE", "IT-Boundary"]
+      }
+    }
+  }
+}

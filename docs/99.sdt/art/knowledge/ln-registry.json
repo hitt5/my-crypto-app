@@ -1,0 +1,364 @@
+{
+  "schema": "ln-registry-v1.0",
+  "ln_entries": {
+    "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/feature": {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/feature",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+      "content_hash": "26f202deee1798c3b5dc810118b0b05ad2bb3cc40e43eeaa9d830a27779af0dd",
+      "category": "agn",
+      "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+      "sub": "feature",
+      "status": "active"
+    },
+    "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering": {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering.json",
+      "content_hash": "beebff9a81a15eadcbd34c2aafb2a88f673ddbd8b71fbdd02159606dda45379b",
+      "category": "agn",
+      "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+      "sub": "task-dd03-table-block-rendering",
+      "status": "active"
+    },
+    "ln://agn/F-VIABILITY-POLICY-CORE/task-f-viability-policy-core": {
+      "ln_uri": "ln://agn/F-VIABILITY-POLICY-CORE/task-f-viability-policy-core",
+      "physical_path": "docs/99.sdt/agn/features/F-VIABILITY-POLICY-CORE/task-f-viability-policy-core.json",
+      "content_hash": "74ed30f078813dac8aa05d6ee454bc2f2d1c5216388813aff7947e52375f37e2",
+      "category": "agn",
+      "node_id": "F-VIABILITY-POLICY-CORE",
+      "sub": "task-f-viability-policy-core",
+      "status": "active"
+    },
+    "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration": {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration.json",
+      "content_hash": "422ce35a94780e816267d4f7141d64f3fbede5feaf4fba6df5529357b3055bac",
+      "category": "agn",
+      "node_id": "F-WORKSPACE-BOOTSTRAP",
+      "sub": "task-dd01-roadmap-sdt-registration",
+      "status": "active"
+    },
+    "ln://agn/F-WORKSPACE-BOOTSTRAP/feature": {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/feature",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/feature.json",
+      "content_hash": "d00d12f48a1350b82f2dc9ae3c700eb813469c392893fd839857336971d45823",
+      "category": "agn",
+      "node_id": "F-WORKSPACE-BOOTSTRAP",
+      "sub": "feature",
+      "status": "active"
+    },
+    "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD-DD02-LOCAL-TESTNET-ACTIONS/task-dd02-local-testnet-actions": {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD-DD02-LOCAL-TESTNET-ACTIONS/task-dd02-local-testnet-actions",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd02-local-testnet-actions.json",
+      "content_hash": "80acaf2ff687b35298fe189fa391f82bcb842e92c710448819a44df4af97c483",
+      "category": "agn",
+      "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD-DD02-LOCAL-TESTNET-ACTIONS",
+      "sub": "task-dd02-local-testnet-actions",
+      "status": "active"
+    },
+    "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-dashboard-live-data": {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-dashboard-live-data",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-dashboard-live-data.json",
+      "content_hash": "970f3f7dcc8fa6c96a6856778ca1eec0735a94f331a67c8e16c71a837a9be9e4",
+      "category": "agn",
+      "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+      "sub": "task-dd03-dashboard-live-data",
+      "status": "active"
+    },
+    "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-a02-screen-definition": {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-a02-screen-definition",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-a02-screen-definition.json",
+      "content_hash": "98784d83cffd02c52746c63e2df4301db2ce68982297339b1033e425b28f0f0b",
+      "category": "agn",
+      "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+      "sub": "task-a02-screen-definition",
+      "status": "active"
+    },
+    "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition": {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition.json",
+      "content_hash": "871e47f45ea2552f5ba51d6b924df9edd40eb7ea05fea92b828b5c99ada74b87",
+      "category": "agn",
+      "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+      "sub": "task-dd00-a02-screen-definition",
+      "status": "active"
+    },
+    "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd02-screen-visualization": {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd02-screen-visualization",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd02-screen-visualization.json",
+      "content_hash": "df04a2080f273ac23ae4caf54dd04473f88b99df34841c9345a504e9a0e622df",
+      "category": "agn",
+      "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+      "sub": "task-dd02-screen-visualization",
+      "status": "active"
+    },
+    "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-screen-visualization": {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-screen-visualization",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-screen-visualization.json",
+      "content_hash": "c9285798d788f15d01e3df09899d32fb2ebb3d8cc797310b995478834cfc78cb",
+      "category": "agn",
+      "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+      "sub": "task-dd03-screen-visualization",
+      "status": "active"
+    },
+    "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-sdt-contract-bootstrap": {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-sdt-contract-bootstrap",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-sdt-contract-bootstrap.json",
+      "content_hash": "d0aa32d97ebeb0f0c52e198330424bd6d6ece867f381e94e622d2f394c1eb9c4",
+      "category": "agn",
+      "node_id": "F-WORKSPACE-BOOTSTRAP",
+      "sub": "task-dd01-sdt-contract-bootstrap",
+      "status": "active"
+    },
+    "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification": {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification",
+      "physical_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification.json",
+      "content_hash": "308016c70c2a850df4715b0a22afa7b455853e59c7b4b264a63da15084945016",
+      "category": "agn",
+      "node_id": "F-WORKSPACE-BOOTSTRAP",
+      "sub": "task-dd01-git-history-unification",
+      "status": "active"
+    }
+  },
+  "ln_history": [
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/feature",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+      "new_hash": "9d80be2ba2590a227df93192773e9e5f9a85c7e21c51fa920f060d11d956e5fd",
+      "verdict": "added",
+      "changed_at": "2026-08-22T05:12:42.203797+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering.json",
+      "new_hash": "0ec94f8787274b30f6ac6f1baba8274c05b75510f2195509c594fac56628424a",
+      "verdict": "added",
+      "changed_at": "2026-08-22T05:12:42.265248+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering.json",
+      "new_hash": "07a514af15a928b82612e21f9fef0d2fe75e4e70e4d6afb005b87a2e7c5fa31b",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T05:18:59.418580+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering.json",
+      "new_hash": "d8049762bc28832a656e2211308c7a7dc9d0585bc1fc56381352b0c73dad1b8e",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T05:19:51.785304+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-table-block-rendering.json",
+      "new_hash": "beebff9a81a15eadcbd34c2aafb2a88f673ddbd8b71fbdd02159606dda45379b",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T05:20:09.604122+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-VIABILITY-POLICY-CORE/task-f-viability-policy-core",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/features/F-VIABILITY-POLICY-CORE/task-f-viability-policy-core.json",
+      "new_hash": "74ed30f078813dac8aa05d6ee454bc2f2d1c5216388813aff7947e52375f37e2",
+      "verdict": "added",
+      "changed_at": "2026-08-22T06:47:16.480228+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration.json",
+      "new_hash": "030710a77f5a2a1b7c609bfb3da2a6ff7acd6ae6e54b1de2b7c4e3e4ad2c4676",
+      "verdict": "added",
+      "changed_at": "2026-08-22T07:17:52.549341+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/feature",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/feature.json",
+      "new_hash": "814c71c9275983949105bf5ebf1e3f96ee94a924ea08afec22f1151ad7e3eaeb",
+      "verdict": "added",
+      "changed_at": "2026-08-22T07:18:30.025389+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration.json",
+      "new_hash": "2854d90731d6d6dd61ded926be5081f4c4920ba8b5f45d74a319a99287af561a",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T07:20:45.755745+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/feature",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/feature.json",
+      "new_hash": "d00d12f48a1350b82f2dc9ae3c700eb813469c392893fd839857336971d45823",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T07:22:00.582673+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-roadmap-sdt-registration.json",
+      "new_hash": "422ce35a94780e816267d4f7141d64f3fbede5feaf4fba6df5529357b3055bac",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T07:22:12.009359+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD-DD02-LOCAL-TESTNET-ACTIONS/task-dd02-local-testnet-actions",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd02-local-testnet-actions.json",
+      "new_hash": "3febb545de895315929e9efc6a55b12234eae531e8353e217b59f4363fe72c5d",
+      "verdict": "added",
+      "changed_at": "2026-08-22T08:42:34.809695+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-dashboard-live-data",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-dashboard-live-data.json",
+      "new_hash": "970f3f7dcc8fa6c96a6856778ca1eec0735a94f331a67c8e16c71a837a9be9e4",
+      "verdict": "added",
+      "changed_at": "2026-08-22T11:41:52.749199+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/feature",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+      "new_hash": "dc1ca9b8606537d395896d1952eb2fd7fb72ead180018bc8d119c6514141635a",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T11:42:34.577335+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD-DD02-LOCAL-TESTNET-ACTIONS/task-dd02-local-testnet-actions",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd02-local-testnet-actions.json",
+      "new_hash": "80acaf2ff687b35298fe189fa391f82bcb842e92c710448819a44df4af97c483",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T11:43:24.493725+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-a02-screen-definition",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-a02-screen-definition.json",
+      "new_hash": "98784d83cffd02c52746c63e2df4301db2ce68982297339b1033e425b28f0f0b",
+      "verdict": "added",
+      "changed_at": "2026-08-22T12:13:01.998374+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition.json",
+      "new_hash": "40a7a8d5718b03f16c820f709dad0cc650145deeb740fc663a1c5052e8c4435a",
+      "verdict": "added",
+      "changed_at": "2026-08-22T12:13:29.542192+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition.json",
+      "new_hash": "012fc13b24c553003af94cafb09cf3d2498fdd960b9643dbfbc589ea3b390cb8",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T12:14:15.473219+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition.json",
+      "new_hash": "a91ee1b7705e8205e6f75fff81bf8930e727dfb7ead516b9451f712879b94afd",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T12:14:53.758866+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/feature",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+      "new_hash": "41b7ca567de00c338e87468ced6e73ffc7007595d72f25532d1686c79c4a4737",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T12:20:00.744621+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd00-a02-screen-definition.json",
+      "new_hash": "871e47f45ea2552f5ba51d6b924df9edd40eb7ea05fea92b828b5c99ada74b87",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T12:20:05.831995+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd02-screen-visualization",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd02-screen-visualization.json",
+      "new_hash": "df04a2080f273ac23ae4caf54dd04473f88b99df34841c9345a504e9a0e622df",
+      "verdict": "added",
+      "changed_at": "2026-08-22T12:57:12.030406+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-screen-visualization",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-screen-visualization.json",
+      "new_hash": "b6c22116915fa4cba04b0e94d6deb60adf1e0571ca9b3c18358b2187c4560447",
+      "verdict": "added",
+      "changed_at": "2026-08-22T12:57:21.907283+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-screen-visualization",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-screen-visualization.json",
+      "new_hash": "c9285798d788f15d01e3df09899d32fb2ebb3d8cc797310b995478834cfc78cb",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T12:57:44.268371+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/feature",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+      "new_hash": "ffcbc9ed8c457ebb94f03fc2dd539482878bf892af3c6cd39498a0ebda632b0b",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T12:58:10.693761+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-CRYPTO-PORTFOLIO-DASHBOARD/feature",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/feature.json",
+      "new_hash": "26f202deee1798c3b5dc810118b0b05ad2bb3cc40e43eeaa9d830a27779af0dd",
+      "verdict": "updated",
+      "changed_at": "2026-08-22T12:58:41.613081+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-sdt-contract-bootstrap",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-sdt-contract-bootstrap.json",
+      "new_hash": "d0aa32d97ebeb0f0c52e198330424bd6d6ece867f381e94e622d2f394c1eb9c4",
+      "verdict": "added",
+      "changed_at": "2026-08-22T12:59:01.650093+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification.json",
+      "new_hash": "f3a42332a0121f7ded012fbed5cea99a4bcaa3794b0503c3d2ba0eef493c3eaa",
+      "verdict": "added",
+      "changed_at": "2026-08-23T01:00:47.026801+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification.json",
+      "new_hash": "50bd5791dd9c1bb283a75d275e77321bce85eaf821d5755a6d31493d4cfa3b96",
+      "verdict": "updated",
+      "changed_at": "2026-08-23T01:01:16.577515+00:00"
+    },
+    {
+      "ln_uri": "ln://agn/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification",
+      "event_type": "autoregister",
+      "new_path": "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-WORKSPACE-BOOTSTRAP/task-dd01-git-history-unification.json",
+      "new_hash": "308016c70c2a850df4715b0a22afa7b455853e59c7b4b264a63da15084945016",
+      "verdict": "updated",
+      "changed_at": "2026-08-23T01:02:50.255523+00:00"
+    }
+  ]
+}

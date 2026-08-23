@@ -1,0 +1,3 @@
+{
+  "text": "Task {{task_id}}: {{title}} ({{status.from}} -> {{status.to}})"
+}

@@ -1,0 +1,282 @@
+{
+  "id": "integration.backlog",
+  "version": "1.0.0",
+  "name": "Backlog Integration",
+  "author": "dodoai",
+  "license": "MIT",
+  "description": "Backlog (Nulab) integration: Git/VCS repositories, remote document browser, PR-based SDT creation, and AI Chat issue/Wiki management. Supports multiple project-scoped connection profiles.",
+  "dodoai_version": ">=0.3.0",
+  "sdk_version": ">=1.0,<2.0",
+  "dependencies": [],
+  "capabilities_required": [
+    "action.register",
+    "network.outbound"
+  ],
+  "risk_level": "medium",
+  "tags": [
+    "integration",
+    "backlog",
+    "vcs",
+    "work-item",
+    "ai-chat"
+  ],
+  "provides": {
+    "actions": [
+      {
+        "key": "backlog.profile_list",
+        "entry": "actions/profile_list.py",
+        "version": "1.0.0"
+      },
+      {
+        "key": "backlog.profile_upsert",
+        "entry": "actions/profile_upsert.py",
+        "version": "1.0.0"
+      },
+      {
+        "key": "backlog.profile_delete",
+        "entry": "actions/profile_delete.py",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.connection_register",
+        "entry": "actions/work_item_actions.py",
+        "export": "connection_register_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.sync",
+        "entry": "actions/work_item_actions.py",
+        "export": "sync_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.sync_due_connections",
+        "entry": "actions/work_item_actions.py",
+        "export": "sync_due_connections_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.issue_get",
+        "entry": "actions/work_item_actions.py",
+        "export": "issue_get_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.ask",
+        "entry": "actions/work_item_actions.py",
+        "export": "ask_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.analyze",
+        "entry": "actions/work_item_actions.py",
+        "export": "analyze_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.comment_post",
+        "entry": "actions/work_item_actions.py",
+        "export": "comment_post_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.report_generate",
+        "entry": "actions/work_item_actions.py",
+        "export": "report_generate_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.sdt_project",
+        "entry": "actions/work_item_actions.py",
+        "export": "sdt_project_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.backfill",
+        "entry": "actions/work_item_actions.py",
+        "export": "backfill_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.sdt_ask",
+        "entry": "actions/work_item_actions.py",
+        "export": "sdt_ask_entry",
+        "version": "1.0.0"
+      },
+      {
+        "key": "work_item.backlog.closure_digest",
+        "entry": "actions/work_item_actions.py",
+        "export": "closure_digest_entry",
+        "version": "1.0.0"
+      }
+    ],
+    "ui_extensions": [
+      {
+        "slot": "plugin.settings.panel",
+        "component": "ui/BacklogProfilesSettings"
+      }
+    ],
+    "agent_binding": {
+      "assignable": true,
+      "label": "Backlog",
+      "description": "このAgentが利用するBacklog接続とSDT参照Actionを有効にします。",
+      "action_set_id": "work-item-backlog",
+      "action_set_label": "Backlog AI",
+      "action_keys": [
+        "work_item.backlog.connection_register",
+        "work_item.backlog.sdt_project",
+        "work_item.backlog.backfill",
+        "work_item.backlog.sdt_ask",
+        "work_item.backlog.closure_digest",
+        "work_item.backlog.comment_post"
+      ],
+      "settings_schema": {
+        "type": "object",
+        "required": ["connection_id"],
+        "properties": {
+          "connection_id": {
+            "type": "string",
+            "title": "利用するBacklog設定",
+            "description": "Plugin管理で登録済みの課題用接続を選択します。",
+            "x-option-source": {
+              "action_key": "backlog.profile_list",
+              "payload": {
+                "project_id": "$active_project_id",
+                "purpose": "work_item"
+              },
+              "items_path": "profiles",
+              "value_field": "connection_id",
+              "label_field": "display_name"
+            }
+          },
+          "display_limit": {
+            "type": "integer",
+            "title": "AI Chat表示上限",
+            "description": "課題一覧をAI Chatへ表示するときの最大件数です。L3詳細表示は20件までです。",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          }
+        }
+      },
+      "action_input_bindings": {
+        "work_item.backlog.connection_register": {
+          "connection_id": "connection_id"
+        },
+        "work_item.backlog.sdt_project": {
+          "connection_id": "connection_id"
+        },
+        "work_item.backlog.backfill": {
+          "connection_id": "connection_id"
+        },
+        "work_item.backlog.sdt_ask": {
+          "display_limit": "display_limit"
+        },
+        "work_item.backlog.comment_post": {
+          "connection_id": "connection_id"
+        }
+      }
+    }
+  },
+  "config_schema": {
+    "type": "object",
+    "title": "Backlog Connection Profiles (per project)",
+    "description": "Multiple Backlog connections can be registered per dodoAI project. Each profile declares its usage (Git / Issues / Both).",
+    "properties": {
+      "profiles": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["id", "display_name", "purpose", "base_url", "project_key", "permission_level"],
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "Profile ID",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+            },
+            "display_name": {
+              "type": "string",
+              "title": "表示名 / Display name"
+            },
+            "purpose": {
+              "type": "string",
+              "title": "用途 / Usage",
+              "enum": ["vcs", "work_item", "both"],
+              "enumNames": ["Git用（VCS / ドキュメント / PR）", "課題用（AI Chat）", "両方"],
+              "default": "both"
+            },
+            "base_url": {
+              "type": "string",
+              "title": "Backlog URL",
+              "format": "uri",
+              "pattern": "^https://",
+              "examples": ["https://example.backlog.com"]
+            },
+            "project_key": {
+              "type": "string",
+              "title": "プロジェクトキー / Project key",
+              "pattern": "^[A-Z][A-Z0-9_]{1,30}$"
+            },
+            "permission_level": {
+              "type": "string",
+              "title": "権限レベル / Permission level",
+              "enum": ["lv1", "lv2", "lv3", "lv4"],
+              "default": "lv1"
+            },
+            "api_key_ref": {
+              "type": "string",
+              "title": "APIキー参照 / API key credential ref",
+              "description": "Desktop: keychain://<key>. Server: secretstore://<key> (AES-GCM encrypted in DB, masked in UI). Raw values are rejected.",
+              "pattern": "^(keychain://.+|secretstore://.+|env://BACKLOG_API_KEY)$"
+            },
+            "auto_sync": {
+              "type": "boolean",
+              "title": "自動同期 / Auto sync (work_item only)",
+              "default": false
+            },
+            "sync_interval_minutes": {
+              "type": "integer",
+              "title": "同期間隔（分）",
+              "minimum": 1,
+              "default": 20
+            },
+            "max_issues_total": {
+              "type": ["integer", "null"],
+              "title": "同期最大件数（総上限）",
+              "minimum": 1,
+              "default": null
+            },
+            "max_issues_per_run": {
+              "type": "integer",
+              "title": "1回同期件数",
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 100
+            },
+            "closed_status_names": {
+              "type": "array",
+              "title": "完了ステータス名",
+              "items": {"type": "string", "minLength": 1},
+              "default": ["完了", "Closed", "Resolved", "Done"]
+            },
+            "comment_policy": {
+              "type": "string",
+              "title": "コメント取得方針",
+              "enum": ["none", "active_only", "all"],
+              "default": "active_only"
+            },
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "federation": {
+    "shareable": false,
+    "share_scope": "none",
+    "trust_required": "none"
+  }
+}

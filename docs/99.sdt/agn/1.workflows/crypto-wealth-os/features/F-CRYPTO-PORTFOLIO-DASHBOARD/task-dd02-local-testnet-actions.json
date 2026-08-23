@@ -1,0 +1,67 @@
+{
+  "schema": "sdt-node-v3.0",
+  "id": "F-CRYPTO-PORTFOLIO-DASHBOARD-DD02-LOCAL-TESTNET-ACTIONS",
+  "node_id": "F-CRYPTO-PORTFOLIO-DASHBOARD-DD02-LOCAL-TESTNET-ACTIONS",
+  "type": "task",
+  "layer": "execution",
+  "truth_type": "designed",
+  "status": "running",
+  "name": "Local testnet (Anvil) Personal Action / UI / network policy",
+  "description": "Define network policy (local-first testnet axis), implement personal.crypto_testnet_ctl (Anvil start/stop/status) and personal.crypto_testnet_fund (local-only test ETH injection), add anvil-local chain to portfolio sample config, and surface testnet status in the crypto-wealth Personal UI.",
+  "summary": "テストネットはローカル(Anvil)を軸にする方針を文書化し、起動/停止/状態確認と資金注入のPersonal Actionを実装、UIへ状態表示を追加する。",
+  "gate": "pytest PASS + anvil live start/status/fund/stop smoke + network policy doc exists + no real keys/values in repo",
+  "attributes": {
+    "theme_id": "crypto-wealth-os",
+    "feature_id": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+    "task_id": "F-CRYPTO-PORTFOLIO-DASHBOARD-DD02-LOCAL-TESTNET-ACTIONS",
+    "phase": "DD02",
+    "size": "M",
+    "success_probability": 0.85,
+    "max_ticks": 3,
+    "issue_refs": [
+      ".dodoai/issue/20260822_TASK_F-CRYPTO-PORTFOLIO-DASHBOARD_local-testnet-actions_in-progress.md"
+    ],
+    "spec_refs": {
+      "spec": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+      "network_policy": "docs/2.sdt-design/04-network-policy.md"
+    },
+    "done_criteria": [
+      "docs/2.sdt-design/04-network-policy.md exists and defines local -> public testnet -> mainnet usage mapping",
+      "personal.crypto_testnet_ctl action implemented with CONTRACT.md and supports op=start|stop|status for local Anvil (chain_id 31337)",
+      "personal.crypto_testnet_fund action implemented with CONTRACT.md and refuses any chain other than local anvil (chain_id 31337)",
+      "portfolio.sample.json contains anvil-local chain entry with network_class=local-testnet",
+      "crypto-wealth manifest shows testnet status block referencing personal.crypto_testnet_ctl",
+      "pytest for new actions PASS with external process/RPC mocked",
+      "live smoke: anvil start -> status running -> fund wallet -> snapshot reads balance -> stop"
+    ],
+    "depends_on": []
+  },
+  "changed_files": [
+    "docs/2.sdt-design/04-network-policy.md",
+    ".dodoai/personal/custom_actions/crypto_testnet_ctl/{CONTRACT.md,action.py,action.json}",
+    ".dodoai/personal/custom_actions/crypto_testnet_fund/{CONTRACT.md,action.py,action.json}",
+    ".dodoai/personal/custom_actions/tests/test_crypto_testnet_actions.py",
+    ".dodoai/personal/config/portfolio.sample.json",
+    ".dodoai/personal/custom_ui/crypto-wealth/manifest.json (v1.1.0)",
+    "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md (v0.2.0)",
+    ".dodoai/issue/20260822_TASK_F-CRYPTO-PORTFOLIO-DASHBOARD_local-testnet-actions_in-progress.md"
+  ],
+  "test_evidence": [
+    "pytest full personal suite: 31 passed in 0.07s (PYTHONPATH=dodoai, 2026-08-22 17:48 JST)",
+    "live smoke: anvil start(pid observed, chain_id=31337) -> status running -> fund 123.5 ETH (eth_getBalance readback=123.5) -> stop -> final status not running (2026-08-22 17:48 JST)",
+    "custom_ui.manifest_lint mode=strict: checked=1 error_count=0 warning_count=0 (canonical temporary placement /tmp/cw-lint, 2026-08-22 20:37 JST; personal-scope real path returns MANIFEST_PATH_OUTSIDE_WORKSPACE — known linter limitation recorded on DD03 task)",
+    "brew install foundry -> anvil 1.7.1"
+  ],
+  "findings": [
+    "A03 conformance gate ok=false due to workspace-wide catalog bootstrap debt (authoring_validate 14 unclassified, placement NO_INPUT) — owned by F-WORKSPACE-BOOTSTRAP, recorded on feature phase_gates.A03",
+    "EPIC/CAP JSON-first catalog nodes referenced by docs/4.common/3.capability-requirements are not present in this worktree; testnet FR ownership recorded as fr_gap on feature node",
+    "manifest_lint cannot lint .dodoai/personal/custom_ui real path (outside .dodoai/custom_ui) — lint executed via canonical temporary placement"
+  ],
+  "remaining_work": [
+    "dodoAI Desktop live dispatch of personal.crypto_testnet_ctl / fund via Action registry (requires personal actions loaded in runtime; user-approved reload if needed)",
+    "HIL: register testnet FR under CAP-ONCHAIN-OBSERVE in JSON-first catalog when F-WORKSPACE-BOOTSTRAP catalog bootstrap completes"
+  ],
+  "created_at": "2026-08-22T11:43:24.492348+00:00",
+  "updated_at": "2026-08-22T12:45:00.026259+00:00",
+  "updated_by": "codex-root-dashboard-dd03-20260822"
+}

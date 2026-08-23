@@ -1,0 +1,152 @@
+{
+  "schema": "sdt-node-v3.0",
+  "id": "T-CRYPTO-PORTFOLIO-DASHBOARD-LIVE-DATA-20260822",
+  "node_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-LIVE-DATA-20260822",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-LIVE-DATA-20260822",
+  "type": "integration-task",
+  "name": "Render populated Crypto Wealth dashboard",
+  "description": "Replace the development-specific SummaryHero metrics with a header-only Crypto Wealth hero plus canonical stat-card valuation metrics, then verify local Anvil data renders in the four dashboard tables.",
+  "summary": "Make the dashboard truthfully display local-testnet valuation data without irrelevant development metrics.",
+  "gate": "Header contains only Crypto Wealth context, canonical stat cards show valuation fields, all four tables render populated local-testnet observations, focused tests and governance gates are recorded.",
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "layer": "execution",
+  "truth_type": "designed",
+  "status": "running",
+  "phase": "DD03",
+  "depends_on": [
+    "T-CRYPTO-PORTFOLIO-DASHBOARD-TABLE-RENDER-20260822"
+  ],
+  "test_layers": [
+    "ITa-Harness-FE",
+    "ST-E2E",
+    "ST-AI-Visual"
+  ],
+  "deploy_unit": "personal-custom-ui",
+  "issue_refs": [
+    ".dodoai/issue/task-planner-agent/DD03_STREAM_unknown_T-CRYPTO-PORTFOLIO-DASHBOARD-LIVE-DATA-20260822_in-progress.md"
+  ],
+  "spec_refs": {
+    "sr": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "iuc": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "screen_design": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md"
+  },
+  "done_criteria": [
+    {
+      "check": "manifest header contract",
+      "expect": "summary-hero is headerOnly and no development-specific summary metrics are exposed"
+    },
+    {
+      "check": "valuation stat-card contract",
+      "expect": "total_value_usd, stale, snapshot_at, and tick_at render from the valuation Action"
+    },
+    {
+      "check": "local testnet live chain",
+      "expect": "Anvil chain_id=31337, test balance is observed, and snapshot/tick/valuation live dispatches succeed"
+    },
+    {
+      "check": "live headless dashboard",
+      "expect": "zero unsupported blocks, four populated tables, total valuation and local-dev-vault are visible"
+    },
+    {
+      "check": "focused tests and strict lint",
+      "expect": "0 failed and strict error_count=0"
+    },
+    {
+      "check": "roadmap.sync_gate",
+      "expect": "result recorded; ok=true required for done"
+    }
+  ],
+  "size": "S",
+  "success_probability": 0.9,
+  "success_probability_rationale": "Live project-scoped Action hydration is working and canonical stat-card maps arbitrary top-level result fields.",
+  "max_ticks": 3,
+  "changed_files": [
+    ".dodoai/issue/task-planner-agent/DD03_STREAM_unknown_T-CRYPTO-PORTFOLIO-DASHBOARD-LIVE-DATA-20260822_in-progress.md",
+    ".dodoai/personal/config/portfolio.json",
+    ".dodoai/personal/custom_actions/tests/test_crypto_actions.py",
+    ".dodoai/personal/custom_ui/crypto-wealth/manifest.json",
+    "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "docs/99.sdt/agn/1.workflows/crypto-wealth-os/features/F-CRYPTO-PORTFOLIO-DASHBOARD/task-dd03-dashboard-live-data.json",
+    "docs/99.sdt/art/knowledge/ln-registry.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/dashboard-dd03-live-data.png",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-dashboard-live-data.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-dashboard-live-data.md"
+  ],
+  "test_evidence": [
+    "live Anvil: chain_id=31337, local-dev-vault=100 test ETH",
+    "live project-scoped personal Action spec/dispatch: HTTP 200 without runtime reload",
+    "live snapshot/two-source tick/valuation: PASS",
+    "focused manifest contract: 2 passed in 0.05s",
+    "full personal crypto suite: 32 passed in 0.07s",
+    "strict content lint in canonical temporary placement: checked=1 errors=0 warnings=0",
+    "headless live dashboard: tables=4 unsupported=0 alerts=0, populated valuation visible"
+  ],
+  "evidence_refs": [
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/dashboard-dd03-live-data.png",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-dashboard-live-data.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-dashboard-live-data.md"
+  ],
+  "findings": [
+    "Project SDT layout contract, ADF test definition, and local CallGraph IR are not initialized.",
+    "custom_ui.manifest_lint rejects the required .dodoai/personal/custom_ui path with MANIFEST_PATH_OUTSIDE_WORKSPACE, although identical content passes strict lint in canonical temporary placement.",
+    "roadmap.sync_gate is not green: stale_task_status=2, missing_milestone=1, epic_orphan=1, cap_unbound=1."
+  ],
+  "remaining_work": [
+    "Extend the canonical linter to accept personal scope and rerun strict lint on the real manifest path.",
+    "Restore the missing DD01 scaffold record, roadmap milestone, EPIC binding, and CAP binding before marking DD03 done."
+  ],
+  "attributes": {
+    "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+    "phase": "DD03",
+    "issue_refs": [
+      ".dodoai/issue/task-planner-agent/DD03_STREAM_unknown_T-CRYPTO-PORTFOLIO-DASHBOARD-LIVE-DATA-20260822_in-progress.md"
+    ],
+    "spec_refs": {
+      "sr": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+      "uc": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md"
+    },
+    "done_criteria": [
+      {
+        "check": "manifest header",
+        "expect": "headerOnly Crypto hero plus valuation stat cards"
+      },
+      {
+        "check": "live UI",
+        "expect": "populated local-testnet values"
+      },
+      {
+        "check": "completion gates",
+        "expect": "tests, strict lint, roadmap sync recorded"
+      }
+    ],
+    "size": "S",
+    "success_probability": 0.9,
+    "max_ticks": 3
+  },
+  "created_at": "2026-08-22T11:41:30+00:00",
+  "updated_by": "codex-root-crypto-dashboard-20260822",
+  "updated_at": "2026-08-22T11:44:30+00:00",
+  "metadata": {
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T11:42:46.613551+00:00",
+        "by": "codex-root-crypto-dashboard-20260822",
+        "reason": "Live project-scoped Actions and local Anvil observations confirmed; begin bounded header/stat-card manifest repair."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "codex-root-crypto-dashboard-20260822",
+      "overridden_at": "2026-08-22T11:42:46.613551+00:00",
+      "source": "manual",
+      "reason": "Live project-scoped Actions and local Anvil observations confirmed; begin bounded header/stat-card manifest repair."
+    }
+  },
+  "overridden_by": "codex-root-crypto-dashboard-20260822",
+  "overridden_at": "2026-08-22T11:42:46.613551+00:00",
+  "override_reason": "Live project-scoped Actions and local Anvil observations confirmed; begin bounded header/stat-card manifest repair."
+}

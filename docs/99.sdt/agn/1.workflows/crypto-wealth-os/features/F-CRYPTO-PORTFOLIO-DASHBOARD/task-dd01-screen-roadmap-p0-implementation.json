@@ -1,0 +1,152 @@
+{
+  "node_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD01-SCREEN-ROADMAP-P0-IMPLEMENTATION-20260822",
+  "type": "task",
+  "name": "Implement roadmap P0 screens owned by portfolio Feature",
+  "description": "Extend the existing Personal Custom UI through custom_ui.manifest_edit only. Preserve Observe-only/mainnet guards, never expose env values, and keep unsupported roadmap screens explicitly out of this Feature task.",
+  "gate": "Action-backed DOM-1, OPS-1, and portfolio-owned OPS-2 pass focused tests, manifest_edit strict dry-run/apply, strict lint, and truthful runtime evidence without secret disclosure.",
+  "spec_refs": {
+    "screen_design": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-design.json",
+    "roadmap": "docs/3.strategy/03-screen-roadmap.md",
+    "feature_spec": "docs/98.dodoai-custom-spec/F-CRYPTO-PORTFOLIO-DASHBOARD/00-spec.md",
+    "screen_list": "docs/99.sdt/art/requirements/EPIC-VIABILITY/F-CRYPTO-PORTFOLIO-DASHBOARD/screen-list.json",
+    "manifest": ".dodoai/personal/custom_ui/crypto-wealth-ops/manifest.json"
+  },
+  "feature": "F-CRYPTO-PORTFOLIO-DASHBOARD",
+  "layer": "execution",
+  "truth_type": "designed",
+  "status": "running",
+  "depends_on": [],
+  "test_layers": [],
+  "created_at": "2026-08-22T13:10:00+00:00",
+  "updated_at": "2026-08-22T13:04:03.541833+00:00",
+  "task_id": "T-CRYPTO-PORTFOLIO-DASHBOARD-DD01-SCREEN-ROADMAP-P0-IMPLEMENTATION-20260822",
+  "summary": "Implement DOM-1, OPS-1, and the portfolio-source portion of OPS-2 in the personal Crypto Wealth Custom UI without crossing unapproved Feature or Stage gates.",
+  "phase": "DD01-DD03",
+  "priority": "P0",
+  "deploy_units": [
+    "personal-custom-ui",
+    "python-personal-actions"
+  ],
+  "issue_refs": [
+    ".dodoai/issue/20260822_TASK_F-CRYPTO-PORTFOLIO-DASHBOARD_p0-screen-implementation_in-progress.md"
+  ],
+  "done_criteria": [
+    "DOM-1 remains functional and its existing data-source contracts stay valid",
+    "OPS-1 shows configured chain classes, RPC reachability, local Anvil status, promotion evidence state, and an explicit mainnet Observe-only guard without exposing secrets",
+    "OPS-2 shows portfolio source/config lint, hashes, freshness, and env:// resolution booleans without revealing resolved values",
+    "all manifest writes pass custom_ui.manifest_edit dry-run then apply and strict manifest lint",
+    "focused Python tests cover secret redaction, missing config/catalog, malformed config, network-class guards, and partial source failures",
+    "TaskGraph and Issue view record blocked screens outside this Feature and current roadmap.sync_gate result"
+  ],
+  "changed_files": [
+    ".dodoai/personal/custom_actions/crypto_ops_status/action.py",
+    ".dodoai/personal/custom_actions/crypto_ops_status/action.json",
+    ".dodoai/personal/custom_actions/crypto_ops_status/CONTRACT.md",
+    ".dodoai/personal/custom_actions/tests/test_crypto_actions.py",
+    ".dodoai/personal/custom_ui/crypto-wealth-ops/manifest.json",
+    ".dodoai/issue/20260822_TASK_F-CRYPTO-PORTFOLIO-DASHBOARD_p0-screen-implementation_in-progress.md",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-roadmap-p0-implementation.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-roadmap-p0-implementation.md"
+  ],
+  "test_evidence": [
+    "pytest: 45 passed for portfolio, testnet, manifest wiring, redaction, malformed/missing config, network guards, freshness, and promotion evidence",
+    "ruff: new Action passed; modified test passed with the file's pre-existing E402 import exception ignored",
+    "custom_ui.manifest_edit strict dry-run/apply: ok=true, error_count=0, warning_count=0",
+    "custom_ui.registry: both crypto-wealth and crypto-wealth-ops are present after tenantId collision repair",
+    "direct Action invocation: config_valid=true, configured_chains=1, reachable_chains=1; L1 observed, L1-L2 not_recorded, L3 execution frozen"
+  ],
+  "evidence_refs": [
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-roadmap-p0-implementation.json",
+    "docs/99.sdt/art/test-results/F-CRYPTO-PORTFOLIO-DASHBOARD/evidence-dd03-screen-roadmap-p0-implementation.md"
+  ],
+  "findings": [
+    "custom_ui.manifest_lint rejects governed personal manifests with MANIFEST_PATH_OUTSIDE_WORKSPACE even though custom_ui.manifest_edit strict validation passes",
+    "personal.crypto_ops_status is not present in the running Core Action registry; runtime reload/restart was not authorized and was not performed",
+    "Core workspace slot 8522 later became unavailable; /ready had no listener and no matching owner tmux was found",
+    "ED15/ED16 do not yet contain the new OPS-1/OPS-2 detailed screens; code was started after roadmap HIL but before the required Feature A02 detail update, so this ordering remains a governance finding",
+    "The pre-existing screen-roadmap Issue references task-dd00-a02-screen-roadmap-ops-loop.json, but that Task node is absent from the current worktree; its claimed done state cannot be verified",
+    "agn_issue_creator v2 scanned 13 task files but returned matched_tasks=0 for this ready task; the Issue view was created manually from the Task SoT"
+  ],
+  "remaining_work": [
+    "Complete A02 ED15/ED16 MD+JSON for OPS-1/OPS-2 and rerun A03 before treating the screen expansion as conformant",
+    "After explicit user-performed or authorized Core reload, live-dispatch personal.crypto_ops_status and capture desktop/mobile visual evidence",
+    "Repair or extend custom_ui.manifest_lint to accept .dodoai/personal/custom_ui and obtain error_count=0 on the governed path",
+    "Run roadmap.sync_gate after Core recovery and keep this task running until all gates pass",
+    "Create separate owning Feature tasks for the remaining roadmap screens after their HIL/A02 prerequisites"
+  ],
+  "size": "L",
+  "success_probability": 0.76,
+  "max_ticks": 8,
+  "created_by": "codex-root-screen-roadmap-20260822",
+  "updated_by": "codex-root-screen-roadmap-20260822",
+  "metadata": {
+    "task_goal": "Deliver the immediately authorized P0 screen slice while preserving Feature ownership and all HIL gates.",
+    "acceptance_criteria": [
+      "No runtime reload/restart",
+      "No secret values in UI responses or repository artifacts",
+      "No implementation of OPS-3, DOM-3 through DOM-7, LOOP-1, or LOOP-3 under this Feature"
+    ],
+    "blocked_scope": [
+      "OPS-3 requires a new Feature with EPIC/CAP HIL",
+      "LOOP-1 requires project-local LOOP catalog initialization",
+      "DOM-3/4/5/7 require owning Feature A02/A03",
+      "DOM-6 is frozen until Stage 2/H4 HIL"
+    ],
+    "activityHistory": [
+      {
+        "id": "activity:2026-08-22T13:03:27.395255+00:00:comment",
+        "kind": "comment",
+        "at": "2026-08-22T13:03:27.395255+00:00",
+        "by": "codex-root-screen-roadmap-20260822",
+        "body": "Existing DD03 dashboard code tests are green; its only remaining item is reload-dependent live registry/UI proof. This task proceeds serially under the same local single writer and will supersede live visual proof after the P0 expansion."
+      },
+      {
+        "id": "activity:2026-08-22T13:03:27.395255+00:00:update",
+        "kind": "update",
+        "at": "2026-08-22T13:03:27.395255+00:00",
+        "by": "codex-root-screen-roadmap-20260822",
+        "fields": [
+          "gate"
+        ]
+      },
+      {
+        "id": "activity:2026-08-22T13:03:55.720092+00:00:comment",
+        "kind": "comment",
+        "at": "2026-08-22T13:03:55.720092+00:00",
+        "by": "codex-root-screen-roadmap-20260822",
+        "body": "agn_issue_creator v2 returned matched_tasks=0, so the Issue view was created manually from this Task SoT and linked explicitly."
+      },
+      {
+        "id": "activity:2026-08-22T13:03:55.720092+00:00:update",
+        "kind": "update",
+        "at": "2026-08-22T13:03:55.720092+00:00",
+        "by": "codex-root-screen-roadmap-20260822",
+        "fields": [
+          "issue_refs"
+        ]
+      }
+    ],
+    "statusHistory": [
+      {
+        "from": "ready",
+        "to": "running",
+        "at": "2026-08-22T13:04:03.541833+00:00",
+        "by": "codex-root-screen-roadmap-20260822",
+        "reason": "Dedicated Task/Issue pair is staged; local single-writer ownership is held by codex-root-screen-roadmap-20260822 and preloads are complete."
+      }
+    ],
+    "status_source": "manual",
+    "manual_status_override": {
+      "from": "ready",
+      "to": "running",
+      "overridden_by": "codex-root-screen-roadmap-20260822",
+      "overridden_at": "2026-08-22T13:04:03.541833+00:00",
+      "source": "manual",
+      "reason": "Dedicated Task/Issue pair is staged; local single-writer ownership is held by codex-root-screen-roadmap-20260822 and preloads are complete."
+    }
+  },
+  "schema": "sdt-node-v3.0",
+  "overridden_by": "codex-root-screen-roadmap-20260822",
+  "overridden_at": "2026-08-22T13:04:03.541833+00:00",
+  "override_reason": "Dedicated Task/Issue pair is staged; local single-writer ownership is held by codex-root-screen-roadmap-20260822 and preloads are complete."
+}
